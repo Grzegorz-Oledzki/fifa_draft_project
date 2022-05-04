@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
 
 
 class Profile(models.Model):
@@ -44,7 +45,7 @@ class Profile(models.Model):
 class Group(models.Model):
     owner = models.ForeignKey(Profile, default=Profile, null=False, blank=False, on_delete=models.CASCADE)
     members = models.ManyToManyField(Profile, blank=True, related_name='members')
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200, unique=True, blank=False, null=False)
     description = models.TextField(null=True, blank=True)
     featured_image = models.ImageField(null=True, blank=True, default="default.jpg")
     password = models.CharField(null=False, blank=False, max_length=50)
@@ -55,12 +56,12 @@ class Group(models.Model):
     )
 
     def __str__(self):
-        return self.title
+        return self.name
 
     class Meta:
         ordering = ["created"]
 
-    def clean(self):
-        if self.number_of_players < 14 or self.number_of_players > 20:
-            raise ValidationError(_('Only number of player 14 to 20 accepted.'))
+    # def clean(self):
+    #     if self.number_of_players < 14 or self.number_of_players > 20:
+    #         raise ValidationError(_('Only number of player 14 to 20 accepted.'))
 
