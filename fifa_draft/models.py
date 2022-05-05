@@ -56,7 +56,7 @@ class Group(models.Model):
     password = models.CharField(null=False, blank=False, max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     number_of_players = models.PositiveIntegerField(default=18, validators=[MinValueValidator(14), MaxValueValidator(20)])
-    draft_order_choices = models.CharField(blank=False, choices=DraftOrders.choices, max_length=10, default=DraftOrders.SERPENTINE)
+    draft_order_choice = models.CharField(blank=False, choices=DraftOrders.choices, max_length=10, default=DraftOrders.SERPENTINE)
     id = models.UUIDField(
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
