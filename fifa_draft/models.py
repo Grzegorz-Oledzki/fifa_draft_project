@@ -67,3 +67,28 @@ class Group(models.Model):
     class Meta:
         ordering = ["created"]
 
+
+class Team(models.Model):
+    class PlayersChoices(models.TextChoices):
+        SERPENTINE = _('Serpentine'),
+        FIXED = _('Fixed')
+
+    class NumberOfPlayers(models.PositiveIntegerField):
+        group_number_of_players = Group.number_of_players
+    owner = models.ForeignKey(Profile, default=Profile, null=False, blank=False, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, null=False, blank=False, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, unique=True, blank=False, null=False)
+    featured_image = models.ImageField(null=True, blank=True, default="default.jpg")
+    created = models.DateTimeField(auto_now_add=True)
+    group_password = models.CharField(null=False, blank=False, max_length=50)
+    max_players = NumberOfPlayers.group_number_of_players
+    #players =
+    id = models.UUIDField(
+        default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["created"]
+
