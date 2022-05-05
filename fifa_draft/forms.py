@@ -5,7 +5,7 @@ class GroupForm(ModelForm):
     class Meta:
         model = Group
         owner = Profile
-        fields = ['name', 'description', 'number_of_players', 'password', 'featured_image', 'draft_order_choices']
+        fields = ['name', 'description', 'number_of_players', 'password', 'featured_image', 'draft_order_choice']
 
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
