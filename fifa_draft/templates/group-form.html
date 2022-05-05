@@ -7,12 +7,13 @@
     <meta charset="UTF-8">
     <title>Create a new group</title>
 </head>
-Create a new group
+
 <main class="formPage my-xl">
         <div class="content-box">
             <div class="formWrapper">
                 <a class="backButton" href="#"><i class="im im-angle-left"></i></a>
                 <br>
+                <h2>Create a new group</h2>
                     <form class="form" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% for field in form %}
@@ -21,7 +22,9 @@ Create a new group
                                 {{ field }}
                             </div>
                             {% endfor %}
-                            <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+                    	    <br>Hint:
+                            <br>A fixed draft keeps the same order each draft round ie. 1-7. Serpentine flips the order every round ie. 1-7, 7-1, 1-7, 7-1
+                            <br><input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
                         </form>
             </div>
         </div>
