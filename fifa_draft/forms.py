@@ -17,7 +17,7 @@ class GroupForm(ModelForm):
 class TeamForm(ModelForm):
     class Meta:
         model = Team
-        fields = ['group', 'name', 'featured_image', 'group_password']
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super(TeamForm, self).__init__(*args, **kwargs)
