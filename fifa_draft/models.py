@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import uuid
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class Profile(models.Model):
@@ -43,6 +44,10 @@ class Profile(models.Model):
 
 
 class Group(models.Model):
+    class DraftOrders(models.TextChoices):
+        SERPENTINE = _('Serpentine'),
+        FIXED = _('Fixed')
+
     owner = models.ForeignKey(Profile, default=Profile, null=False, blank=False, on_delete=models.CASCADE)
     members = models.ManyToManyField(Profile, blank=True, related_name='members')
     name = models.CharField(max_length=200, unique=True, blank=False, null=False)
@@ -51,6 +56,7 @@ class Group(models.Model):
     password = models.CharField(null=False, blank=False, max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     number_of_players = models.PositiveIntegerField(default=18, validators=[MinValueValidator(14), MaxValueValidator(20)])
+    draft_order_choices = models.CharField(blank=False, choices=DraftOrders.choices, max_length=10, default=DraftOrders.SERPENTINE)
     id = models.UUIDField(
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
