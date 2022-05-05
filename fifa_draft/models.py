@@ -67,7 +67,3 @@ class Group(models.Model):
     class Meta:
         ordering = ["created"]
 
-    # def clean(self):
-    #     if self.number_of_players < 14 or self.number_of_players > 20:
-    #         raise ValidationError(_('Only number of player 14 to 20 accepted.'))
-
