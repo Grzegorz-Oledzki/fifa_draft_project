@@ -28,6 +28,7 @@ def create_team(request):
             team = form.save(commit=False)
             if team.group.password == team.group_password:
                 team.owner = profile
+                team.max_players = team.group.number_of_players
                 team.save()
                 return redirect('home')
             else:
