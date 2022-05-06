@@ -7,6 +7,7 @@ from django.contrib import messages
 def home(request):
     return render(request, 'home.html')
 
+
 def create_group(request):
     form = GroupForm()
     if request.method == "POST":
@@ -38,5 +39,7 @@ def create_team(request):
                 return redirect('home')
             else:
                 messages.error(request, 'Password error')
+        else:
+            messages.error(request, 'Please choose unique name')
     context = {'form': form}
     return render(request, 'team-form.html', context)
