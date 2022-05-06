@@ -7,6 +7,7 @@ from django.contrib import messages
 def home(request):
     return render(request, 'home.html')
 
+
 def create_group(request):
     form = GroupForm()
     if request.method == "POST":
@@ -33,6 +34,8 @@ def create_team(request):
                 team.max_players = team.belongs_group.number_of_players
                 team.save()
                 team.belongs_group.members.add(profile)
+                team.draft_teams.add(profile)
+                team.belongs_group.teams.add(team)
                 return redirect('home')
             else:
                 messages.error(request, 'Password error')
