@@ -7,7 +7,6 @@ from django.contrib import messages
 def home(request):
     return render(request, 'home.html')
 
-
 def create_group(request):
     form = GroupForm()
     if request.method == "POST":
