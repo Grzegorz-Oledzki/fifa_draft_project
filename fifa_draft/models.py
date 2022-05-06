@@ -24,7 +24,7 @@ class Profile(models.Model):
     social_linkedin = models.CharField(max_length=200, blank=True, null=True)
     social_youtube = models.CharField(max_length=200, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    #draft_teams = models.OneToMany(Team, on_delete=models.CASCADE, null=True, blank=True)
+    draft_teams = models.ManyToManyField("Team", blank=True, related_name='draft_teams')
     id = models.UUIDField(
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
@@ -51,7 +51,7 @@ class Group(models.Model):
 
     owner = models.ForeignKey(Profile, default=Profile, null=False, blank=False, on_delete=models.CASCADE, db_constraint=False)
     members = models.ManyToManyField(Profile, blank=True, default=Profile, related_name='members')
-    #teams = models.ManyToManyField(Profile, blank=True, default=Profile, related_name='teams')
+    teams = models.ManyToManyField("Team", blank=True, related_name='teams')
     name = models.CharField(max_length=200, unique=True, blank=False, null=False)
     description = models.TextField(null=True, blank=True)
     featured_image = models.ImageField(null=True, blank=True, default="default.jpg")
