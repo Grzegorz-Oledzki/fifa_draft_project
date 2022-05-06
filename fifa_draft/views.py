@@ -13,11 +13,13 @@ def create_group(request):
         form = GroupForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Now create a team!")
             return redirect('home')
         else:
             messages.error(request, 'Only number of player from 14 to 20 are accepted.')
     context = {'form': form}
     return render(request, 'group-form.html', context)
+
 
 def create_team(request):
     form = TeamForm()
@@ -30,6 +32,7 @@ def create_team(request):
                 team.owner = profile
                 team.max_players = team.belongs_group.number_of_players
                 team.save()
+                team.belongs_group.members.add(profile)
                 return redirect('home')
             else:
                 messages.error(request, 'Password error')
