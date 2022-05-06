@@ -29,7 +29,7 @@ def create_team(request):
         form = TeamForm(request.POST, request.FILES)
         if form.is_valid():
             team = form.save(commit=False)
-            if team.belongs_group.password == team.group_password:
+            if team.belongs_group.password == team.group_password and profile not in team.belongs_group.members.all():
                 team.owner = profile
                 team.max_players = team.belongs_group.number_of_players
                 team.save()
@@ -37,6 +37,8 @@ def create_team(request):
                 team.draft_teams.add(profile)
                 team.belongs_group.teams.add(team)
                 return redirect('home')
+            elif profile in team.belongs_group.members.all():
+                messages.error(request, 'You have already team in this group')
             else:
                 messages.error(request, 'Password error')
         else:
