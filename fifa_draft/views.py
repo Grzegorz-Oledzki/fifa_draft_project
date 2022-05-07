@@ -14,6 +14,11 @@ def groups(request):
     return render(request, 'groups.html', context)
 
 
+def group(request, pk):
+    group = Group.objects.get(id=pk)
+    context = {'group': group}
+    return render(request, 'group.html', context)
+
 def create_group(request):
     form = GroupForm()
     if request.method == "POST":
@@ -52,6 +57,12 @@ def delete_group(request, pk):
         return redirect("home")
     context = {'group': group}
     return render(request, 'delete-group.html', context)
+
+
+def team(request, pk):
+    team = Team.objects.get(id=pk)
+    context = {'team': team}
+    return render(request, 'team.html', context)
 
 
 def create_team(request):
