@@ -37,6 +37,7 @@ def edit_group(request, pk):
     context = {"form": form, "group": group}
     return render(request, 'group-form.html', context)
 
+
 def delete_group(request, pk):
     group = Group.objects.get(id=pk)
     if request.method == "POST":
@@ -69,4 +70,20 @@ def create_team(request):
         else:
             messages.error(request, 'Please choose unique name')
     context = {'form': form}
+    return render(request, 'team-form.html', context)
+
+
+def edit_team(request,pk):
+    profile = request.user.profile
+    team = profile.draft_teams.get(id=pk)
+    form = TeamForm(instance=team)
+    if form.is_valid():
+        form = TeamForm(request.POST, request.FILES, instance=team)
+        if request.method == "POST":
+            form.save()
+            messages.success(request, 'Team edited successful!')
+            return redirect("home")
+    else:
+        messages.error(request, 'Please choose unique name')
+    context = {"form": form, "team": team}
     return render(request, 'team-form.html', context)
