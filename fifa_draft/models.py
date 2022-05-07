@@ -54,7 +54,7 @@ class Group(models.Model):
     teams = models.ManyToManyField("Team", blank=True, related_name='teams')
     name = models.CharField(max_length=200, unique=True, blank=False, null=False)
     description = models.TextField(null=True, blank=True)
-    featured_image = models.ImageField(null=True, blank=True, default="default.jpg")
+    featured_image = models.ImageField(null=True, blank=True, upload_to="group_images/", default="group_images/default.jpg")
     password = models.CharField(null=False, blank=False, max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     number_of_players = models.PositiveIntegerField(default=18, validators=[MinValueValidator(14), MaxValueValidator(20)])
@@ -68,6 +68,12 @@ class Group(models.Model):
 
     class Meta:
         ordering = ["created"]
+    def image_url(self):
+        try:
+            url = self.featured_image.url
+        except:
+            url = "https://grzesczes-bucket.s3.amazonaws.com/default.jpg"
+        return url
 
 
 class Team(models.Model):
