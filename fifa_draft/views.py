@@ -8,6 +8,11 @@ def home(request):
     return render(request, 'home.html')
 
 
+def groups(request):
+    groups = Group.objects.get()
+    context = {'groups': groups}
+    return render(request, 'groups.html', context)
+
 def create_group(request):
     form = GroupForm()
     if request.method == "POST":
