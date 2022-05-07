@@ -5,7 +5,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('create-group/', views.create_group, name='create-group'),
     path('create-team/', views.create_team, name='create-team'),
-    path('edit-group/<str:pk>/', views.edit_group, name='edit-group'),
     path('delete-group/<str:pk>/', views.delete_group, name='delete-group'),
 
 ]
