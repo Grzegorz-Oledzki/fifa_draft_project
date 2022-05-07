@@ -14,12 +14,14 @@
         <div class="column column--1of3">
           <h3 class="singleProject__subtitle">Team</h3>
           <h2 class="singleProject__title">{{team.name}}</h2>
+            <a class="tag tag--pill tag--main settings__btn" href="{% url 'edit-team' team.id %}"><i
+                  class="im im-edit"></i> Edit team</a>
 
         <div class="column column--2of3">
           <img style='max-width:250px' src="{{ team.image_url }}" alt="portfolio thumbnail" />
           <p>Owner: <a href="#" class="singleProject__developer">{{ team.owner }}</a></p>
           <h3 class="singleProject__subtitle">About the Team</h3>
-
+            <p>players, formations etc.</p>
             </div>
           </div>
         </div>

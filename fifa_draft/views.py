@@ -34,8 +34,7 @@ def create_group(request):
 
 
 def edit_group(request, pk):
-    profile = request.user.profile
-    group = profile.group_set.get(id=pk)
+    group = Group.objects.get(id=pk)
     form = GroupForm(instance=group)
     if form.is_valid():
         form = GroupForm(request.POST, request.FILES, instance=group)
