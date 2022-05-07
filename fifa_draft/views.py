@@ -22,6 +22,31 @@ def create_group(request):
     return render(request, 'group-form.html', context)
 
 
+def edit_group(request, pk):
+    profile = request.user.profile
+    group = profile.group_set.get(id=pk)
+    form = GroupForm(instance=group)
+    if form.is_valid():
+        form = GroupForm(request.POST, request.FILES, instance=group)
+        if request.method == "POST":
+            form.save()
+            messages.success(request, 'Group edited successful!')
+            return redirect("home")
+    else:
+        messages.error(request, 'Only number of player from 14 to 20 are accepted.')
+    context = {"form": form, "group": group}
+    return render(request, 'group-form.html', context)
+
+def delete_group(request, pk):
+    group = Group.objects.get(id=pk)
+    if request.method == "POST":
+        group.delete()
+        messages.success(request, 'Group was deleted successful!')
+        return redirect("home")
+    context = {'group': group}
+    return render(request, 'delete-group.html', context)
+
+
 def create_team(request):
     form = TeamForm()
     profile = request.user.profile
