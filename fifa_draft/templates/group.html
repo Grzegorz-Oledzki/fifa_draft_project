@@ -23,10 +23,10 @@
           </div>
 
             <p>Group members: {% for member in group.members.all %}
-            {{ member }}
+            <a href="#" class="project">{{ member }}</a>
             {% endfor %}</p>
             <p>Group teams: {% for team in group.teams.all %}
-            {{ team }}
+                <a href="{% url 'team' team.id %}" class="project">{{ team }}</a>
             {% endfor %}</p>
             <p>Draft order: {{ group.draft_order_choice }}</p>
             <p>Max players: {{ group.number_of_players }}</p>
