@@ -1,10 +1,39 @@
+{% extends 'index.html' %}
+{% load static %}
 <!DOCTYPE html>
+{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Groups</title>
 </head>
-<body>
-
-</body>
+<main>
+<section class="projectsList">
+      <div class="container">
+        <div class="grid grid--three">
+            {% for group in groups %}
+          <div class="column">
+            <div class="card project">
+              <a href="#" class="project">
+                <img class="project__thumbnail" style='max-width:250px;' src="{{group.image_url}}" alt="project thumbnail" />
+                <div class="card__body">
+                  <h3 class="project__title">{{group.name}}</h3>
+                  <div class="project__tags">
+                    {% for team in group.teams.all %}
+                    <span class="tag tag--pill tag--main">
+                      {{team}}
+                    </span>
+                      {% endfor %}
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+            {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
 </html>
+
+{% endblock %}

@@ -9,7 +9,7 @@ def home(request):
 
 
 def groups(request):
-    groups = Group.objects.get()
+    groups = Group.objects.all()
     context = {'groups': groups}
     return render(request, 'groups.html', context)
 
@@ -68,6 +68,7 @@ def create_team(request):
                 team.belongs_group.members.add(profile)
                 team.draft_teams.add(profile)
                 team.belongs_group.teams.add(team)
+                messages.success(request, 'Team created and added to group successful!')
                 return redirect('home')
             elif profile in team.belongs_group.members.all():
                 messages.error(request, 'You have already team in this group')
@@ -79,7 +80,7 @@ def create_team(request):
     return render(request, 'team-form.html', context)
 
 
-def edit_team(request,pk):
+def edit_team(request, pk):
     profile = request.user.profile
     team = profile.draft_teams.get(id=pk)
     form = TeamForm(instance=team)
