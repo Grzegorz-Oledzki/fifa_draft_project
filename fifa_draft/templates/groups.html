@@ -14,7 +14,7 @@
             {% for group in groups %}
           <div class="column">
             <div class="card project">
-              <a href="#" class="project">
+              <a href="{% url 'group' group.id %}" class="project">
                 <img class="project__thumbnail" style='max-width:250px;' src="{{group.image_url}}" alt="project thumbnail" />
                 <div class="card__body">
                   <h3 class="project__title">{{group.name}}</h3>
