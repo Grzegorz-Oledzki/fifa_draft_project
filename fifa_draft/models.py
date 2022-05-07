@@ -68,6 +68,7 @@ class Group(models.Model):
 
     class Meta:
         ordering = ["created"]
+
     def image_url(self):
         try:
             url = self.featured_image.url
@@ -98,3 +99,9 @@ class Team(models.Model):
     class Meta:
         ordering = ["created"]
 
+    def image_url(self):
+        try:
+            url = self.featured_image.url
+        except:
+            url = "https://grzesczes-bucket.s3.amazonaws.com/default.jpg"
+        return url
