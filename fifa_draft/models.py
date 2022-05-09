@@ -78,7 +78,7 @@ class Group(models.Model):
 
 
 class Team(models.Model):
-    formations = (
+    FORMATION_CHOICES = (
         (1, '4–4–2'),
         (2, '4–3–3'),
         (3, '4–1–2-1-2'),
@@ -95,7 +95,7 @@ class Team(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     group_password = models.CharField(null=False, blank=False, max_length=50)
     max_players = models.PositiveIntegerField(default=14, blank=False)
-    formation = models.CharField(max_length=10, blank=False, choices=formations, default=formations[1])
+    formation = models.CharField(max_length=10, blank=False, choices=FORMATION_CHOICES, default=FORMATION_CHOICES[1])
     description = models.TextField(null=True, blank=True)
     #players =
     id = models.UUIDField(
