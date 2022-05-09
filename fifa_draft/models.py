@@ -78,10 +78,6 @@ class Group(models.Model):
 
 
 class Team(models.Model):
-    class PlayersChoices(models.TextChoices):
-        SERPENTINE = _('Serpentine'),
-        FIXED = _('Fixed')
-
     owner = models.ForeignKey(Profile, default=Profile, null=False, blank=False, on_delete=models.CASCADE)
     belongs_group = models.ForeignKey(Group, null=False, blank=False, on_delete=models.CASCADE, db_constraint=False)
     name = models.CharField(max_length=200, unique=True, blank=False, null=False)
