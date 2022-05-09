@@ -1,3 +1,3 @@
 from django.db import models
-
-# Create your models here.
+import uuid
+from fifa_draft.models import Profile
