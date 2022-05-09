@@ -78,6 +78,16 @@ class Group(models.Model):
 
 
 class Team(models.Model):
+    formations = (
+        (1, '4–4–2'),
+        (2, '4–3–3'),
+        (3, '4–1–2-1-2'),
+        (4, '4–4–1–1'),
+        (5, '4–3–2–1'),
+        (6, '4-2-3-1'),
+        (7, '3–4–3'),
+        (8, '5–3–2')
+    )
     owner = models.ForeignKey(Profile, default=Profile, null=False, blank=False, on_delete=models.CASCADE)
     belongs_group = models.ForeignKey(Group, null=False, blank=False, on_delete=models.CASCADE, db_constraint=False)
     name = models.CharField(max_length=200, unique=True, blank=False, null=False)
@@ -85,6 +95,8 @@ class Team(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     group_password = models.CharField(null=False, blank=False, max_length=50)
     max_players = models.PositiveIntegerField(default=14, blank=False)
+    formation = models.CharField(max_length=10, blank=False, choices=formations, default=formations[1])
+    description = models.TextField(null=True, blank=True)
     #players =
     id = models.UUIDField(
         default=uuid.uuid4, unique=True, primary_key=True, editable=False)
