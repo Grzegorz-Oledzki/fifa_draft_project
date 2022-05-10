@@ -71,6 +71,7 @@ def create_team(request):
     profile = request.user.profile
     if request.method == "POST":
         form = TeamForm(request.POST, request.FILES)
+        print(form)
         if form.is_valid():
             team = form.save(commit=False)
             if team.belongs_group.password == team.group_password and profile not in team.belongs_group.members.all():
