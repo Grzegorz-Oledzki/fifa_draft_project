@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from fifa_draft.forms import GroupForm, TeamForm
 from fifa_draft.models import Profile, Group, Team
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 
 def home(request):
