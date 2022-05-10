@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
 from fifa_draft.models import Profile
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 
 
 def profiles(request):
