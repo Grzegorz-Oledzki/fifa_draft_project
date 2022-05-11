@@ -90,7 +90,7 @@ class Team(models.Model):
     )
     owner = models.ForeignKey(Profile, default=Profile, null=False, blank=False, on_delete=models.CASCADE)
     belongs_group = models.ForeignKey(Group, null=False, blank=False, on_delete=models.CASCADE, db_constraint=False)
-    name = models.CharField(max_length=200, unique=True, blank=False, null=False)
+    name = models.CharField(max_length=200, blank=False, null=False)
     featured_image = models.ImageField(null=True, blank=True, default="default.jpg")
     created = models.DateTimeField(auto_now_add=True)
     group_password = models.CharField(null=False, blank=False, max_length=50)
