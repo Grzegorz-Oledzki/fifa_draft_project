@@ -34,7 +34,7 @@ def create_group(request):
             group.owner = profile
             form.save()
             messages.success(request, "Now create a team!")
-            return redirect('home')
+            return redirect('create-team')
         else:
             messages.error(request, 'Only number of player from 14 to 20 are accepted.')
     context = {'form': form}
@@ -82,7 +82,11 @@ def create_team(request):
         form = TeamForm(request.POST, request.FILES)
         if form.is_valid():
             team = form.save(commit=False)
-            if team.belongs_group.password == team.group_password and profile not in team.belongs_group.members.all() and team.name not in team.belongs_group.teams.all():
+            unique_name = True
+            for team_name in team.belongs_group.teams.all():
+                if str(team_name) == str(team):
+                    unique_name = False
+            if team.belongs_group.password == team.group_password and profile not in team.belongs_group.members.all() and unique_name:
                 team.owner = profile
                 team.max_players = team.belongs_group.number_of_players
                 team.save()
@@ -93,10 +97,10 @@ def create_team(request):
                 return redirect('home')
             elif profile in team.belongs_group.members.all():
                 messages.error(request, 'You have already team in this group')
-            elif team.name in team.belongs_group.teams.all():
-                messages.error(request, 'Please choose unique name')
-            else:
+            elif team.belongs_group.password != team.group_password:
                 messages.error(request, 'Password error')
+            elif not unique_name:
+                messages.error(request, 'Please choose unique name')
     context = {'form': form}
     return render(request, 'team-form.html', context)
 
