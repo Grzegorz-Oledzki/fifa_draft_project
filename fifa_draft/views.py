@@ -42,13 +42,12 @@ def create_group(request):
 
 
 def edit_group(request, pk):
-    group = Group.objects.get(id=pk)
+    profile = request.user.profile
+    group = profile.group_set.get(id=pk)
     form = GroupForm(instance=group)
     if request.method == "POST":
-        # GroupFormSet = formset_factory()
-        # formset = GroupFormSet(form)
+        form = GroupForm(request.POST, request.FILES, instance=group)
         if form.is_valid():
-            form = GroupForm(request.POST, request.FILES, instance=group)
             form.save()
             messages.success(request, 'Group edited successful!')
             return redirect("home")
@@ -70,8 +69,9 @@ def delete_group(request, pk):
 
 
 def team(request, pk):
+    profile = request.user.profile
     team = Team.objects.get(id=pk)
-    context = {'team': team}
+    context = {'team': team, 'profile': profile}
     return render(request, 'team.html', context)
 
 
@@ -82,7 +82,7 @@ def create_team(request):
         form = TeamForm(request.POST, request.FILES)
         if form.is_valid():
             team = form.save(commit=False)
-            if team.belongs_group.password == team.group_password and profile not in team.belongs_group.members.all():
+            if team.belongs_group.password == team.group_password and profile not in team.belongs_group.members.all() and team.name not in team.belongs_group.teams.all():
                 team.owner = profile
                 team.max_players = team.belongs_group.number_of_players
                 team.save()
@@ -93,10 +93,10 @@ def create_team(request):
                 return redirect('home')
             elif profile in team.belongs_group.members.all():
                 messages.error(request, 'You have already team in this group')
+            elif team.name in team.belongs_group.teams.all():
+                messages.error(request, 'Please choose unique name')
             else:
                 messages.error(request, 'Password error')
-        else:
-            messages.error(request, 'Please choose unique name')
     context = {'form': form}
     return render(request, 'team-form.html', context)
 
@@ -105,9 +105,9 @@ def edit_team(request, pk):
     profile = request.user.profile
     team = profile.draft_teams.get(id=pk)
     form = TeamForm(instance=team)
-    if form.is_valid():
+    if request.method == "POST":
         form = TeamForm(request.POST, request.FILES, instance=team)
-        if request.method == "POST":
+        if form.is_valid():
             form.save()
             messages.success(request, 'Team edited successful!')
             return redirect("home")
