@@ -3,6 +3,7 @@ from fifa_draft.forms import GroupForm, TeamForm
 from fifa_draft.models import Profile, Group, Team
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.forms import formset_factory
 
 
 
@@ -18,14 +19,19 @@ def groups(request):
 
 def group(request, pk):
     group = Group.objects.get(id=pk)
-    context = {'group': group}
+    profile = request.user.profile
+    context = {'group': group, 'profile': profile}
     return render(request, 'group.html', context)
+
 
 def create_group(request):
     form = GroupForm()
+    profile = request.user.profile
     if request.method == "POST":
         form = GroupForm(request.POST, request.FILES)
         if form.is_valid():
+            group = form.save(commit=False)
+            group.owner = profile
             form.save()
             messages.success(request, "Now create a team!")
             return redirect('home')
@@ -38,14 +44,17 @@ def create_group(request):
 def edit_group(request, pk):
     group = Group.objects.get(id=pk)
     form = GroupForm(instance=group)
-    if form.is_valid():
-        form = GroupForm(request.POST, request.FILES, instance=group)
-        if request.method == "POST":
+    if request.method == "POST":
+        # GroupFormSet = formset_factory()
+        # formset = GroupFormSet(form)
+        if form.is_valid():
+            form = GroupForm(request.POST, request.FILES, instance=group)
             form.save()
             messages.success(request, 'Group edited successful!')
             return redirect("home")
-    else:
-        messages.error(request, 'Only number of player from 14 to 20 are accepted.')
+        else:
+            print(form.errors)
+            messages.error(request, 'Only number of player from 14 to 20 are accepted.')
     context = {"form": form, "group": group}
     return render(request, 'group-form.html', context)
 
@@ -71,7 +80,6 @@ def create_team(request):
     profile = request.user.profile
     if request.method == "POST":
         form = TeamForm(request.POST, request.FILES)
-        print(form)
         if form.is_valid():
             team = form.save(commit=False)
             if team.belongs_group.password == team.group_password and profile not in team.belongs_group.members.all():
@@ -105,5 +113,5 @@ def edit_team(request, pk):
             return redirect("home")
     else:
         messages.error(request, 'Please choose unique name')
-    context = {"form": form, "team": team}
+    context = {"form": form, "team": team, "profile": profile}
     return render(request, 'team-form.html', context)
