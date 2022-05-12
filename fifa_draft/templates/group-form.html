@@ -11,15 +11,16 @@
 <main class="formPage my-xl">
         <div class="content-box">
             <div class="formWrapper">
-                <a class="backButton" href="#"><i class="im im-angle-left"></i></a>
+                <a class="backButton" href="{% url 'home' %}"><i class="im im-angle-left"></i></a>
                 <br>
                 <h2>Create a new group</h2>
-                    <form class="form" method="POST" enctype="multipart/form-data">
+                    <form class="form" method="POST"  enctype="multipart/form-data">
                             {% csrf_token %}
                             {% for field in form %}
                             <div class="form__field">
                                 <label for="formInput#text">{{ field.label }} </label>
                                 {{ field }}
+
                             </div>
                             {% endfor %}
                     	    <br>Hint:  <i class="fa-solid fa-circle-info"></i>

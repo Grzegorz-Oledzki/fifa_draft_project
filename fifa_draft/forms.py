@@ -6,6 +6,7 @@ class GroupForm(ModelForm):
         model = Group
         owner = Profile
         fields = ['name', 'description', 'number_of_players', 'password', 'featured_image', 'draft_order_choice']
+        labels = {"password": "Enter password, only letters"}
 
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
@@ -17,7 +18,9 @@ class GroupForm(ModelForm):
 class TeamForm(ModelForm):
     class Meta:
         model = Team
-        fields = ['belongs_group', 'name', 'featured_image', 'group_password']
+        fields = ['belongs_group', 'name', 'featured_image', 'group_password', 'formation', 'description']
+        labels = {"group_password": "Enter password, only letters"}
+
 
     def __init__(self, *args, **kwargs):
         super(TeamForm, self).__init__(*args, **kwargs)

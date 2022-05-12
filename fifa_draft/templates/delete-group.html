@@ -13,7 +13,7 @@
                     {% csrf_token %}
                     <h2>Are you want to delete group "{{group}}"?</h2>
                     <a class="btn btn--sub btn--lg  my-md" href="{% url 'groups' %}">Back to all groups</a>
-                    <a class="btn btn--sub btn--lg  my-md" href="{% url 'update-group' group.id %}">Edit this group</a>
+                    <a class="btn btn--sub btn--lg  my-md" href="{% url 'edit-group' group.id %}">Edit this group</a>
                     <input class="btn btn--sub btn--lg  my-md" type="submit" value="Yes" />
                 </form>
 
