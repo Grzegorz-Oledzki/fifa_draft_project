@@ -11,12 +11,14 @@ def home(request):
     return render(request, 'home.html')
 
 
+@login_required(login_url="login")
 def groups(request):
     groups = Group.objects.all()
     context = {'groups': groups}
     return render(request, 'groups.html', context)
 
 
+@login_required(login_url="login")
 def group(request, pk):
     group = Group.objects.get(id=pk)
     profile = request.user.profile
@@ -24,6 +26,7 @@ def group(request, pk):
     return render(request, 'group.html', context)
 
 
+@login_required(login_url="login")
 def create_group(request):
     form = GroupForm()
     profile = request.user.profile
@@ -41,6 +44,7 @@ def create_group(request):
     return render(request, 'group-form.html', context)
 
 
+@login_required(login_url="login")
 def edit_group(request, pk):
     profile = request.user.profile
     group = profile.group_set.get(id=pk)
@@ -67,14 +71,14 @@ def delete_group(request, pk):
     context = {'group': group}
     return render(request, 'delete-group.html', context)
 
-
+@login_required(login_url="login")
 def team(request, pk):
     profile = request.user.profile
     team = Team.objects.get(id=pk)
     context = {'team': team, 'profile': profile}
     return render(request, 'team.html', context)
 
-
+@login_required(login_url="login")
 def create_team(request):
     form = TeamForm()
     profile = request.user.profile

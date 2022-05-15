@@ -23,7 +23,7 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
-            return redirect(request.GET["next"] if "next" in request.GET else "account")
+            return redirect(request.GET["next"] if "next" in request.GET else "home")
         else:
             messages.error(request, "Username or password is incorrect")
 
@@ -55,13 +55,13 @@ def register_user(request):
     context = {"page": page, "form": form}
     return render(request, "login_register.html", context)
 
-
+@login_required(login_url="login")
 def profiles(request):
     profiles = Profile.objects.all
     context = {'profiles': profiles}
     return render(request, 'profiles.html', context)
 
-
+@login_required(login_url="login")
 def user_profile(request, pk):
     profile = Profile.objects.get(id=pk)
     context = {"profile": profile}
