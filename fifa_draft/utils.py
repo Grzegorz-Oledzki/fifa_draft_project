@@ -1,12 +1,12 @@
 from fifa_draft.forms import GroupForm, TeamForm
 from django.contrib import messages
+from django.shortcuts import redirect
 
 
 def team_form_validation(request, form, profile):
-    # if request.method == "POST":
-    # form = TeamForm(request.POST, request.FILES)
     if form.is_valid():
         team = form.save(commit=False)
+        from_valid = 0
         unique_name = True
         for team_name in team.belongs_group.teams.all():
             if str(team_name) == str(team):
@@ -16,13 +16,34 @@ def team_form_validation(request, form, profile):
             team.max_players = team.belongs_group.number_of_players
             team.save()
             team.belongs_group.members.add(profile)
-            team.draft_teams.add(profile)
+            profile.draft_teams.add(team)
             team.belongs_group.teams.add(team)
             messages.success(request, 'Team created and added to group successful!')
-        elif profile in team.belongs_group.members.all():
-            messages.error(request, 'You have already team in this group')
+            form_valid = 1
+            return form_valid, team.belongs_group_id
         elif team.belongs_group.password != team.group_password:
             messages.error(request, 'Password error')
         elif not unique_name:
             messages.error(request, 'Please choose unique name')
-    return form
+        elif profile in team.belongs_group.members.all():
+            messages.error(request, 'You have already team in this group')
+        return from_valid, team.belongs_group_id
+
+def edit_team_form_validation(request, form):
+    if form.is_valid():
+        team = form.save(commit=False)
+        unique_name = True
+        for team_name in team.belongs_group.teams.all():
+            if str(team_name) == str(team):
+                unique_name = False
+        if team.belongs_group.password == team.group_password and unique_name:
+            team.save()
+            form_valid = 1
+            messages.success(request, 'Team edited successful!')
+            return form_valid
+        elif not unique_name:
+            messages.error(request, 'Please choose unique name')
+        elif team.belongs_group.password != team.group_password:
+            messages.error(request, 'Password error')
+
+
