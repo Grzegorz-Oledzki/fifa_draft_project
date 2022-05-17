@@ -7,24 +7,23 @@ from django.forms import formset_factory
 from fifa_draft.utils import team_form_validation, edit_team_form_validation
 
 
-
 def home(request):
-    return render(request, 'home.html')
+    return render(request, "home.html")
 
 
 @login_required(login_url="login")
 def groups(request):
     groups = Group.objects.all()
-    context = {'groups': groups}
-    return render(request, 'groups.html', context)
+    context = {"groups": groups}
+    return render(request, "groups.html", context)
 
 
 @login_required(login_url="login")
 def group(request, pk):
     group = Group.objects.get(id=pk)
     profile = request.user.profile
-    context = {'group': group, 'profile': profile}
-    return render(request, 'group.html', context)
+    context = {"group": group, "profile": profile}
+    return render(request, "group.html", context)
 
 
 @login_required(login_url="login")
@@ -38,11 +37,11 @@ def create_group(request):
             group.owner = profile
             form.save()
             messages.success(request, "Now create a team!")
-            return redirect('create-team')
+            return redirect("create-team")
         else:
-            messages.error(request, 'Only number of player from 14 to 20 are accepted.')
-    context = {'form': form}
-    return render(request, 'group-form.html', context)
+            messages.error(request, "Only number of player from 14 to 20 are accepted.")
+    context = {"form": form}
+    return render(request, "group-form.html", context)
 
 
 @login_required(login_url="login")
@@ -54,30 +53,30 @@ def edit_group(request, pk):
         form = GroupForm(request.POST, request.FILES, instance=group)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Group edited successful!')
+            messages.success(request, "Group edited successful!")
             return redirect("home")
         else:
-            messages.error(request, 'Only number of player from 14 to 20 are accepted.')
+            messages.error(request, "Only number of player from 14 to 20 are accepted.")
     context = {"form": form, "group": group}
-    return render(request, 'group-form.html', context)
+    return render(request, "group-form.html", context)
 
 
 def delete_group(request, pk):
     group = Group.objects.get(id=pk)
     if request.method == "POST":
         group.delete()
-        messages.success(request, 'Group was deleted successful!')
+        messages.success(request, "Group was deleted successful!")
         return redirect("home")
-    context = {'group': group}
-    return render(request, 'delete-group.html', context)
+    context = {"group": group}
+    return render(request, "delete-group.html", context)
 
 
 @login_required(login_url="login")
 def team(request, pk):
     profile = request.user.profile
     team = Team.objects.get(id=pk)
-    context = {'team': team, 'profile': profile}
-    return render(request, 'team.html', context)
+    context = {"team": team, "profile": profile}
+    return render(request, "team.html", context)
 
 
 @login_required(login_url="login")
@@ -88,9 +87,9 @@ def create_team(request):
         form = TeamForm(request.POST, request.FILES)
         form_valid, group_id = team_form_validation(request, form, profile)
         if form_valid == 1:
-            return redirect('group', group_id)
-    context = {'form': form}
-    return render(request, 'team-form.html', context)
+            return redirect("group", group_id)
+    context = {"form": form}
+    return render(request, "team-form.html", context)
 
 
 def edit_team(request, pk):
@@ -102,5 +101,5 @@ def edit_team(request, pk):
         form = TeamForm(request.POST, request.FILES, instance=team)
         form_valid = edit_team_form_validation(request, form)
         if form_valid == 1:
-            return redirect('group', team.belongs_group_id)
-    return render(request, 'team-form.html', context)
+            return redirect("group", team.belongs_group_id)
+    return render(request, "team-form.html", context)
