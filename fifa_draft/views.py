@@ -4,7 +4,7 @@ from fifa_draft.models import Profile, Group, Team
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
-from fifa_draft.utils import team_form_validation
+from fifa_draft.utils import team_form_validation, edit_team_form_validation
 
 
 
@@ -57,7 +57,6 @@ def edit_group(request, pk):
             messages.success(request, 'Group edited successful!')
             return redirect("home")
         else:
-            print(form.errors)
             messages.error(request, 'Only number of player from 14 to 20 are accepted.')
     context = {"form": form, "group": group}
     return render(request, 'group-form.html', context)
@@ -85,12 +84,12 @@ def team(request, pk):
 def create_team(request):
     form = TeamForm()
     profile = request.user.profile
-    context = {'form': form}
     if request.method == "POST":
         form = TeamForm(request.POST, request.FILES)
-        team_form = team_form_validation(request, form, profile)
-        context['form'] = team_form
-        return redirect('home')
+        form_valid, group_id = team_form_validation(request, form, profile)
+        if form_valid == 1:
+            return redirect('group', group_id)
+    context = {'form': form}
     return render(request, 'team-form.html', context)
 
 
@@ -98,13 +97,10 @@ def edit_team(request, pk):
     profile = request.user.profile
     team = profile.draft_teams.get(id=pk)
     form = TeamForm(instance=team)
+    context = {"form": form, "team": team, "profile": profile}
     if request.method == "POST":
         form = TeamForm(request.POST, request.FILES, instance=team)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Team edited successful!')
-            return redirect("home")
-        else:
-            messages.error(request, 'Please choose unique name')
-    context = {"form": form, "team": team, "profile": profile}
+        form_valid = edit_team_form_validation(request, form)
+        if form_valid == 1:
+            return redirect('group', team.belongs_group_id)
     return render(request, 'team-form.html', context)
