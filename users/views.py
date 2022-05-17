@@ -47,7 +47,7 @@ def register_user(request):
             user.save()
             messages.success(request, "User registered!")
             login(request, user)
-            #return redirect("edit-account")
+            # return redirect("edit-account")
 
         else:
             messages.error(request, "Error! User not registered")
@@ -55,14 +55,16 @@ def register_user(request):
     context = {"page": page, "form": form}
     return render(request, "login_register.html", context)
 
+
 @login_required(login_url="login")
 def profiles(request):
     profiles = Profile.objects.all
-    context = {'profiles': profiles}
-    return render(request, 'profiles.html', context)
+    context = {"profiles": profiles}
+    return render(request, "profiles.html", context)
+
 
 @login_required(login_url="login")
 def user_profile(request, pk):
     profile = Profile.objects.get(id=pk)
     context = {"profile": profile}
-    return render(request, 'user-profile.html', context)
+    return render(request, "user-profile.html", context)

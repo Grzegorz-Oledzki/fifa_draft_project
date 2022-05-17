@@ -18,66 +18,177 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Group',
+            name="Group",
             fields=[
-                ('name', models.CharField(max_length=200, unique=True)),
-                ('description', models.TextField(blank=True, null=True)),
-                ('featured_image', models.ImageField(blank=True, default='default.jpg', null=True, upload_to='')),
-                ('password', models.CharField(max_length=50)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('number_of_players', models.PositiveIntegerField(default=18, validators=[django.core.validators.MinValueValidator(14), django.core.validators.MaxValueValidator(20)])),
-                ('draft_order_choice', models.CharField(choices=[('Serpentine', 'Serpentine'), ('Fixed', 'Fixed')], default='Serpentine', max_length=10)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
+                ("name", models.CharField(max_length=200, unique=True)),
+                ("description", models.TextField(blank=True, null=True)),
+                (
+                    "featured_image",
+                    models.ImageField(
+                        blank=True, default="default.jpg", null=True, upload_to=""
+                    ),
+                ),
+                ("password", models.CharField(max_length=50)),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                (
+                    "number_of_players",
+                    models.PositiveIntegerField(
+                        default=18,
+                        validators=[
+                            django.core.validators.MinValueValidator(14),
+                            django.core.validators.MaxValueValidator(20),
+                        ],
+                    ),
+                ),
+                (
+                    "draft_order_choice",
+                    models.CharField(
+                        choices=[("Serpentine", "Serpentine"), ("Fixed", "Fixed")],
+                        default="Serpentine",
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['created'],
+                "ordering": ["created"],
             },
         ),
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('name', models.CharField(blank=True, max_length=50, null=True)),
-                ('username', models.CharField(blank=True, max_length=50, null=True, unique=True)),
-                ('location', models.CharField(blank=True, max_length=50, null=True)),
-                ('email', models.EmailField(blank=True, max_length=50, null=True)),
-                ('short_intro', models.CharField(blank=True, max_length=250, null=True)),
-                ('profile_image', models.ImageField(blank=True, default='profile_images/user-default.png', null=True, upload_to='profile_images/')),
-                ('social_github', models.CharField(blank=True, max_length=200, null=True)),
-                ('social_twitter', models.CharField(blank=True, max_length=200, null=True)),
-                ('social_linkedin', models.CharField(blank=True, max_length=200, null=True)),
-                ('social_youtube', models.CharField(blank=True, max_length=200, null=True)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('user', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ("name", models.CharField(blank=True, max_length=50, null=True)),
+                (
+                    "username",
+                    models.CharField(blank=True, max_length=50, null=True, unique=True),
+                ),
+                ("location", models.CharField(blank=True, max_length=50, null=True)),
+                ("email", models.EmailField(blank=True, max_length=50, null=True)),
+                (
+                    "short_intro",
+                    models.CharField(blank=True, max_length=250, null=True),
+                ),
+                (
+                    "profile_image",
+                    models.ImageField(
+                        blank=True,
+                        default="profile_images/user-default.png",
+                        null=True,
+                        upload_to="profile_images/",
+                    ),
+                ),
+                (
+                    "social_github",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "social_twitter",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "social_linkedin",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "social_youtube",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['created'],
+                "ordering": ["created"],
             },
         ),
         migrations.CreateModel(
-            name='Team',
+            name="Team",
             fields=[
-                ('name', models.CharField(max_length=200, unique=True)),
-                ('featured_image', models.ImageField(blank=True, default='default.jpg', null=True, upload_to='')),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('group_password', models.CharField(max_length=50)),
-                ('max_players', models.PositiveIntegerField(default=14)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('belongs_group', models.ForeignKey(db_constraint=False, on_delete=django.db.models.deletion.CASCADE, to='fifa_draft.group')),
-                ('owner', models.ForeignKey(default=fifa_draft.models.Profile, on_delete=django.db.models.deletion.CASCADE, to='fifa_draft.profile')),
+                ("name", models.CharField(max_length=200, unique=True)),
+                (
+                    "featured_image",
+                    models.ImageField(
+                        blank=True, default="default.jpg", null=True, upload_to=""
+                    ),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("group_password", models.CharField(max_length=50)),
+                ("max_players", models.PositiveIntegerField(default=14)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "belongs_group",
+                    models.ForeignKey(
+                        db_constraint=False,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="fifa_draft.group",
+                    ),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        default=fifa_draft.models.Profile,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="fifa_draft.profile",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['created'],
+                "ordering": ["created"],
             },
         ),
         migrations.AddField(
-            model_name='group',
-            name='members',
-            field=models.ManyToManyField(blank=True, default=fifa_draft.models.Profile, related_name='members', to='fifa_draft.profile'),
+            model_name="group",
+            name="members",
+            field=models.ManyToManyField(
+                blank=True,
+                default=fifa_draft.models.Profile,
+                related_name="members",
+                to="fifa_draft.profile",
+            ),
         ),
         migrations.AddField(
-            model_name='group',
-            name='owner',
-            field=models.ForeignKey(db_constraint=False, default=fifa_draft.models.Profile, on_delete=django.db.models.deletion.CASCADE, to='fifa_draft.profile'),
+            model_name="group",
+            name="owner",
+            field=models.ForeignKey(
+                db_constraint=False,
+                default=fifa_draft.models.Profile,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="fifa_draft.profile",
+            ),
         ),
     ]

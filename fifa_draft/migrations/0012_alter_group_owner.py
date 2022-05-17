@@ -8,13 +8,17 @@ import fifa_draft.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('fifa_draft', '0011_alter_group_owner'),
+        ("fifa_draft", "0011_alter_group_owner"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='group',
-            name='owner',
-            field=models.OneToOneField(default=fifa_draft.models.Profile, on_delete=django.db.models.deletion.CASCADE, to='fifa_draft.profile'),
+            model_name="group",
+            name="owner",
+            field=models.OneToOneField(
+                default=fifa_draft.models.Profile,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="fifa_draft.profile",
+            ),
         ),
     ]

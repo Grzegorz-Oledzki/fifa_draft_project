@@ -6,13 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('fifa_draft', '0009_alter_team_formation'),
+        ("fifa_draft", "0009_alter_team_formation"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='team',
-            name='formation',
-            field=models.IntegerField(choices=[(1, '4–4–2'), (2, '4–3–3'), (3, '4–1–2-1-2'), (4, '4–4–1–1'), (5, '4–3–2–1'), (6, '4-2-3-1'), (7, '3–4–3'), (8, '5–3–2')]),
+            model_name="team",
+            name="formation",
+            field=models.IntegerField(
+                choices=[
+                    (1, "4–4–2"),
+                    (2, "4–3–3"),
+                    (3, "4–1–2-1-2"),
+                    (4, "4–4–1–1"),
+                    (5, "4–3–2–1"),
+                    (6, "4-2-3-1"),
+                    (7, "3–4–3"),
+                    (8, "5–3–2"),
+                ]
+            ),
         ),
     ]
