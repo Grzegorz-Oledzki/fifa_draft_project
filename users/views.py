@@ -49,7 +49,7 @@ def register_user(request):
             user.save()
             messages.success(request, "User registered!")
             login(request, user)
-            # return redirect("edit-account")
+            return redirect("edit-account")
 
         else:
             messages.error(request, "Error! User not registered")
