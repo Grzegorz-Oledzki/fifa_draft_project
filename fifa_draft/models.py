@@ -94,14 +94,14 @@ class Group(models.Model):
 
 class Team(models.Model):
     FORMATION_CHOICES = (
-        (1, "4–4–2"),
-        (2, "4–3–3"),
-        (3, "4–1–2-1-2"),
-        (4, "4–4–1–1"),
-        (5, "4–3–2–1"),
-        (6, "4-2-3-1"),
-        (7, "3–4–3"),
-        (8, "5–3–2"),
+        ("4–4–2", "4–4–2"),
+        ("4–3–3", "4–3–3"),
+        ("4–1–2-1-2", "4–1–2-1-2"),
+        ("4–4–1–1", "4–4–1–1"),
+        ("4–3–2–1", "4–3–2–1"),
+        ("4-2-3-1", "4-2-3-1"),
+        ("3–4–3", "3–4–3"),
+        ("5–3–2", "5–3–2")
     )
     owner = models.ForeignKey(
         Profile, default=Profile, null=False, blank=False, on_delete=models.CASCADE
@@ -114,7 +114,7 @@ class Team(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     group_password = models.CharField(null=False, blank=False, max_length=50)
     max_players = models.PositiveIntegerField(default=14, blank=False)
-    formation = models.IntegerField(blank=False, choices=FORMATION_CHOICES, null=False)
+    formation = models.CharField(blank=False, choices=FORMATION_CHOICES, max_length=10)
     description = models.TextField(null=True, blank=True)
 
     id = models.UUIDField(
