@@ -28,10 +28,10 @@
             Description: {{group.description}}
           </div>
             <div class="singleProject__info">
-            Owner : {{ group.owner }}
+            Owner: <a href="{% url 'user-profile' group.owner.id %}" class="project"> {{ group.owner }}</a>
             </div>
             <p>Group members: {% for member in group.members.all %}
-            <a href="#" class="project">{{ member }},</a>
+            <a href="{% url 'user-profile' member.id %}" class="project">{{ member }},</a>
             {% endfor %}</p>
             <p>Group teams: {% for team in group.teams.all %}
                 <a href="{% url 'team' team.id %}" class="project">{{ team }},</a>
