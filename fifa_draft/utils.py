@@ -38,7 +38,7 @@ def edit_team_form_validation(request, form):
         team = form.save(commit=False)
         unique_name = True
         for team_name in team.belongs_group.teams.all():
-            if str(team_name) == str(team):
+            if str(team_name) == str(team) and team.owner != team_name.owner:
                 unique_name = False
         if team.belongs_group.password == team.group_password and unique_name:
             team.save()

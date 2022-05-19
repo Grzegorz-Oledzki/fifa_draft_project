@@ -114,7 +114,7 @@ class Team(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     group_password = models.CharField(null=False, blank=False, max_length=50)
     max_players = models.PositiveIntegerField(default=14, blank=False)
-    formation = models.CharField(blank=False, choices=FORMATION_CHOICES, max_length=10)
+    formation = models.CharField(blank=False, choices=FORMATION_CHOICES, max_length=10, default=FORMATION_CHOICES[1])
     description = models.TextField(null=True, blank=True)
 
     id = models.UUIDField(
