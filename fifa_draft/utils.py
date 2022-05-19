@@ -5,7 +5,6 @@ from django.contrib import messages
 def team_form_validation(request, form, profile):
     if form.is_valid():
         team = form.save(commit=False)
-        from_valid = 0
         unique_name = True
         for team_name in team.belongs_group.teams.all():
             if str(team_name) == str(team):
@@ -37,8 +36,8 @@ def edit_team_form_validation(request, form):
     if form.is_valid():
         team = form.save(commit=False)
         unique_name = True
-        for team_name in team.belongs_group.teams.all():
-            if str(team_name) == str(team) and team.owner != team_name.owner:
+        for team_in_group in team.belongs_group.teams.all():
+            if str(team_in_group) == str(team) and team.owner != team_in_group.owner:
                 unique_name = False
         if team.belongs_group.password == team.group_password and unique_name:
             team.save()
