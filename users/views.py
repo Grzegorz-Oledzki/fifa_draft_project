@@ -3,7 +3,9 @@ from django.contrib.auth import login, authenticate, logout
 from fifa_draft.models import Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from users.forms import CustomUserCreationForm
+from users.forms import CustomUserCreationForm, ProfileForm
+from django.contrib import messages
+
 
 
 def login_user(request):
@@ -68,3 +70,25 @@ def user_profile(request, pk):
     profile = Profile.objects.get(id=pk)
     context = {"profile": profile}
     return render(request, "user-profile.html", context)
+
+
+def user_account(request):
+    profile = request.user.profile
+    teams = profile.team_set.all()
+    context = {"profile": profile, "teams": teams}
+    return render(request, "account.html", context)
+
+
+def edit_account(request):
+    profile = request.user.profile
+    form = ProfileForm(instance=profile)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "User edited!")
+
+            return redirect("account")
+    context = {"form": form}
+    return render(request, "profile_form.html", context)
+

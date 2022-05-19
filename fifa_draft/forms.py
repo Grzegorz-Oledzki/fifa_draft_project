@@ -41,3 +41,26 @@ class TeamForm(ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+            "name",
+            "username",
+            "email",
+            "location",
+            "short_intro",
+            "profile_image",
+            "social_github",
+            "social_twitter",
+            "social_linkedin",
+            "social_youtube",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
