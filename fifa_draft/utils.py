@@ -1,6 +1,5 @@
 from fifa_draft.forms import GroupForm, TeamForm
 from django.contrib import messages
-from openpyxl import load_workbook
 
 
 def team_form_validation(request, form, profile):
@@ -22,7 +21,7 @@ def team_form_validation(request, form, profile):
             profile.draft_teams.add(team)
             team.belongs_group.teams.add(team)
             messages.success(request, "Team created and added to group successful!")
-            form_valid = 1
+            form_valid = True
             return form_valid, team.belongs_group_id
         elif team.belongs_group.password != team.group_password:
             messages.error(request, "Password error")
