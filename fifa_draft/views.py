@@ -100,6 +100,6 @@ def edit_team(request, pk):
     if request.method == "POST":
         form = TeamForm(request.POST, request.FILES, instance=team)
         form_valid = edit_team_form_validation(request, form)
-        if form_valid == 1:
+        if form_valid:
             return redirect("group", team.belongs_group_id)
     return render(request, "team-form.html", context)
