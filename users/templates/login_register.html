@@ -7,7 +7,7 @@
       <div class="card">
         <div class="auth__header text-center">
           <a href="/">
-            <img src="{% static 'images/site_logo1.png' %}" style='max-width:150px' alt="icon" />
+            <img src="{% static 'images/site_logo1.png' %}" style='max-width:50px' alt="icon" />
           </a>
           <h3>Account register</h3>
           <p>Create a new account</p>
@@ -39,11 +39,6 @@
         </div>
       </div>
     </div>
-
-
-
-</form>
-<p> Already do you have an account? <a href="{% url 'login' %}"> Log in </a></p>
 
 {% else %}
 <form action="" method="POST" class="form auth__form">
