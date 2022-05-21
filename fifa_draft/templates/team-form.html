@@ -11,7 +11,7 @@
 <main class="formPage my-xl">
         <div class="content-box">
             <div class="formWrapper">
-            <a class="im im-angle-left" href="{% url 'group' team.belongs_group_id %}"> Back to group {{ team.belongs_group }} </a>
+            <a class="im im-angle-left" href="{% url 'groups' %}"> Back to groups </a>
                 <br>
                 {% if profile in team.belongs_group.members.all %}
                 <h2>Edit team</h2>

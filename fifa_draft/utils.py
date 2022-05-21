@@ -1,5 +1,6 @@
 from fifa_draft.forms import GroupForm, TeamForm
 from django.contrib import messages
+from openpyxl import load_workbook
 
 
 def team_form_validation(request, form, profile):
@@ -41,7 +42,7 @@ def edit_team_form_validation(request, form):
                 unique_name = False
         if team.belongs_group.password == team.group_password and unique_name:
             team.save()
-            form_valid = 1
+            form_valid = True
             messages.success(request, "Team edited successful!")
             return form_valid
         elif not unique_name:
