@@ -12,6 +12,7 @@
     <div class="container">
       <div class="layout">
         <div class="column column--1of3">
+            <a class="im im-angle-left" href="{% url 'group' team.belongs_group_id %}"> Back to group {{ team.belongs_group }} </a>
           <h3 class="singleProject__subtitle">Team</h3>
           <h2 class="singleProject__title">{{team.name}}</h2>
             {% if team.owner.id == profile.id %}
