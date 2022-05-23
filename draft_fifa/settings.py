@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "fifa_draft.apps.FifaDraftConfig",
     "users.apps.UsersConfig",
+    "import_export",
 ]
 
 MIDDLEWARE = [

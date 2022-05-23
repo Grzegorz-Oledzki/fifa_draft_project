@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from fifa_draft.forms import GroupForm, TeamForm
-from fifa_draft.models import Profile, Group, Team
+from fifa_draft.models import Profile, Group, Team, Player
+from fifa_draft.resources import PlayerResource
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from fifa_draft.utils import team_form_validation, edit_team_form_validation
-
+from tablib import Dataset
+from django.http import HttpResponse
 
 def home(request):
     return render(request, "home.html")
@@ -103,3 +105,52 @@ def edit_team(request, pk):
         if form_valid:
             return redirect("group", team.belongs_group_id)
     return render(request, "team-form.html", context)
+
+
+def upload_players(request):
+    if request.method == 'POST':
+        player_resource = PlayerResource()
+        dataset = Dataset()
+        new_player = request.FILES["myfile"]
+
+        if not new_player.name.endswith('xlsx'):
+            messages.error(request, 'Wrong format')
+            return render(request, 'upload.html')
+
+        imported_data = dataset.load(new_player.read(), format='xlsx')
+        for data in imported_data:
+            value = Player(
+                data[0],
+                data[1],
+                data[2],
+                data[3],
+                data[4],
+                data[5],
+                data[6],
+                data[7],
+                data[8],
+                data[9],
+                data[10],
+                data[11],
+                data[12],
+                data[13],
+                data[14],
+                data[15],
+                data[16],
+                data[17],
+                data[18],
+                data[19],
+                data[20],
+                data[21],
+                data[22],
+                )
+            value.save()
+            return render(request, 'upload.html')
+
+
+@login_required(login_url="login")
+def players(request):
+    profile = request.user.profile
+    players = Player.objects.all()
+    context = {"players": players, "profile": profile}
+    return render(request, "players.html", context)

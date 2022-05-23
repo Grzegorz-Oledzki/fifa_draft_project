@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% load static %}
+<!DOCTYPE html>
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Groups</title>
+</head>
+<main>
+<section class="projectsList">
+      <div class="container">
+        <div class="grid grid--three">
+            {% for player in players %}
+          <div class="column">
+            <div class="card project">
+{#              <a href="{% url 'group' group.id %}" class="project">#}
+                <img class="project__thumbnail" style='max-width:100px;max-height:100px' src="{{player.player_face_url}}" alt="project thumbnail" />
+                <div class="card__body">
+                  <h3 class="project__title"><a href="{{  player.player_url }}">{{player.short_name}}</h3></a>Overal: {{ player.overall }}
+                    <p>Positions: {{ player.player_positions }}</p>
+                    <p>Wreak food stars: {{ player.weak_foot }}</p>
+                    {% if player.dribbling > 0 %}
+                    <p>Pace/def/shot/dribbling: {{ player.pace }}/{{ player.defending }}/{{ player.shooting }}/{{ player.dribbling }}</p>
+                        {% else %}
+                        Goalkeeper
+                    {% endif %}
+                    <p>Club: {{ player.club_name }} <img style='max-width:30px;max-height:30px' src="{{ player.club_logo_url }}"/></p>
+                </div>
+            </div>
+          </div>
+            {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+</html>
+
+{% endblock %}
