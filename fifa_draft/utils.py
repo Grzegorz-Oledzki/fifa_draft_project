@@ -1,8 +1,10 @@
 from fifa_draft.forms import GroupForm, TeamForm
 from django.contrib import messages
+from fifa_draft.models import Group
 
 
 def team_form_validation(request, form, profile):
+    form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
         unique_name = True
@@ -29,10 +31,11 @@ def team_form_validation(request, form, profile):
             messages.error(request, "Please choose unique name")
         elif profile in team.belongs_group.members.all():
             messages.error(request, "You have already team in this group")
-        return from_valid, team.belongs_group_id
+        return form_valid, team.belongs_group_id
 
 
 def edit_team_form_validation(request, form):
+    form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
         unique_name = True
@@ -48,3 +51,4 @@ def edit_team_form_validation(request, form):
             messages.error(request, "Please choose unique name")
         elif team.belongs_group.password != team.group_password:
             messages.error(request, "Password error")
+    return form_valid

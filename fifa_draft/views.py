@@ -9,6 +9,7 @@ from fifa_draft.utils import team_form_validation, edit_team_form_validation
 from tablib import Dataset
 from django.http import HttpResponse
 
+
 def home(request):
     return render(request, "home.html")
 
@@ -41,7 +42,7 @@ def create_group(request):
             messages.success(request, "Now create a team!")
             return redirect("create-team")
         else:
-            messages.error(request, "Only number of player from 14 to 20 are accepted.")
+            messages.error(request, "Error, choose unique name or number of player from 14 to 20 are accepted.")
     context = {"form": form}
     return render(request, "group-form.html", context)
 
@@ -54,11 +55,10 @@ def edit_group(request, pk):
     if request.method == "POST":
         form = GroupForm(request.POST, request.FILES, instance=group)
         if form.is_valid():
-            form.save()
             messages.success(request, "Group edited successful!")
-            return redirect("home")
+            return redirect("group", group.id)
         else:
-            messages.error(request, "Only number of player from 14 to 20 are accepted.")
+            messages.error(request, "Error, choose unique name or number of player from 14 to 20 are accepted.")
     context = {"form": form, "group": group}
     return render(request, "group-form.html", context)
 
