@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from fifa_draft.models import Group, Profile, Team, Player
 from django.utils.translation import gettext_lazy as _
+from django import forms
 
 
 class GroupForm(ModelForm):
@@ -113,3 +114,14 @@ class EditTeamForm(ModelForm):
             field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
         self.fields['description'].widget.attrs.update(
             {"class": "input", "placeholder": "Add team description, eg. wings wide, wings converge inward "})
+
+
+class ChoosePersonPickingForm(ModelForm):
+    class Meta:
+        model = Group
+        fields = ['picking_person', ]
+
+
+
+    def __init__(self, *args, **kwargs):
+        super(ChoosePersonPickingForm, self).__init__(*args, **kwargs)

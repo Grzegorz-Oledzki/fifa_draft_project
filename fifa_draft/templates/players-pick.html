@@ -11,6 +11,9 @@
 <section class="projectsList">
       <div class="container">
         <div class="grid grid--three">
+        {% if profile in picking_person %}
+                    <p>You are picking!</p>
+                {% endif %}
             {% for player in players %}
         {% if player not in group_players %}
           <div class="column">

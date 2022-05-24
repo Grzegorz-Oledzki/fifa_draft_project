@@ -78,7 +78,9 @@ class Group(models.Model):
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
     group_players = models.ManyToManyField("Player", blank=True, related_name="group_players")
-
+    picking_person = models.ManyToManyField(
+        Profile, blank=True, default=Profile, related_name="picking_person"
+    )
     def __str__(self):
         return self.name
 
