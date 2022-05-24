@@ -77,7 +77,8 @@ def delete_group(request, pk):
 def team(request, pk):
     profile = request.user.profile
     team = Team.objects.get(id=pk)
-    context = {"team": team, "profile": profile}
+    players = team.team_players.all()
+    context = {"team": team, "profile": profile, "players": players}
     return render(request, "team.html", context)
 
 
@@ -154,3 +155,40 @@ def players(request):
     players = Player.objects.all()
     context = {"players": players, "profile": profile}
     return render(request, "players.html", context)
+
+
+@login_required(login_url="login")
+def choose_team(request):
+    profile = request.user.profile
+    teams = profile.draft_teams.all()
+    context = {"teams": teams, "profile": profile}
+    return render(request, "choose-team.html", context)
+
+
+def players_pick(request, pk):
+    profile = request.user.profile
+    team = Team.objects.get(id=pk)
+    players = Player.objects.all()
+    group = team.belongs_group
+    group_players = group.group_players.all()
+    team_players = team.team_players.all()
+    context = {"team": team, "profile": profile, "players": players, 'group': group, 'group_players': group_players, 'team_players': team_players}
+    return render(request, "players-pick.html", context)
+
+
+def player_pick_confirmation(request, pk, team_id):
+    profile = request.user.profile
+    player = Player.objects.get(sofifa_id=pk)
+    team = Team.objects.get(id=team_id)
+    group = team.belongs_group
+    group_players = group.group_players.all()
+    team_players = team.team_players.all()
+    if request.method == "POST":
+        team.team_players.add(player)
+        group.group_players.add(player)
+        team.save()
+        group.save()
+        return redirect('team', team.id)
+    context = {"team": team, "profile": profile, "players": players, 'group': group, 'group_players': group_players,
+               'team_players': team_players, 'player': player}
+    return render(request, "player-pick-confirmation.html", context)

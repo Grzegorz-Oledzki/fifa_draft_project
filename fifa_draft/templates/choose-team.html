@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+{% load static %}
+<!DOCTYPE html>
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Player pick</title>
+</head>
+<main>
+<section class="projectsList">
+      <div class="container">
+      <h2>Choose team to pick players</h2>
+        <div class="grid grid--three">
+            {% for team in teams %}
+          <div class="column">
+            <div class="card project">
+                <a href="{% url 'players-pick' team.id %}" class="project">
+                <img class="project__thumbnail" href="{% url 'players-pick' team.id %}" style='max-width:100px;max-height:100px' src="{{team.image_url}}" alt="project thumbnail" />
+                <div class="card__body">
+                  <h3 class="project__title"><a href="{% url 'players-pick' team.id %}"></a>{{ team }}</h3>
+                      Belongs group: {{team.belongs_group}}
+                </div>
+            </div>
+          </div>
+            {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+</html>
+
+{% endblock %}

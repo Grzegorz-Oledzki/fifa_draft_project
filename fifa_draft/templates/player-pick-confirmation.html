@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+{% load static %}
+<!DOCTYPE html>
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm pick</title>
+<main class="formPage my-xl">
+        <div class="content-box">
+            <div class="formWrapper">
+                <br>
+                <form class="form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2>Are you want to add "{{player}}"?</h2>
+                    <a class="btn btn--sub btn--lg  my-md" href="{% url 'players-pick' team.id %}">Back to pick</a>
+                    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Yes" />
+                </form>
+
+
+{% endblock %}
