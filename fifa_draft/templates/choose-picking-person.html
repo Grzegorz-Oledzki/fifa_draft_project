@@ -1,0 +1,38 @@
+{% extends 'main.html' %}
+{% load static %}
+<!DOCTYPE html>
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose person to pick players</title>
+</head>
+<main>
+<section class="projectsList">
+      <div class="container">
+        <div class="grid grid--three">
+
+          <div class="column">
+            <div class="card project">
+                <form action="" class="form" method="POST" enctype="multipart/form-data" >
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <div class="form__field">
+                                <label for="formInput#text">{{ field.label }} </label>
+                                {{ field }}
+                            </div>
+                            {% endfor %}
+                            <br><input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+                        </form>
+
+                </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+</html>
+
+{% endblock %}

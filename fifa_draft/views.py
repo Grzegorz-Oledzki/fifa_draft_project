@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from fifa_draft.forms import GroupForm, TeamForm, EditTeamForm, EditGroupForm
+from fifa_draft.forms import GroupForm, TeamForm, EditTeamForm, EditGroupForm, ChoosePersonPickingForm
 from fifa_draft.models import Profile, Group, Team, Player
 from fifa_draft.resources import PlayerResource
 from django.contrib import messages
@@ -158,6 +158,24 @@ def players(request):
     return render(request, "players.html", context)
 
 
+def choose_person_to_pick_players(request, pk):
+    group = Group.objects.get(id=pk)
+    group_members = group.picking_person.all()
+    profile = request.user.profile
+    teams = profile.draft_teams.all()
+    form = ChoosePersonPickingForm(instance=group)
+    if request.method == "POST":
+        form = ChoosePersonPickingForm(request.POST, instance=group)
+        form.save()
+        return redirect('group', group.id)
+    # def get_form_kwargs(self):
+    #     kwargs = super(Group, self).get_form_kwargs()
+    #     kwargs['request'] = self.request
+    #     return kwargs
+    context = {"teams": teams, "profile": profile, 'group': group, 'group_members': group_members, 'form': form}
+    return render(request, "choose-picking-person.html", context)
+
+
 @login_required(login_url="login")
 def choose_team(request):
     profile = request.user.profile
@@ -170,8 +188,10 @@ def players_pick(request, pk):
     profile = request.user.profile
     team = Team.objects.get(id=pk)
     players = Player.objects.all()
-    group_players = team.belongs_group.group_players.all()
-    context = {"team": team, "profile": profile, "players": players, 'group_players': group_players}
+    group = team.belongs_group
+    group_players = group.group_players.all()
+    picking_person = group.picking_person.all()
+    context = {"team": team, "profile": profile, "players": players, 'group_players': group_players, 'picking_person': picking_person}
     return render(request, "players-pick.html", context)
 
 
@@ -183,8 +203,10 @@ def player_pick_confirmation(request, pk, team_id):
     if request.method == "POST":
         team.team_players.add(player)
         team.belongs_group.group_players.add(player)
+        team.belongs_group.picking_person.clear()
         team.save()
         team.belongs_group.save()
+        messages.success(request, 'Player picked!')
         return redirect('team', team.id)
     context = {"team": team, "profile": profile, 'group_players': group_players, 'player': player}
     return render(request, "player-pick-confirmation.html", context)
