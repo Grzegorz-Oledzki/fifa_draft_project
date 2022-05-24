@@ -1,5 +1,6 @@
 from django.forms import ModelForm
 from fifa_draft.models import Group, Profile, Team, Player
+from django.utils.translation import gettext_lazy as _
 
 
 class GroupForm(ModelForm):
@@ -14,13 +15,15 @@ class GroupForm(ModelForm):
             "featured_image",
             "draft_order_choice",
         ]
-        labels = {"password": "Enter password, only letters"}
 
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
 
-        for name, field in self.fields.items():
-            field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
+        self.fields['password'].widget.attrs.update({"class": "input", "placeholder": "Enter a password so that other people can add the team to your group."})
+        self.fields['name'].widget.attrs.update({"class": "input", "placeholder": "Name of group, eg. Fifa maniacs 10.05.2022"})
+        self.fields['description'].widget.attrs.update(
+            {"class": "input", "placeholder": "Group description, eg. when and where you will be playing the tournament"})
+        self.fields['number_of_players'].widget.attrs.update({"class": "input", "placeholder": "14-20"})
 
 
 class TeamForm(ModelForm):
@@ -34,13 +37,16 @@ class TeamForm(ModelForm):
             "formation",
             "description",
         ]
-        labels = {"group_password": "Enter password, only letters"}
+        labels = {"group_password": "Enter group password"}
 
     def __init__(self, *args, **kwargs):
         super(TeamForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
-            field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
+            field.widget.attrs.update({"class": "input", "placeholder": "Add team " + name})
+        self.fields['group_password'].widget.attrs.update({"class": "input", "placeholder": "Your password must be the same as the group password"})
+        self.fields['description'].widget.attrs.update(
+            {"class": "input", "placeholder": "Add team description, eg. wings wide, wings converge inward "})
 
 
 class ProfileForm(ModelForm):
@@ -83,6 +89,11 @@ class EditGroupForm(ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
+        self.fields['name'].widget.attrs.update(
+            {"class": "input", "placeholder": "Name of group, eg. Fifa maniacs 10.05.2022"})
+        self.fields['description'].widget.attrs.update(
+            {"class": "input",
+             "placeholder": "Group description, eg. when and where you will be playing the tournament"})
 
 
 class EditTeamForm(ModelForm):
@@ -100,3 +111,5 @@ class EditTeamForm(ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
+        self.fields['description'].widget.attrs.update(
+            {"class": "input", "placeholder": "Add team description, eg. wings wide, wings converge inward "})
