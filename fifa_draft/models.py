@@ -160,18 +160,6 @@ class Player(models.Model):
     player_face_url = models.CharField(_("player_face_url"), max_length=200, null=True, default=False)
     club_logo_url = models.CharField(_("club_logo_url"), max_length=200, null=True, default=False)
     nation_flag_url = models.CharField(_("nation_flag_url"), max_length=200, null=True, default=False)
-    picked = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.short_name
-
-    class Meta:
-        ordering = ["picked"]
-
-
-
-
-
-
-
-
