@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from fifa_draft.forms import GroupForm, TeamForm
+from fifa_draft.forms import GroupForm, TeamForm, EditTeamForm, EditGroupForm
 from fifa_draft.models import Profile, Group, Team, Player
 from fifa_draft.resources import PlayerResource
 from django.contrib import messages
@@ -50,16 +50,18 @@ def create_group(request):
 @login_required(login_url="login")
 def edit_group(request, pk):
     profile = request.user.profile
+    groups = Group.objects.all()
     group = profile.group_set.get(id=pk)
-    form = GroupForm(instance=group)
+    form = EditGroupForm(instance=group)
     if request.method == "POST":
-        form = GroupForm(request.POST, request.FILES, instance=group)
+        form = EditGroupForm(request.POST, request.FILES, instance=group)
         if form.is_valid():
+            form.save()
             messages.success(request, "Group edited successful!")
             return redirect("group", group.id)
         else:
             messages.error(request, "Error, choose unique name or number of player from 14 to 20 are accepted.")
-    context = {"form": form, "group": group}
+    context = {"form": form, "group": group, "groups": groups}
     return render(request, "group-form.html", context)
 
 
@@ -98,10 +100,10 @@ def create_team(request):
 def edit_team(request, pk):
     profile = request.user.profile
     team = profile.draft_teams.get(id=pk)
-    form = TeamForm(instance=team)
+    form = EditTeamForm(instance=team)
     context = {"form": form, "team": team, "profile": profile}
     if request.method == "POST":
-        form = TeamForm(request.POST, request.FILES, instance=team)
+        form = EditTeamForm(request.POST, request.FILES, instance=team)
         form_valid = edit_team_form_validation(request, form)
         if form_valid:
             return redirect("group", team.belongs_group_id)
@@ -110,7 +112,6 @@ def edit_team(request, pk):
 
 def upload_players(request):
     if request.method == 'POST':
-        player_resource = PlayerResource()
         dataset = Dataset()
         new_player = request.FILES["myfile"]
 
@@ -169,10 +170,8 @@ def players_pick(request, pk):
     profile = request.user.profile
     team = Team.objects.get(id=pk)
     players = Player.objects.all()
-    group = team.belongs_group
-    group_players = group.group_players.all()
-    team_players = team.team_players.all()
-    context = {"team": team, "profile": profile, "players": players, 'group': group, 'group_players': group_players, 'team_players': team_players}
+    group_players = team.belongs_group.group_players.all()
+    context = {"team": team, "profile": profile, "players": players, 'group_players': group_players}
     return render(request, "players-pick.html", context)
 
 
@@ -180,15 +179,12 @@ def player_pick_confirmation(request, pk, team_id):
     profile = request.user.profile
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
-    group = team.belongs_group
-    group_players = group.group_players.all()
-    team_players = team.team_players.all()
+    group_players = team.belongs_group.group_players.all()
     if request.method == "POST":
         team.team_players.add(player)
-        group.group_players.add(player)
+        team.belongs_group.group_players.add(player)
         team.save()
-        group.save()
+        team.belongs_group.save()
         return redirect('team', team.id)
-    context = {"team": team, "profile": profile, "players": players, 'group': group, 'group_players': group_players,
-               'team_players': team_players, 'player': player}
+    context = {"team": team, "profile": profile, 'group_players': group_players, 'player': player}
     return render(request, "player-pick-confirmation.html", context)
