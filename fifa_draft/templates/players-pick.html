@@ -5,18 +5,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Players</title>
+    <title>Players pick</title>
 </head>
 <main>
 <section class="projectsList">
       <div class="container">
         <div class="grid grid--three">
             {% for player in players %}
+        {% if player not in group_players %}
           <div class="column">
             <div class="card project">
                 <img class="project__thumbnail" style='max-width:100px;max-height:100px' src="{{player.player_face_url}}" alt="project thumbnail" />
                 <div class="card__body">
-                  <h3 class="project__title"><a href="{{  player.player_url }}"></a>{{player.short_name}}</h3>Overal: {{ player.overall }}
+
+                    <h3 class="project__title"><a href="{{  player.player_url }}">{{player.short_name}} </a></h3><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a>
+                    <p>Overal: {{ player.overall }}</p>
+
                     <p>Positions: {{ player.player_positions }}</p>
                     <p>Wreak food stars: {{ player.weak_foot }}</p>
                     {% if player.dribbling > 0 %}
@@ -25,10 +29,14 @@
                         Goalkeeper
                     {% endif %}
                     <p>Club: {{ player.club_name }} <img style='max-width:30px;max-height:30px' src="{{ player.club_logo_url }}"/></p>
+
+
                 </div>
             </div>
           </div>
+                {% endif %}
             {% endfor %}
+
         </div>
       </div>
     </section>

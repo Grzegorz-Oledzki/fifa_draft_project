@@ -77,6 +77,7 @@ class Group(models.Model):
     id = models.UUIDField(
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
+    group_players = models.ManyToManyField("Player", blank=True, related_name="group_players")
 
     def __str__(self):
         return self.name
@@ -120,6 +121,7 @@ class Team(models.Model):
     id = models.UUIDField(
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
+    team_players = models.ManyToManyField("Player", blank=True, related_name="team_players")
 
     def __str__(self):
         return self.name
@@ -136,7 +138,6 @@ class Team(models.Model):
 
 
 class Player(models.Model):
-
     sofifa_id = models.IntegerField(_('sofifa_id'), default=False)
     player_url = models.CharField(_("player_url"), max_length=150, default=False)
     short_name = models.CharField(_("short_name"), max_length=50, default=False)
@@ -160,7 +161,8 @@ class Player(models.Model):
     club_logo_url = models.CharField(_("club_logo_url"), max_length=200, null=True, default=False)
     nation_flag_url = models.CharField(_("nation_flag_url"), max_length=200, null=True, default=False)
 
-
+    def __str__(self):
+        return self.short_name
 
 
 
