@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create a new group bro</title>
+    <title>Create a new group</title>
 </head>
 
 <main class="formPage my-xl">
@@ -13,7 +13,12 @@
             <div class="formWrapper">
                 <a class="im im-angle-left" href="{% url 'groups' %}"> Back to groups </a>
                 <br>
+            {% if group in groups %}
+            <h2> Edit group</h2>
+                Group password: {{ group.password }}
+            {% else %}
                 <h2>Create a new group</h2>
+            {% endif %}
                     <form class="form" method="POST"  enctype="multipart/form-data">
                             {% csrf_token %}
                             {% for field in form %}

@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from fifa_draft.models import Group, Profile, Team
+from fifa_draft.models import Group, Profile, Team, Player
 
 
 class GroupForm(ModelForm):
@@ -61,6 +61,42 @@ class ProfileForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
+
+
+class EditGroupForm(ModelForm):
+    class Meta:
+        model = Group
+        owner = Profile
+        fields = [
+            "name",
+            "description",
+            "number_of_players",
+            "featured_image",
+            "draft_order_choice",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(EditGroupForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
+
+
+class EditTeamForm(ModelForm):
+    class Meta:
+        model = Team
+        fields = [
+            "name",
+            "featured_image",
+            "formation",
+            "description",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(EditTeamForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
             field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
