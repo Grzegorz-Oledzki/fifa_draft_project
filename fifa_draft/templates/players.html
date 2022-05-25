@@ -6,32 +6,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Players</title>
+    <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 70%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
 </head>
 <main>
-<section class="projectsList">
-      <div class="container">
-        <div class="grid grid--three">
-            {% for player in players %}
-          <div class="column">
-            <div class="card project">
-                <img class="project__thumbnail" style='max-width:100px;max-height:100px' src="{{player.player_face_url}}" alt="project thumbnail" />
-                <div class="card__body">
-                  <h3 class="project__title"><a href="{{  player.player_url }}"></a>{{player.short_name}}</h3>Overal: {{ player.overall }}
-                    <p>Positions: {{ player.player_positions }}</p>
-                    <p>Wreak food stars: {{ player.weak_foot }}</p>
-                    {% if player.dribbling > 0 %}
-                    <p>Pace/def/shot/dribbling: {{ player.pace }}/{{ player.defending }}/{{ player.shooting }}/{{ player.dribbling }}</p>
+{#<section class="projectsList">#}
+{#      <div class="container">#}
+{#        <div class="grid grid--three">#}
+
+                    <table class="center-block">
+
+                    <caption>Users Info</caption>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Overal</th>
+                        <th>Age</th>
+                        <th>Player positions</th>
+                        <th>Wreak foot stars</th>
+                        <th>Skills stars</th>
+                        <th>Work rate</th>
+                        <th>Pace</th>
+                        <th>Shooting</th>
+                        <th>Passing</th>
+                        <th>Dribbling</th>
+                        <th>Defending</th>
+                        <th>Physic</th>
+                        <th>Club</th>
+                        <th>Nation</th>
+                        <th>Sofifa stats</th>
+                    </tr>
+                        {% for player in players %}
+                    <tr>
+                        <td><img class="project__thumbnail" style='max-width:50px;max-height:70px' src="{{player.player_face_url}}" alt="project thumbnail" /></td>
+                        <td>{{ player.short_name }}</td>
+                        <td>{{ player.overall }}</td>
+                        <td>{{ player.age }}</td>
+                        <td>{{ player.player_positions }}</td>
+                        <td>{{ player.weak_foot }}</td>
+                        <td>{{ player.skill_moves }}</td>
+                        <td>{{ player.work_rate }}</td>
+                         {% if player.dribbling > 0 %}
+                        <td>{{ player.pace }}</td>
+                        <td>{{ player.shooting }}</td>
+                        <td>{{ player.passing }}</td>
+                        <td>{{ player.defending }}</td>
+                        <td>{{ player.dribbling }}</td>
+                        <td> {{ player.physic }}</td>
                         {% else %}
-                        Goalkeeper
-                    {% endif %}
-                    <p>Club: {{ player.club_name }} <img style='max-width:30px;max-height:30px' src="{{ player.club_logo_url }}"/></p>
-                </div>
-            </div>
-          </div>
-            {% endfor %}
-        </div>
-      </div>
-    </section>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        {% endif %}
+                        <td><img src="{{ player.club_logo_url }}"/></td>
+                        <td><img style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
+                        <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
+
+                    </tr>
+                                    {% endfor %}
+
   </main>
 </html>
 

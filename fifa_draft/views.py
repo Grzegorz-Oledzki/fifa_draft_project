@@ -8,6 +8,8 @@ from django.forms import formset_factory
 from fifa_draft.utils import team_form_validation, edit_team_form_validation
 from tablib import Dataset
 from django.http import HttpResponse
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 
 def home(request):
@@ -160,19 +162,16 @@ def players(request):
 
 def choose_person_to_pick_players(request, pk):
     group = Group.objects.get(id=pk)
-    group_members = group.picking_person.all()
     profile = request.user.profile
+    group_members = group.members.all()
     teams = profile.draft_teams.all()
     form = ChoosePersonPickingForm(instance=group)
+
     if request.method == "POST":
         form = ChoosePersonPickingForm(request.POST, instance=group)
         form.save()
         return redirect('group', group.id)
-    # def get_form_kwargs(self):
-    #     kwargs = super(Group, self).get_form_kwargs()
-    #     kwargs['request'] = self.request
-    #     return kwargs
-    context = {"teams": teams, "profile": profile, 'group': group, 'group_members': group_members, 'form': form}
+    context = {'form': form}
     return render(request, "choose-picking-person.html", context)
 
 
