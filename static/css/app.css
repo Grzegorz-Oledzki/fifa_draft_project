@@ -70,9 +70,12 @@ img {
   pointer-events: all;
 }
 
-.project--thumbnail {
+.project__thumbnail {
   height: 250px;
   object-fit: cover;
+  position:relative;
+  left: 20px;
+  top: 2px
 }
 
 @media screen and (max-width: 800px) {
