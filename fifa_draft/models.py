@@ -81,6 +81,7 @@ class Group(models.Model):
     picking_person = models.ManyToManyField(
         Profile, blank=True, default=Profile, related_name="picking_person"
     )
+
     def __str__(self):
         return self.name
 

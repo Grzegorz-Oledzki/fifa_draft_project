@@ -25,79 +25,14 @@
     </style>
 </head>
 <main>
-        {% if profile in picking_person %}
-                    <p>You are picking!</p>
-
-            {% for player in players %}
 
 
-                    <table class="center-block">
 
-                    <caption>Users Info</caption>
-                    <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Overal</th>
-                        <th>Age</th>
-                        <th>Player positions</th>
-                        <th>Wreak foot stars</th>
-                        <th>Skills stars</th>
-                        <th>Work rate</th>
-                        <th>Pace</th>
-                        <th>Shooting</th>
-                        <th>Passing</th>
-                        <th>Dribbling</th>
-                        <th>Defending</th>
-                        <th>Physic</th>
-                        <th>Club</th>
-                        <th>Nation</th>
-                        <th>Sofifa stats</th>
-                        <th>Add player</th>
-                    </tr>
-                        {% for player in players %}
-                            {% if player not in group_players %}
+                    <table class="center-block" id="myTable">
 
-                    <tr>
-                        <td><img class="project__thumbnail" style='max-width:50px;max-height:70px' src="{{player.player_face_url}}" alt="project thumbnail" /></td>
-                        <td>{{ player.short_name }}</td>
-                        <td>{{ player.overall }}</td>
-                        <td>{{ player.age }}</td>
-                        <td>{{ player.player_positions }}</td>
-                        <td>{{ player.weak_foot }}</td>
-                        <td>{{ player.skill_moves }}</td>
-                        <td>{{ player.work_rate }}</td>
-                         {% if player.dribbling > 0 %}
-                        <td>{{ player.pace }}</td>
-                        <td>{{ player.shooting }}</td>
-                        <td>{{ player.passing }}</td>
-                        <td>{{ player.defending }}</td>
-                        <td>{{ player.dribbling }}</td>
-                        <td> {{ player.physic }}</td>
-                        {% else %}
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        {% endif %}
-                        <td><img src="{{ player.club_logo_url }}"/></td>
-                        <td><img style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
-                        <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
-                        <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
-                    {% endif %}
-                    </tr>
-                        {% endfor %}
-
-                    {% endfor %}
-        {% else %}
-                        {% for player in players %}
-
-
-                    <table class="center-block">
-
-                    <caption>Users Info</caption>
-                    <tr>
+                    <input class="center-block" type="text" id="myInput" onkeyup="myFunction()" placeholder="Type player name">
+                    <input class="center-block" type="text" id="myInput1" onkeyup="myFunction1()" placeholder="Type player position, eg. ST, CB">
+                    <tr class="header__menu">
                         <th>Image</th>
                         <th>Name</th>
                         <th>Overall</th>
@@ -137,24 +72,66 @@
                         <td>{{ player.dribbling }}</td>
                         <td> {{ player.physic }}</td>
                         {% else %}
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
                         {% endif %}
                         <td><img src="{{ player.club_logo_url }}"/></td>
                         <td><img style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
                         <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
-                        <td>Wait for your turn</td>
-                    {% endif %}
-                    </tr>
-                        {% endfor %}
+                            {% if profile in picking_person %}
+                        <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
+                            {% else %}
+                                                        <td>Wait for your turn</td>
 
+                            {% endif %}
+                    {% endif %}
                     {% endfor %}
-        {% endif %}
+                    </tr>
   </main>
 </html>
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+    <script>
+function myFunction1() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput1");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[4];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
 
 {% endblock %}
