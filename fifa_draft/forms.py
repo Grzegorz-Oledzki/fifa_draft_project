@@ -120,7 +120,9 @@ class ChoosePersonPickingForm(ModelForm):
     class Meta:
         model = Group
         fields = ['picking_person']
+        widgets = {'picking_person': forms.CheckboxSelectMultiple()}
 
-        widgets = {
-            "picking_person": forms.CheckboxSelectMultiple(),
-        }
+    def __init__(self, *args, **kwargs):
+        super(ChoosePersonPickingForm, self).__init__(*args, **kwargs)
+        self.picking_people_choices = Profile.objects.filter(members=self.instance)
+        self.fields['picking_person'].queryset = self.picking_people_choices
