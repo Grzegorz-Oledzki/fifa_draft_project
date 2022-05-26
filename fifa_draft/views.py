@@ -162,11 +162,7 @@ def players(request):
 
 def choose_person_to_pick_players(request, pk):
     group = Group.objects.get(id=pk)
-    profile = request.user.profile
-    group_members = group.members.all()
-    teams = profile.draft_teams.all()
     form = ChoosePersonPickingForm(instance=group)
-
     if request.method == "POST":
         form = ChoosePersonPickingForm(request.POST, instance=group)
         form.save()
