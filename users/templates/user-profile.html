@@ -57,7 +57,7 @@
               <div class="column">
                 <div class="card project">
                   <a href="{% url 'team' team.id %}" class="project">
-                    <img class="avatar avatar--xl" src="{{team.image_url}}" />
+                    <img class="avatar avatar--xl" style='position:relative; left:10px; top:2px;' src="{{team.image_url}}" />
                     <div class="card__body">
                       <h3 class="project__title">{{team.name}}</h3>
                       <div class="project__tags">
