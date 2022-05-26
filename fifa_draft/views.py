@@ -62,7 +62,7 @@ def edit_group(request, pk):
             messages.success(request, "Group edited successful!")
             return redirect("group", group.id)
         else:
-            messages.error(request, "Error, choose unique name or number of player from 14 to 20 are accepted.")
+            messages.error(request, "Error, choose unique name and number of player from 14 to 20 are accepted.")
     context = {"form": form, "group": group, "groups": groups}
     return render(request, "group-form.html", context)
 
@@ -186,7 +186,8 @@ def players_pick(request, pk):
     group = team.belongs_group
     group_players = group.group_players.all()
     picking_person = group.picking_person.all()
-    context = {"team": team, "profile": profile, "players": players, 'group_players': group_players, 'picking_person': picking_person}
+    context = {"team": team, "profile": profile, "players": players, 'group_players': group_players,
+               'picking_person': picking_person}
     return render(request, "players-pick.html", context)
 
 

@@ -1,4 +1,4 @@
-{% extends 'main.html' %}
+ {% extends 'main.html' %}
 {% load static %}
 <!DOCTYPE html>
 {% block content %}
@@ -25,17 +25,17 @@
     </style>
 </head>
 <main>
-{#<section class="projectsList">#}
-{#      <div class="container">#}
-{#        <div class="grid grid--three">#}
 
-                    <table class="center-block">
 
-                    <caption>Users Info</caption>
-                    <tr>
+
+                    <table class="center-block" id="myTable">
+
+                    <input class="center-block" type="text" id="myInput" onkeyup="myFunction()" placeholder="Type player name">
+                    <input class="center-block" type="text" id="myInput1" onkeyup="myFunction1()" placeholder="Type player position, eg. ST, CB">
+                    <tr class="header__menu">
                         <th>Image</th>
                         <th>Name</th>
-                        <th>Overal</th>
+                        <th>Overall</th>
                         <th>Age</th>
                         <th>Player positions</th>
                         <th>Wreak foot stars</th>
@@ -52,6 +52,7 @@
                         <th>Sofifa stats</th>
                     </tr>
                         {% for player in players %}
+
                     <tr>
                         <td><img class="project__thumbnail" style='max-width:50px;max-height:70px' src="{{player.player_face_url}}" alt="project thumbnail" /></td>
                         <td>{{ player.short_name }}</td>
@@ -69,21 +70,59 @@
                         <td>{{ player.dribbling }}</td>
                         <td> {{ player.physic }}</td>
                         {% else %}
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
                         {% endif %}
                         <td><img src="{{ player.club_logo_url }}"/></td>
                         <td><img style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
                         <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
-
+                    {% endfor %}
                     </tr>
-                                    {% endfor %}
-
   </main>
 </html>
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+    <script>
+function myFunction1() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput1");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[4];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
 
 {% endblock %}
