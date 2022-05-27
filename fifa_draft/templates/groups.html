@@ -20,9 +20,7 @@
                   <h3 class="project__title">{{group.name}}</h3>
                   <div class="project__tags">
                     {% for team in group.teams.all %}
-                    <span class="tag tag--pill tag--main">
                       {{team}}
-                    </span>
                       {% endfor %}
                   </div>
                 </div>
@@ -35,5 +33,5 @@
     </section>
   </main>
 </html>
-
+{% include 'bottombar.html' %}
 {% endblock %}
