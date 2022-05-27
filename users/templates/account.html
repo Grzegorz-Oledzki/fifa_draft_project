@@ -45,9 +45,27 @@
           </div>
 
         <div class="settings">
+            <h3 class="settings__title">Groups</h3>
           <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'create-group' %}"><i
               class="im im-plus"></i> Add new group</a>
         </div>
+        <table class="settings__table">
+          {% for group in groups %}
+          <tr>
+            <td class="settings__tableInfo">
+              <h4>{{group.name}}</h4>
+              <p>
+                {{group.description}}
+              </p>
+                <p>Group members: {{ group.members.count }}</p>
+            </td>
+            <td class="settings__tableActions">
+              <a class="tag tag--pill tag--main settings__btn" href="{% url 'edit-group' group.id %}"><i
+                  class="im im-edit"></i> Edit</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
         <div class="settings">
             <h3 class="settings__title">Teams</h3>
           <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'create-team' %}"><i
@@ -76,6 +94,7 @@
         </div>
       </div>
     </div>
+  {% include 'bottombar.html' %}
   </main>
 
 

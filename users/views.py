@@ -76,7 +76,8 @@ def user_profile(request, pk):
 def user_account(request):
     profile = request.user.profile
     teams = profile.team_set.all()
-    context = {"profile": profile, "teams": teams}
+    groups = profile.group_set.all()
+    context = {"profile": profile, "teams": teams, "groups": groups}
     return render(request, "account.html", context)
 
 
