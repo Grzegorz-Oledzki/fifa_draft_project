@@ -6,49 +6,207 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-</head>
+        <style>
+    table {
+      font-family: arial, sans-serif;
+        color: black;
+      border-collapse: collapse;
+      table-layout : fixed;
+      width: 70%;
+
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+
 <body>
-<main class="singleProject my-md">
+<!-- Main Section -->
+  <main class="profile my-md">
     <div class="container">
       <div class="layout">
         <div class="column column--1of3">
-            <a class="im im-angle-left" href="{% url 'groups' %}"> Back to groups </a>
-          <h3 class="singleProject__subtitle">Group</h3>
-          <h3 class="singleProject__title">{{group.name}}</h3>
-            {% if group.owner.id == profile.id %}
+                  <a class="im im-angle-left" href="{% url 'groups' %}">Back to users</a>
+          <div class="card text-center">
+            <div class="card__body dev">
+              <img class="avatar avatar--xl" src={{group.image_url}} />
+              <h2 class="dev__name">Group owner: <a href="{% url 'user-profile' group.owner_id %}">{{ group.owner }}</a></h2>
+                <p>Draft order: {{ group.draft_order_choice }}</p>
+                <p>Max players: {{ group.number_of_players }}</p>
+                    {% if group.owner.id == profile.id %}
         <a class="tag tag--pill tag--main settings__btn" href="{% url 'edit-group' group.id %}"><i
                   class="im im-edit"></i> Edit group</a>
         <td class="settings__tableActions">
                 <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-group' group.id %}?next=/account"><i class="im im-x-mark-circle-o"></i>
                   Delete group</a>
                 <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'choose-picking-person' group.id %}?next=/account"><i class="im im-x-mark-circle-o"></i>
+                <a style="font-size: 15px" class="tag tag--pill tag--main settings__btn" href="{% url 'choose-picking-person' group.id %}?next=/account"><i class="fa-solid fa-people-arrows-left-right"></i>
                   Choose who's picking player</a>
-        {% endif %}
-        <div class="column column--2of3">
-          <img style='max-width:250px' src="{{group.image_url}}" alt="portfolio thumbgnail" />
-          <h3 class="singleProject__subtitle">About the Group</h3>
-          <div class="singleProject__info">
-            Description: {{group.description}}
-          </div>
-            <div class="singleProject__info">
-            Owner: <a href="{% url 'user-profile' group.owner.id %}" class="project"> {{ group.owner }}</a>
+                    {% endif %}
+            {% if group.picking_person.get %}
+            <p>Picking person: {{ group.picking_person.get }}</p>
+                {% else %}
+                <p style="color: red">Group owner need to choose picking person</p>
+            {% endif %}
+                                {% if group.team_set.count > 0 %}
+
+                    <table style="width: 100%; font-size: 12px" id="myTable1">
+            <tr>
+                        <th>Owner</th>
+                        <th>Team</th>
+                        <th>No. players</th>
+            </tr>
+            {% for team in group.team_set.all %}
+            <tr>
+                    <th>{{ team.owner }}</th>
+                    <th>{{ team.name }}</th>
+                    <th>{{ team.team_players.count }}</th>
+            </tr>
+            {% endfor %}
+                                        </table>
+                                {% endif %}
+            {% if group.members.count == 3 %}
+                <a href="https://docs.google.com/spreadsheets/d/1YbMijueFaOR_JprKbyZ0M378xZbcTqGiX1ZpExHm2EE/edit?usp=sharing">
+                {% elif group.members.count == 4 %}
+                <a href="https://docs.google.com/spreadsheets/d/10USMf3WWmzZJIJoZ4SGnUdZegTGli1Ag/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 5 %}
+                <a href="https://docs.google.com/spreadsheets/d/1NcXxnY5fI1yQvaOQU4WwHkg420_-QC1_/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 6 %}
+                <a href="https://docs.google.com/spreadsheets/d/1qSnlegR6pE09Ep4jqw5PPZZ4e3Qtdimo/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 7 %}
+                <a href="https://docs.google.com/spreadsheets/d/1r3XKxMQ7EU0bRqnNSjPg-B6Rb8LfhToz/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 8 %}
+                <a href="https://docs.google.com/spreadsheets/d/1nSMD6Z0BjoIC-Mqsv5kfSNOZFAEWQJAC/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 9 %}
+                <a href="https://docs.google.com/spreadsheets/d/1AtzEchU2DtwPOgMRUGjvEbw6ayVLa8rQ/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 10 %}
+                <a href="https://docs.google.com/spreadsheets/d/1JuPqV2h5xJl98Q_JNrIY9VN-xXCkILhZ/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 11 %}
+                <a href="https://docs.google.com/spreadsheets/d/10USMf3WWmzZJIJoZ4SGnUdZegTGli1Ag/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 12 %}
+                <a href="https://docs.google.com/spreadsheets/d/1i8fLC8W_PZ37FA6Dkqi9pYhIU7n_8VJd/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 13 %}
+                <a href="https://docs.google.com/spreadsheets/d/1s4tLfcYRNywQgyhMw0C-WGbQI8Ff9e0C/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 14 %}
+                <a href="https://docs.google.com/spreadsheets/d/17deH3CXwajQ5dUP3pPkfn4jmbBI9xkGe/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+                {% elif group.members.count == 15 %}
+                <a href="https://docs.google.com/spreadsheets/d/1hM6nP_Lh4sX0-uR867H6wOlF3BkNsVXU/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
+
+
+            {% endif %}Tournament Excel sheet</a>
             </div>
-            <p>Group members: {% for member in group.members.all %}
-            <a href="{% url 'user-profile' member.id %}" class="project">{{ member }},</a>
-            {% endfor %}</p>
-            <p>Group teams: {% for team in group.teams.all %}
-                <a href="{% url 'team' team.id %}" class="project">{{ team }},</a>
-            {% endfor %}</p>
-            <p>Draft order: {{ group.draft_order_choice }}</p>
-            <p>Max players: {{ group.number_of_players }}</p>
           </div>
         </div>
+
+        <div class="column column--2of3">
+          <div class="devInfo">
+            <h3 class="devInfo__title">Group description</h3>
+            <p class="devInfo__about">{{ group.description }}</p>
+          </div>
+
+          <div class="devInfo">
+            <h3 class="devInfo__title">Teams</h3>
+            <div class="grid grid--three">
+              {% for team in group.team_set.all %}
+              <div class="column">
+                <div class="card project" >
+                  <a href="{% url 'team' team.id %}" class="project" >
+                    <img class="avatar avatar--xl" style='position:relative; left:30px; top:2px;' src="{{team.image_url}}" />
+                    <div class="card__body">
+                      <h3 class="project__title">{{team.name}} <p>Owner: {{ team.owner }}</p></h3>
+                      <div class="project__tags">
+                          <p>Formation:</p>
+                    <span class="tag tag--pill tag--main">
+                      <small>{{team.formation}}</small>
+                    </span>
+                  </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
+
     </div>
-    </div>
+                {% if group.group_players.count > 0 %}
+                    <table class="center-block" style="width: 80%" id="myTable1">
+            <tr style="font-size: 12px">
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Overall</th>
+                        <th>Age</th>
+                        <th>Height</th>
+                        <th>Player positions</th>
+                        <th>Weak foot</th>
+                        <th>Preferred foot</th>
+                        <th>Skills</th>
+                        <th>Work rate</th>
+                        <th>Pace</th>
+                        <th>Shooting</th>
+                        <th>Passing</th>
+                        <th>Dribbling</th>
+                        <th>Defending</th>
+                        <th>Physic</th>
+                        <th>Club</th>
+                        <th>Nation</th>
+                        <th>Sofifa stats</th>
+                        <th>Owner</th>
+                    </tr>
+                {% for player in group.group_players.all %}
+                    <tr>
+                        <td><img class="center-block" style='max-width:70px;max-height:70px; ' src="{{player.player_face_url}}" alt="project thumbnail" /></td>
+                        <td>{{ player.short_name }}</td>
+                        <td>{{ player.overall }}</td>
+                        <td>{{ player.age }}</td>
+                        <td>{{ player.height_cm }}</td>
+                        <td>{{ player.player_positions }}</td>
+                        <td>{{ player.weak_foot }}<i class="fa-solid fa-star" style="color: #ffcc25;"></i></td>
+                        <td>{{ player.preferred_foot }}</td>
+                        <td>{{ player.skill_moves }}<i class="fa-solid fa-star" style="color: #ffcc25;"></i></td>
+                        <td>{{ player.work_rate }}</td>
+                         {% if player.dribbling > 0 %}
+                        <td>{{ player.pace }}</td>
+                        <td>{{ player.shooting }}</td>
+                        <td>{{ player.passing }}</td>
+                        <td>{{ player.defending }}</td>
+                        <td>{{ player.dribbling }}</td>
+                        <td> {{ player.physic }}</td>
+                        {% else %}
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        <td><i class="fa-solid fa-ghost"></i></td>
+                        {% endif %}
+                        <td><img class="center-block" style="width: 35px; max-height: 35px" src="{{ player.club_logo_url }}"/></td>
+                        <td><img class="center-block" style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
+                        <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
+                        {% for team in group.teams.all %}
+                            {% if player in team.team_players.all %}
+                            <td>{{ team.owner }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    </tr>
+                </table>
+                        {% endif %}
   </main>
+    {% include 'bottombar.html' %}
+{% endblock content %}
 </body>
 </html>
-{% include 'bottombar.html' %}
-{% endblock %}
