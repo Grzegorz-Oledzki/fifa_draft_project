@@ -81,6 +81,7 @@ class Group(models.Model):
     picking_person = models.ManyToManyField(
         Profile, blank=True, default=Profile, related_name="picking_person"
     )
+    draft_order = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.name

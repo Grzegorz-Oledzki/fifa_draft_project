@@ -206,3 +206,10 @@ def player_pick_confirmation(request, pk, team_id):
         return redirect('team', team.id)
     context = {"team": team, "profile": profile, 'group_players': group_players, 'player': player}
     return render(request, "player-pick-confirmation.html", context)
+
+
+def draft_order(request, pk):
+    group = Group.objects.get(id=pk)
+    members = group.members.all()
+
+
