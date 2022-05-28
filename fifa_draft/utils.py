@@ -52,3 +52,7 @@ def edit_team_form_validation(request, form):
         elif team.belongs_group.password != team.group_password:
             messages.error(request, "Password error")
     return form_valid
+
+
+def draw_draft_order(request):
+    return
