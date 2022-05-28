@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+{% load static %}
+<!DOCTYPE html>
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Draft order</title>
+</head>
+
+<main class="formPage my-xl">
+        <div class="content-box">
+            <div class="formWrapper">
+                <a class="im im-angle-left" href="{% url 'group' group.id %}"> Back to group {{ group }} </a>
+                <br>
+                <h2 style="color:red;">Perform draw only when all members have teams in group!</h2>
+                    <form class="form" method="POST"  enctype="multipart/form-data">
+                            {% csrf_token %}
+
+
+                            <br><input class="btn btn--sub btn--lg  my-md" type="submit" value="Let's draw!" />
+                        </form>
+            </div>
+        </div>
+    </main>
+
+
+{% include 'bottombar.html' %}
+{% endblock %}

@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from fifa_draft.forms import GroupForm, TeamForm, EditTeamForm, EditGroupForm, ChoosePersonPickingForm
+from fifa_draft.forms import GroupForm, TeamForm, EditTeamForm, EditGroupForm, ChoosePersonPickingForm, DraftOrderForm
 from fifa_draft.models import Profile, Group, Team, Player
 from fifa_draft.resources import PlayerResource
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
-from fifa_draft.utils import team_form_validation, edit_team_form_validation
+from fifa_draft.utils import team_form_validation, edit_team_form_validation, draw_draft_order
 from tablib import Dataset
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView
@@ -26,6 +26,7 @@ def groups(request):
 @login_required(login_url="login")
 def group(request, pk):
     group = Group.objects.get(id=pk)
+
     profile = request.user.profile
     context = {"group": group, "profile": profile}
     return render(request, "group.html", context)
@@ -44,7 +45,7 @@ def create_group(request):
             messages.success(request, "Now create a team!")
             return redirect("create-team")
         else:
-            messages.error(request, "Error, choose unique name or number of player from 14 to 20 are accepted.")
+            messages.error(request, "Error, name is not unique, or you have type the wrong number of players")
     context = {"form": form}
     return render(request, "group-form.html", context)
 
@@ -62,7 +63,7 @@ def edit_group(request, pk):
             messages.success(request, "Group edited successful!")
             return redirect("group", group.id)
         else:
-            messages.error(request, "Error, choose unique name and number of player from 14 to 20 are accepted.")
+            messages.error(request, "Error, name is not unique, or you have type the wrong number of players")
     context = {"form": form, "group": group, "groups": groups}
     return render(request, "group-form.html", context)
 
@@ -210,6 +211,14 @@ def player_pick_confirmation(request, pk, team_id):
 
 def draft_order(request, pk):
     group = Group.objects.get(id=pk)
-    members = group.members.all()
+    form = DraftOrderForm(instance=group)
+    if request.method == "POST":
+        group.draft_order = draw_draft_order(group.members.all())
+        messages.success(request, 'Draw completed, see results under Excel sheet')
+        group.save()
+        return redirect('group', group.id)
+
+    context = {'group': group, 'form': form}
+    return render(request, 'draft-order.html', context)
 
 

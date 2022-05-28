@@ -24,7 +24,7 @@ class GroupForm(ModelForm):
         self.fields['name'].widget.attrs.update({"class": "input", "placeholder": "Name of group, eg. Fifa maniacs 10.05.2022"})
         self.fields['description'].widget.attrs.update(
             {"class": "input", "placeholder": "Group description, eg. when and where you will be playing the tournament"})
-        self.fields['number_of_players'].widget.attrs.update({"class": "input", "placeholder": "14-20"})
+        self.fields['number_of_players'].widget.attrs.update({"class": "input", "placeholder": "The number of players can range from 14 to 20."})
 
 
 class TeamForm(ModelForm):
@@ -95,6 +95,7 @@ class EditGroupForm(ModelForm):
         self.fields['description'].widget.attrs.update(
             {"class": "input",
              "placeholder": "Group description, eg. when and where you will be playing the tournament"})
+        self.fields['number_of_players'].widget.attrs.update({"class": "input", "placeholder": "The number of players can range from 14 to 20."})
 
 
 class EditTeamForm(ModelForm):
@@ -126,3 +127,10 @@ class ChoosePersonPickingForm(ModelForm):
         super(ChoosePersonPickingForm, self).__init__(*args, **kwargs)
         self.picking_people_choices = Profile.objects.filter(members=self.instance)
         self.fields['picking_person'].queryset = self.picking_people_choices
+
+
+class DraftOrderForm(ModelForm):
+    class Meta:
+        model = Group
+        fields = ['draft_order']
+

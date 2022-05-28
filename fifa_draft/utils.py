@@ -1,6 +1,7 @@
 from fifa_draft.forms import GroupForm, TeamForm
 from django.contrib import messages
 from fifa_draft.models import Group
+import random
 
 
 def team_form_validation(request, form, profile):
@@ -54,5 +55,14 @@ def edit_team_form_validation(request, form):
     return form_valid
 
 
-def draw_draft_order(request):
-    return
+def draw_draft_order(members):
+    group_members = []
+    for member in members:
+        group_members.append(member.username)
+    random.shuffle(group_members)
+    draw_order = ""
+    i = 1
+    for member in group_members:
+        draw_order += str(i) + ". " + member + " "
+        i += 1
+    return draw_order
