@@ -34,22 +34,28 @@
     <div class="container">
       <div class="layout">
         <div class="column column--1of3">
-                  <a class="im im-angle-left" href="{% url 'groups' %}">Back to users</a>
+                  <a class="im im-angle-left" href="{% url 'groups' %}">Back to all groups</a>
           <div class="card text-center">
             <div class="card__body dev">
               <img class="avatar avatar--xl" src={{group.image_url}} />
-              <h2 class="dev__name">Group owner: <a href="{% url 'user-profile' group.owner_id %}">{{ group.owner }}</a></h2>
+              <h2 class="dev__name">{{ group.name }}</h2>
+              <p>Group owner: <a href="{% url 'user-profile' group.owner_id %}">{{ group.owner }}</a></p>
                 <p>Draft order: {{ group.draft_order_choice }}</p>
                 <p>Max players: {{ group.number_of_players }}</p>
                     {% if group.owner.id == profile.id %}
         <a class="tag tag--pill tag--main settings__btn" href="{% url 'edit-group' group.id %}"><i
-                  class="im im-edit"></i> Edit group</a>
+                  class="im im-edit"></i>Edit group</a>
         <td class="settings__tableActions">
                 <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-group' group.id %}?next=/account"><i class="im im-x-mark-circle-o"></i>
                   Delete group</a>
+                        <td class="settings__tableActions">
+                        {% if group.draft_order %}
+                            <a> <i class="fa-solid fa-shuffle"></i> The draw was made </a>
+                            {% else %}
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'draft-order' group.id %}?next=/account"> <i class="fa-solid fa-shuffle"></i> Draw draft order </a>
+                            {% endif %}
                 <td class="settings__tableActions">
-                <a style="font-size: 15px" class="tag tag--pill tag--main settings__btn" href="{% url 'choose-picking-person' group.id %}?next=/account"><i class="fa-solid fa-people-arrows-left-right"></i>
-                  Choose who's picking player</a>
+                <a style="font-size: 15px" class="tag tag--pill tag--main settings__btn" href="{% url 'choose-picking-person' group.id %}?next=/account"> <i class="fa-solid fa-people-arrows-left-right"></i> Choose who's picking player </a>
                     {% endif %}
             {% if group.picking_person.get %}
             <p>Picking person: {{ group.picking_person.get }}</p>
@@ -101,7 +107,13 @@
                 <a href="https://docs.google.com/spreadsheets/d/1hM6nP_Lh4sX0-uR867H6wOlF3BkNsVXU/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
 
 
-            {% endif %}Tournament Excel sheet</a>
+            {% endif %} <p><i class="fa-solid fa-file-excel"></i> Tournament Excel sheet</a>
+            {% if group.draft_order %}
+                <p>Draft Order: </p>
+                <p>{{ group.draft_order }}</p>
+                {% else %}
+                <p>Waiting for the draw </p>
+            {% endif %}
             </div>
           </div>
         </div>

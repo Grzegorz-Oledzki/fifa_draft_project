@@ -65,8 +65,7 @@ class Group(models.Model):
     featured_image = models.ImageField(null=True, blank=True, upload_to="group_images/")
     password = models.CharField(null=False, blank=False, max_length=50)
     created = models.DateTimeField(auto_now_add=True)
-    number_of_players = models.PositiveIntegerField(
-        default=18, validators=[MinValueValidator(14), MaxValueValidator(20)]
+    number_of_players = models.PositiveIntegerField(validators=[MinValueValidator(14), MaxValueValidator(20)]
     )
     draft_order_choice = models.CharField(
         blank=False,
