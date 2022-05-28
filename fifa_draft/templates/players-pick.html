@@ -12,7 +12,7 @@
       border-collapse: collapse;
       table-layout : fixed;
       width: 70%;
-
+      color: black;
     }
 
     td, th {
@@ -30,19 +30,20 @@
 <main>
 
 
-
                     <table class="center-block" style="width: 80%" id="myTable1">
 
                     <input class="center-block" type="text" id="myInput2" onkeyup="myFunction2()" placeholder="Type player name">
                     <input class="center-block" type="text" id="myInput1" onkeyup="myFunction1()" placeholder="Type player position, eg. ST, CB">
-                    <tr class="header__menu">
+                    <tr>
                         <th>Image</th>
                         <th>Name</th>
                         <th>Overall</th>
                         <th>Age</th>
+                        <th>Height</th>
                         <th>Player positions</th>
-                        <th>Wreak foot stars</th>
-                        <th>Skills stars</th>
+                        <th>Weak foot</th>
+                        <th>Preferred foot</th>
+                        <th>Skills</th>
                         <th>Work rate</th>
                         <th>Pace</th>
                         <th>Shooting</th>
@@ -63,9 +64,11 @@
                         <td>{{ player.short_name }}</td>
                         <td>{{ player.overall }}</td>
                         <td>{{ player.age }}</td>
+                        <td>{{ player.height_cm }}</td>
                         <td>{{ player.player_positions }}</td>
-                        <td>{{ player.weak_foot }}</td>
-                        <td>{{ player.skill_moves }}</td>
+                        <td>{{ player.weak_foot }}<i class="fa-solid fa-star" style="color: #ffcc25;"></i></td>
+                        <td>{{ player.preferred_foot }}</td>
+                        <td>{{ player.skill_moves }}<i class="fa-solid fa-star" style="color: #ffcc25;"></i></td>
                         <td>{{ player.work_rate }}</td>
                          {% if player.dribbling > 0 %}
                         <td>{{ player.pace }}</td>
@@ -86,14 +89,16 @@
                         <td><img class="center-block" style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
                         <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
                             {% if profile in picking_person %}
-                        <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
+                                <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
+                            {% elif team.team_players.count == team.belongs_group.number_of_players %}
+                                <td>You have full team</td>
                             {% else %}
-                                                        <td>Wait for your turn</td>
+                                <td>Wait for your turn</td>
 
                             {% endif %}
                     {% endif %}
                     {% endfor %}
-                    </tr>
+                        </tr></table>
   </main>
 </html>
 <script>

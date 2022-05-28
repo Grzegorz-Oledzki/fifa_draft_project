@@ -4,6 +4,27 @@
 {% block content %}
 <html lang="en">
 <head>
+    <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      table-layout : fixed;
+      width: 70%;
+      color: black;
+
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -22,17 +43,76 @@
         <div class="column column--2of3">
           <img style='max-width:250px' src="{{ team.image_url }}" alt="portfolio thumbnail" />
           <p>Owner: <a href="{% url 'user-profile' team.owner.id %}" class="singleProject__developer">{{ team.owner }}</a></p>
-            {% for player in players %}
-            <p>Players: {{ player }}</p>
-            {% endfor %}
+        {% if team.description %}
           <h3 class="singleProject__subtitle">About the Team</h3>
-            <p>players, formations etc.</p>
+            <p>{{ team.description }}</p>
+        {% endif %}
+
             </div>
+
           </div>
         </div>
-      </div>
+
     </div>
-    </div>
+{% if team.team_players.count > 0 %}
+            <table class="center-block" style="width: 80%" id="myTable1">
+            <tr class="header__menu">
+                        <th>No.</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Overall</th>
+                        <th>Age</th>
+                        <th>Height</th>
+                        <th>Player positions</th>
+                        <th>Weak foot</th>
+                        <th>Preferred foot</th>
+                        <th>Skills</th>
+                        <th>Work rate</th>
+                        <th>Pace</th>
+                        <th>Shooting</th>
+                        <th>Passing</th>
+                        <th>Dribbling</th>
+                        <th>Defending</th>
+                        <th>Physic</th>
+                        <th>Club</th>
+                        <th>Nation</th>
+                        <th>Sofifa stats</th>
+                    </tr>
+                {% for player in players %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><img class="center-block" style='max-width:50px;max-height:70px; ' src="{{player.player_face_url}}" alt="project thumbnail" /></td>
+                        <td>{{ player.short_name }}</td>
+                        <td>{{ player.overall }}</td>
+                        <td>{{ player.age }}</td>
+                        <td>{{ player.height_cm }}</td>
+                        <td>{{ player.player_positions }}</td>
+                        <td>{{ player.weak_foot }}<i class="fa-solid fa-star" style="color: #ffcc25;"></i></td>
+                        <td>{{ player.preferred_foot }}</td>
+                        <td>{{ player.skill_moves }}<i class="fa-solid fa-star" style="color: #ffcc25;"></i></td>
+                        <td>{{ player.work_rate }}</td>
+                         {% if player.dribbling > 0 %}
+                        <td>{{ player.pace }}</td>
+                        <td>{{ player.shooting }}</td>
+                        <td>{{ player.passing }}</td>
+                        <td>{{ player.defending }}</td>
+                        <td>{{ player.dribbling }}</td>
+                        <td> {{ player.physic }}</td>
+                        {% else %}
+                        <td><i class="fa-solid fa-ghost" style="color: black"></i></td>
+                        <td><i class="fa-solid fa-ghost" style="color: black"></i></td>
+                        <td><i class="fa-solid fa-ghost" style="color: black"></i></td>
+                        <td><i class="fa-solid fa-ghost" style="color: black"></i></td>
+                        <td><i class="fa-solid fa-ghost" style="color: black"></i></td>
+                        <td><i class="fa-solid fa-ghost" style="color: black"></i></td>
+                        {% endif %}
+                        <td><img class="center-block" style="width: 35px; max-height: 35px" src="{{ player.club_logo_url }}"/></td>
+                        <td><img class="center-block" style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
+                        <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
+                    {% endfor %}
+                    </tr>
+                </table>
+        {% endif %}
   </main>
 </body>
 </html>

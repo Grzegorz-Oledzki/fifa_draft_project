@@ -113,7 +113,7 @@ class Team(models.Model):
     belongs_group = models.ForeignKey(
         Group, null=False, blank=False, on_delete=models.CASCADE, db_constraint=False
     )
-    name = models.CharField(max_length=200, blank=False, null=False)
+    name = models.CharField(max_length=20, blank=False, null=False)
     featured_image = models.ImageField(null=True, blank=True, upload_to="team_images/")
     created = models.DateTimeField(auto_now_add=True)
     group_password = models.CharField(null=False, blank=False, max_length=50)
