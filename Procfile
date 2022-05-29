@@ -1,1 +1,1 @@
-web gunicorn fifa_draft.wsgi --log-file -
+web: gunicorn fifa_draft.wsgi --log-file -
