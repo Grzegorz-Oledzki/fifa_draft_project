@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-o%su%rl!n)-8tmq$0noowg!j*_o&6*-)2h-6_q=(*j%_fyixuk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'fifa-draft.herokuapp.com/']
 
 
 # Application definition
@@ -53,6 +53,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "draft_fifa.urls"
