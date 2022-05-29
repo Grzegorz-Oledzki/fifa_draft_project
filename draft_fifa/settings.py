@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "fifa_draft.apps.FifaDraftConfig",
     "users.apps.UsersConfig",
     "import_export",
-    'storages'
+    "storages",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
