@@ -3,3 +3,4 @@ venv/
 __pycache__/
 todo.py
 db.sqlite3
+.env
