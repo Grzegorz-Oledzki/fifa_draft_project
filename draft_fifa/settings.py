@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "import_export",
     "storages",
-    "corsheaders"
 ]
 
 MIDDLEWARE = [
