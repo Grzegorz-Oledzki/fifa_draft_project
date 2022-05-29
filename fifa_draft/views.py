@@ -5,7 +5,7 @@ from fifa_draft.resources import PlayerResource
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
-from fifa_draft.utils import team_form_validation, edit_team_form_validation, draw_draft_order
+from fifa_draft.utils import team_form_validation, edit_team_form_validation, draw_draft_order, pick_alert
 from tablib import Dataset
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView
@@ -13,13 +13,16 @@ from django.urls import reverse_lazy
 
 
 def home(request):
-    return render(request, "home.html")
+    context = {}
+    pick_alert(request, context)
+    return render(request, "home.html", context)
 
 
 @login_required(login_url="login")
 def groups(request):
     groups = Group.objects.all()
     context = {"groups": groups}
+    pick_alert(request, context)
     return render(request, "groups.html", context)
 
 
@@ -29,6 +32,7 @@ def group(request, pk):
 
     profile = request.user.profile
     context = {"group": group, "profile": profile}
+    pick_alert(request, context)
     return render(request, "group.html", context)
 
 
@@ -47,6 +51,7 @@ def create_group(request):
         else:
             messages.error(request, "Error, name is not unique, or you have type the wrong number of players")
     context = {"form": form}
+    pick_alert(request, context)
     return render(request, "group-form.html", context)
 
 
@@ -65,6 +70,7 @@ def edit_group(request, pk):
         else:
             messages.error(request, "Error, name is not unique, or you have type the wrong number of players")
     context = {"form": form, "group": group, "groups": groups}
+    pick_alert(request, context)
     return render(request, "group-form.html", context)
 
 
@@ -75,6 +81,7 @@ def delete_group(request, pk):
         messages.success(request, "Group was deleted successful!")
         return redirect("home")
     context = {"group": group}
+    pick_alert(request, context)
     return render(request, "delete-group.html", context)
 
 
@@ -84,6 +91,7 @@ def team(request, pk):
     team = Team.objects.get(id=pk)
     players = team.team_players.all()
     context = {"team": team, "profile": profile, "players": players}
+    pick_alert(request, context)
     return render(request, "team.html", context)
 
 
@@ -97,6 +105,7 @@ def create_team(request):
         if form_valid:
             return redirect("group", group_id)
     context = {"form": form}
+    pick_alert(request, context)
     return render(request, "team-form.html", context)
 
 
@@ -110,6 +119,7 @@ def edit_team(request, pk):
         form_valid = edit_team_form_validation(request, form)
         if form_valid:
             return redirect("group", team.belongs_group_id)
+    pick_alert(request, context)
     return render(request, "team-form.html", context)
 
 
@@ -158,6 +168,7 @@ def players(request):
     profile = request.user.profile
     players = Player.objects.all()
     context = {"players": players, "profile": profile}
+    pick_alert(request, context)
     return render(request, "players.html", context)
 
 
@@ -169,6 +180,7 @@ def choose_person_to_pick_players(request, pk):
         form.save()
         return redirect('group', group.id)
     context = {'form': form}
+    pick_alert(request, context)
     return render(request, "choose-picking-person.html", context)
 
 
@@ -177,6 +189,8 @@ def choose_team(request):
     profile = request.user.profile
     teams = profile.draft_teams.all()
     context = {"teams": teams, "profile": profile}
+    pick_alert(request, context)
+    pick_alert(request, context)
     return render(request, "choose-team.html", context)
 
 
@@ -189,6 +203,7 @@ def players_pick(request, pk):
     picking_person = group.picking_person.all()
     context = {"team": team, "profile": profile, "players": players, 'group_players': group_players,
                'picking_person': picking_person}
+    pick_alert(request, context)
     return render(request, "players-pick.html", context)
 
 
@@ -206,6 +221,7 @@ def player_pick_confirmation(request, pk, team_id):
         messages.success(request, 'Player picked!')
         return redirect('team', team.id)
     context = {"team": team, "profile": profile, 'group_players': group_players, 'player': player}
+    pick_alert(request, context)
     return render(request, "player-pick-confirmation.html", context)
 
 
@@ -217,8 +233,10 @@ def draft_order(request, pk):
         messages.success(request, 'Draw completed, see results under Excel sheet')
         group.save()
         return redirect('group', group.id)
-
     context = {'group': group, 'form': form}
+    pick_alert(request, context)
     return render(request, 'draft-order.html', context)
+
+
 
 

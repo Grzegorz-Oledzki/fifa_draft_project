@@ -13,12 +13,16 @@
       <h2>Choose team to pick players</h2>
         <div class="grid grid--three">
             {% for team in teams %}
-          <div class="col-lg-3">
-            <div class="card project">
+           <div  class="col-lg-3">
+                {% if team.belongs_group_id in group_ids %}
+            <div href="{% url 'players-pick' team.id %}" style="background: #a3c537" class="card project">
+                {% else %}
+            <div href="{% url 'players-pick' team.id %}" class="card project">
+                {% endif %}
                 <a href="{% url 'players-pick' team.id %}" class="project">
                 <img class="project__thumbnail" href="{% url 'players-pick' team.id %}" style='position:relative; left:10px; top:2px; max-width:150px;max-height:150px' src="{{team.image_url}}" alt="project thumbnail" />
                 <div class="card__body">
-                  <h3 class="project__title"><a href="{% url 'players-pick' team.id %}"></a>{{ team }}</h3>
+                  <h3 class="project__title"><a style="color: black" href="{% url 'players-pick' team.id %}">{{ team }}</a></h3>
                       Belongs group: {{team.belongs_group}}
                 </div>
             </div>

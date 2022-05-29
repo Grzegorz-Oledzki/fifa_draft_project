@@ -11,7 +11,8 @@
                 <br>
                 <form class="form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <h2>Are you want to add "{{player}}"?</h2>
+                    <h2>Are you want to pick "{{player}}"?</h2>
+                    <h3>This choice cannot be withdrawn.</h3>
                     <a class="btn btn--sub btn--lg  my-md" href="{% url 'players-pick' team.id %}">Back to pick</a>
                     <input class="btn btn--sub btn--lg  my-md" type="submit" value="Yes" />
                 </form>

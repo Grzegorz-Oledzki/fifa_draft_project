@@ -33,7 +33,11 @@
                         <li><a href="{% url 'create-team' %}" class="smoothScroll"><h4>Create team</h4></a></li>
                         <li><a href="{% url 'profiles' %}" class="smoothScroll"><h4>Users</h4></a></li>
                         <li><a href="{% url 'players' %}" class="smoothScroll"><h4>Players</h4></a></li>
+                    {% if pick_alert %}
+                        <li><a href="{% url 'choose-team' %}" class="smoothScroll"><h4 style="color: #a3c537">Pick players <i style="color: red" class="fa-solid fa-triangle-exclamation"></i></h4>Your turn!</a></li>
+                    {% else %}
                         <li><a href="{% url 'choose-team' %}" class="smoothScroll"><h4>Pick players</h4></a></li>
+                    {% endif %}
                          {% if request.user.is_authenticated %}
                              <li><a href="{% url 'account' %}" class="smoothScroll"><h4>Account</h4></a></li>
                           <li class="appointment-btn"><a href="{% url 'logout' %}" class="btn btn--sub">Logout</a></li>
