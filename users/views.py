@@ -88,7 +88,7 @@ def edit_account(request):
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            messages.success(request, "User edited!")
+            messages.success(request, "User updated!")
 
             return redirect("account")
     context = {"form": form}
