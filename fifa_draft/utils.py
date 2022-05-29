@@ -66,3 +66,15 @@ def draw_draft_order(members):
         draw_order += str(i) + ". " + member + " "
         i += 1
     return draw_order
+
+
+def pick_alert(request, context):
+    if request.user.is_authenticated:
+        group_ids = []
+        profile = request.user.profile
+        groups = Group.objects.all()
+        for group in groups:
+            if profile in group.picking_person.all():
+                group_ids.append(group.id)
+                context["pick_alert"] = True
+                context["group_ids"] = group_ids
