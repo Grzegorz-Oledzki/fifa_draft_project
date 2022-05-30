@@ -92,7 +92,7 @@ class Group(models.Model):
         try:
             url = self.featured_image.url
         except:
-            url = "https://grzesczes-bucket.s3.amazonaws.com/default.jpg"
+            url = "https://grzeoledzki-bucket.s3.eu-west-1.amazonaws.com/team_images/default.jpg"
         return url
 
 
@@ -136,7 +136,7 @@ class Team(models.Model):
         try:
             url = self.featured_image.url
         except:
-            url = "https://grzesczes-bucket.s3.amazonaws.com/default.jpg"
+            url = "https://grzeoledzki-bucket.s3.eu-west-1.amazonaws.com/team_images/default.jpg"
         return url
 
 
