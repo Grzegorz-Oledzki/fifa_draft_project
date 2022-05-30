@@ -11,7 +11,7 @@ class Profile(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
     username = models.CharField(max_length=50, blank=True, null=True, unique=True)
     location = models.CharField(max_length=50, blank=True, null=True)
-    email = models.EmailField(max_length=50, blank=True, null=True)
+    email = models.EmailField(max_length=50, blank=False, null=False)
     short_intro = models.CharField(max_length=250, blank=True, null=True)
     profile_image = models.ImageField(
         null=True,
