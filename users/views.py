@@ -69,7 +69,7 @@ def profiles(request):
 
 @login_required(login_url="login")
 def user_profile(request, pk):
-    profile = Profile.objects.get()
+    profile = Profile.objects.get(id=pk)
     context = {"profile": profile}
     pick_alert(request, context)
     return render(request, "user-profile.html", context)
