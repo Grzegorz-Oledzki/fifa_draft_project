@@ -1,2 +1,1 @@
 web: gunicorn draft_fifa.wsgi:application --log-file - --log-level debug
--
