@@ -85,7 +85,7 @@ WSGI_APPLICATION = "draft_fifa.wsgi.application"
 #         "NAME": "postgres",
 #         "USER": 'grzes',
 #         "PASSWORD": config("PASSWORD"),
-#         "HOST": "grzesdb1.cjrjzpvmnlda.eu-west-1.rds.amazonaws.com",
+#         "HOST": "grzesdb2.cjrjzpvmnlda.eu-west-1.rds.amazonaws.com",
 #         "PORT": "5432",
 #     }
 # }
