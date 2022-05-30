@@ -36,7 +36,7 @@ class Profile(models.Model):
         try:
             url = self.profile_image.url
         except:
-            url = "https://grzesczes-bucket.s3.amazonaws.com/profile_images/user-default.png"
+            url = "https://grzeoledzki-bucket.s3.eu-west-1.amazonaws.com/profile_images/user-default.png"
         return url
 
     class Meta:
