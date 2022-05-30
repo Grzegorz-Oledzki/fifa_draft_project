@@ -85,7 +85,7 @@
                         <td><i class="fa-solid fa-ghost"></i></td>
                         {% endif %}
                         <td><img class="center-block" alt="https://grzeoledzki-bucket.s3.eu-west-1.amazonaws.com/team_images/default.jpg" style="width: 35px; max-height: 35px" src="{{ player.club_logo_url }}"/></td>
-                        <td><img class="center-block" style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
+                        <td><img class="center-block" alt="https://grzeoledzki-bucket.s3.eu-west-1.amazonaws.com/team_images/default.jpg" style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
                         <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
                             {% if profile in picking_person %}
                                 <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
