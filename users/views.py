@@ -97,4 +97,3 @@ def edit_account(request):
     context = {"form": form}
     pick_alert(request, context)
     return render(request, "profile_form.html", context)
-

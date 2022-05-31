@@ -6,7 +6,6 @@ from django.conf import settings
 from django.contrib import messages
 
 
-
 def create_profile(sender, instance, created, **kwargs):
     if created:
         user = instance
