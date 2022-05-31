@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-o%su%rl!n)-8tmq$0noowg!j*_o&6*-)2h-6_q=(*j%_fyixuk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'fifa-draft.herokuapp.com', ".herokuapp.com", '127.0.0.1']
+ALLOWED_HOSTS = ["localhost", "fifa-draft.herokuapp.com", ".herokuapp.com", "127.0.0.1"]
 
 
 # Application definition
@@ -84,7 +84,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "postgres",
-        "USER": 'grzes',
+        "USER": "grzes",
         "PASSWORD": config("PASSWORD"),
         "HOST": "grzesdb2.cjrjzpvmnlda.eu-west-1.rds.amazonaws.com",
         "PORT": "5432",
@@ -96,7 +96,6 @@ DATABASES = {
 #         "NAME": BASE_DIR / "db2.sqlite3",
 #     }
 # }
-
 
 
 # Password validation
@@ -129,8 +128,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "django.page.email@gmail.com"
@@ -153,10 +152,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_AUTH = False
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = config('BUCKET')
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("BUCKET")

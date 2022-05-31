@@ -20,11 +20,30 @@ class GroupForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
 
-        self.fields['password'].widget.attrs.update({"class": "input", "placeholder": "Enter a password so that other people can add the team to your group."})
-        self.fields['name'].widget.attrs.update({"class": "input", "placeholder": "Name of group, eg. Fifa maniacs 10.05.2022"})
-        self.fields['description'].widget.attrs.update(
-            {"class": "input", "placeholder": "Group description, eg. when and where you will be playing the tournament"})
-        self.fields['number_of_players'].widget.attrs.update({"class": "input", "placeholder": "The number of players can range from 14 to 20."})
+        self.fields["password"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Enter a password so that other people can add the team to your group.",
+            }
+        )
+        self.fields["name"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Name of group, eg. Fifa maniacs 10.05.2022",
+            }
+        )
+        self.fields["description"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Group description, eg. when and where you will be playing the tournament",
+            }
+        )
+        self.fields["number_of_players"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "The number of players can range from 14 to 20.",
+            }
+        )
 
 
 class TeamForm(ModelForm):
@@ -44,10 +63,21 @@ class TeamForm(ModelForm):
         super(TeamForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
-            field.widget.attrs.update({"class": "input", "placeholder": "Add team " + name})
-        self.fields['group_password'].widget.attrs.update({"class": "input", "placeholder": "Your password must be the same as the group password"})
-        self.fields['description'].widget.attrs.update(
-            {"class": "input", "placeholder": "Add team description, eg. wings wide, wings converge inward "})
+            field.widget.attrs.update(
+                {"class": "input", "placeholder": "Add team " + name}
+            )
+        self.fields["group_password"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Your password must be the same as the group password",
+            }
+        )
+        self.fields["description"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Add team description, eg. wings wide, wings converge inward ",
+            }
+        )
 
 
 class ProfileForm(ModelForm):
@@ -90,12 +120,24 @@ class EditGroupForm(ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
-        self.fields['name'].widget.attrs.update(
-            {"class": "input", "placeholder": "Name of group, eg. Fifa maniacs 10.05.2022"})
-        self.fields['description'].widget.attrs.update(
-            {"class": "input",
-             "placeholder": "Group description, eg. when and where you will be playing the tournament"})
-        self.fields['number_of_players'].widget.attrs.update({"class": "input", "placeholder": "The number of players can range from 14 to 20."})
+        self.fields["name"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Name of group, eg. Fifa maniacs 10.05.2022",
+            }
+        )
+        self.fields["description"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Group description, eg. when and where you will be playing the tournament",
+            }
+        )
+        self.fields["number_of_players"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "The number of players can range from 14 to 20.",
+            }
+        )
 
 
 class EditTeamForm(ModelForm):
@@ -113,24 +155,27 @@ class EditTeamForm(ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
-        self.fields['description'].widget.attrs.update(
-            {"class": "input", "placeholder": "Add team description, eg. wings wide, wings converge inward "})
+        self.fields["description"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Add team description, eg. wings wide, wings converge inward ",
+            }
+        )
 
 
 class ChoosePersonPickingForm(ModelForm):
     class Meta:
         model = Group
-        fields = ['picking_person']
-        widgets = {'picking_person': forms.CheckboxSelectMultiple()}
+        fields = ["picking_person"]
+        widgets = {"picking_person": forms.CheckboxSelectMultiple()}
 
     def __init__(self, *args, **kwargs):
         super(ChoosePersonPickingForm, self).__init__(*args, **kwargs)
         self.picking_people_choices = Profile.objects.filter(members=self.instance)
-        self.fields['picking_person'].queryset = self.picking_people_choices
+        self.fields["picking_person"].queryset = self.picking_people_choices
 
 
 class DraftOrderForm(ModelForm):
     class Meta:
         model = Group
-        fields = ['draft_order']
-
+        fields = ["draft_order"]
