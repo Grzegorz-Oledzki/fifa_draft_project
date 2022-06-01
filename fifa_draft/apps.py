@@ -6,4 +6,4 @@ class FifaDraftConfig(AppConfig):
     name = "fifa_draft"
 
     def ready(self):
-        import fifa_draft.signals
+        import users.signals

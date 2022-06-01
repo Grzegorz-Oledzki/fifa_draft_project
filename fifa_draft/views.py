@@ -44,7 +44,6 @@ def group(request, pk):
 
     profile = request.user.profile
     context = {"group": group, "profile": profile}
-    pick_alert(request, context)
     return render(request, "group.html", context)
 
 
@@ -207,7 +206,6 @@ def choose_team(request):
     profile = request.user.profile
     teams = profile.draft_teams.all()
     context = {"teams": teams, "profile": profile}
-    pick_alert(request, context)
     pick_alert(request, context)
     return render(request, "choose-team.html", context)
 
