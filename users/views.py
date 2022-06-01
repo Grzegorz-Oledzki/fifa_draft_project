@@ -92,7 +92,6 @@ def edit_account(request):
         if form.is_valid():
             form.save()
             messages.success(request, "User updated!")
-
             return redirect("account")
     context = {"form": form}
     pick_alert(request, context)
