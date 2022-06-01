@@ -10,10 +10,10 @@
 <main>
 <section class="projectsList">
       <div class="container">
+          <h3>Choose team to pick players</h3>
         <div class="grid grid--three">
         {% if profile.draft_teams.count > 0 %}
             {% for team in teams %}
-                <h2>Choose team to pick players</h2>
            <div  class="col-lg-3">
                 {% if team.belongs_group_id in group_ids %}
             <div href="{% url 'players-pick' team.id %}" style="background: #a3c537" class="card project">
@@ -31,7 +31,7 @@
           </div>
             {% endfor %}
         {% else %}
-        <h2><a href="{% url 'create-group' %}">Create a team</a> and join to some group! </h2>
+        <h2>You don't have any team. <a href="{% url 'create-group' %}">Create a team</a> and join to some group! </h2>
         {% endif %}
         </div>
       </div>
