@@ -18,22 +18,23 @@
                 {% if team.belongs_group_id in group_ids %}
             <div href="{% url 'players-pick' team.id %}" style="background: #a3c537" class="card project">
                 {% else %}
-            <div href="{% url 'players-pick' team.id %}" class="card project">
+                <div href="{% url 'players-pick' team.id %}" class="card project">
                 {% endif %}
-                <a href="{% url 'players-pick' team.id %}" class="project">
-                <img class="project__thumbnail" href="{% url 'players-pick' team.id %}" style='position:relative; left:20px; top:2px; max-width:150px;max-height:150px' src="{{team.image_url}}" alt="project thumbnail" />
-                <div class="card__body">
-                  <h3 class="project__title"><a style="color: black" href="{% url 'players-pick' team.id %}">{{ team }}</a></h3>
-                      Belongs group: {{team.belongs_group}}
-                      Team players: {{ team.team_players.count }} / {{ team.belongs_group.number_of_players }}
+            <a href="{% url 'players-pick' team.id %}" class="project">
+                <img class="project__thumbnail" style='position:relative; left:20px; top:2px; max-width:150px;max-height:150px' src="{{team.image_url}}" alt="" /></a>
+                    <div class="card__body">
+                      <h3 class="project__title"><a style="color: black" href="{% url 'players-pick' team.id %}">{{ team }}</a></h3>
+                          Belongs group: {{team.belongs_group}}
+                          Team players: {{ team.team_players.count }} / {{ team.belongs_group.number_of_players }}
+                    </div>
                 </div>
-            </div>
           </div>
             {% endfor %}
         {% else %}
         <h2>You don't have any team. <a href="{% url 'create-group' %}">Create a team</a> and join to some group! </h2>
         {% endif %}
         </div>
+      </div>
       </div>
     </section>
   </main>

@@ -50,7 +50,25 @@
             <p class="devInfo__about">{{ profile.short_intro }}</p>
           {% endif %}
           </div>
-
+            <div class="settings">
+            <h3 class="settings__title">Groups</h3>
+        </div>
+        <table class="settings__table">
+                    <div class="grid grid--three">
+          {% for group in profile.group_set.all %}
+              <div class="column">
+                <div class="card project">
+                  <a href="{% url 'group' group.id %}" class="project">
+                    <img class="avatar avatar--xl" alt="" style='position:relative; left:10px; top:2px;' src="{{group.image_url}}" />
+                    <div class="card__body">
+                      <h3 class="project__title">{{group.name}}</h3>
+                        <p>Group members: {{ group.members.count }}</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              {% endfor %}
+        </table>
           <div class="devInfo">
             <h3 class="devInfo__title">Teams</h3>
             <div class="grid grid--two">

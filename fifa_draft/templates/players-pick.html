@@ -29,10 +29,10 @@
 </head>
 <main>
 
-                    <table class="center-block" style="width: 80%" id="myTable1">
+                    <table class="center-block" style="width: 80%" id="PlayersTable">
 
-                    <input class="center-block" type="text" id="myInput2" onkeyup="myFunction2()" placeholder="Type player name">
-                    <input class="center-block" type="text" id="myInput1" onkeyup="myFunction1()" placeholder="Type player position, eg. ST, CB">
+                        <label for="NameInput"><input class="center-block" type="text" id="NameInput" onkeyup="SearchByName()" placeholder="Type player name"></label>
+                        <label for="PositionInput"><input class="center-block" type="text" id="PositionInput" onkeyup="SearchByPosition()" placeholder="Type player position, eg. ST, CB"></label>
                     <tr>
                         <th>Image</th>
                         <th>Name</th>
@@ -101,11 +101,11 @@
   </main>
 </html>
 <script>
-function myFunction2() {
+function SearchByName() {
   var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput2");
+  input = document.getElementById("NameInput");
   filter = input.value.toUpperCase();
-  table = document.getElementById("myTable1");
+  table = document.getElementById("PlayersTable");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[1];
@@ -121,11 +121,11 @@ function myFunction2() {
 }
 </script>
     <script>
-function myFunction1() {
+function SearchByPosition() {
   var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput1");
+  input = document.getElementById("PositionInput");
   filter = input.value.toUpperCase();
-  table = document.getElementById("myTable1");
+  table = document.getElementById("PlayersTable");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[5];
