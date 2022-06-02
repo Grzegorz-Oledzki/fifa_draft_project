@@ -31,8 +31,8 @@
 
                     <table class="center-block" style="width: 80%" id="PlayersTable">
 
-                        <label for="NameInput"><input class="center-block" type="text" id="NameInput" onkeyup="SearchByName()" placeholder="Type player name"></label>
-                        <label for="PositionInput"><input class="center-block" type="text" id="PositionInput" onkeyup="SearchByPosition()" placeholder="Type player position, eg. ST, CB"></label>
+                        <label class="center-block" for="NameInput"><input class="center-block" type="text" id="NameInput" onkeyup="SearchByName()" placeholder="Type player name"></label>
+                        <label class="center-block" for="PositionInput"><input class="center-block" type="text" id="PositionInput" onkeyup="SearchByPosition()" placeholder="Type player position, eg. ST, CB"></label>
                     <tr>
                         <th>Image</th>
                         <th>Name</th>
@@ -92,7 +92,7 @@
                             {% elif team.team_players.count == team.belongs_group.number_of_players %}
                                 <td>You have full team</td>
                             {% else %}
-                                <td>Wait for your turn</td>
+                                <td><small>Wait for your turn</small></td>
 
                             {% endif %}
                     {% endif %}
