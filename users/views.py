@@ -90,6 +90,8 @@ def edit_account(request):
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
             form.save()
             messages.success(request, "User updated!")
             return redirect("account")
