@@ -16,6 +16,25 @@ class CustomUserCreationForm(UserCreationForm):
         for name, field in self.fields.items():
             field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
 
+        self.fields["first_name"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Enter your name/nickname",
+            }
+        )
+        self.fields["password1"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Enter a password that meets the following requirements",
+            }
+        )
+        self.fields["password2"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Confirm password",
+            }
+        )
+
 
 class ProfileForm(ModelForm):
     class Meta:
