@@ -39,7 +39,7 @@
             <div class="card__body dev">
               <img class="avatar avatar--xl" src={{group.image_url}} />
               <h2 class="dev__name">{{ group.name }}</h2>
-              <p>Group owner: <a href="{% url 'user-profile' group.owner_id %}">{{ group.owner }}</a></p>
+              <p>Group owner: <a href="{% url 'user-profile' group.owner_id %}">{{ group.owner.name }}</a></p>
                 <p>Draft order: {{ group.draft_order_choice }}</p>
                 <p>Max players: {{ group.number_of_players }}</p>
                     {% if group.owner.id == profile.id %}
@@ -72,7 +72,7 @@
             </tr>
             {% for team in group.team_set.all %}
             <tr>
-                    <th>{{ team.owner }}</th>
+                    <th>{{ team.owner.name }}</th>
                     <th>{{ team.name }}</th>
                     <th>{{ team.team_players.count }}</th>
             </tr>
@@ -133,7 +133,7 @@
                   <a href="{% url 'team' team.id %}" class="project" >
                     <img class="avatar avatar--xl" style='position:relative; left:30px; top:2px;' src="{{team.image_url}}" />
                     <div class="card__body">
-                      <h3 class="project__title">{{team.name}} <p>Owner: {{ team.owner }}</p></h3>
+                      <h3 class="project__title">{{team.name}} <p>Owner: {{ team.owner.name }}</p></h3>
                       <div class="project__tags">
                           <p>Formation:</p>
                     <span class="tag tag--pill tag--main">
@@ -210,7 +210,7 @@
                         <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
                         {% for team in group.teams.all %}
                             {% if player in team.team_players.all %}
-                            <td>{{ team.owner }}</td>
+                            <td>{{ team.owner.name }}</td>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
