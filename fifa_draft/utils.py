@@ -63,9 +63,9 @@ def draw_draft_order(members):
     draw_order = ""
     i = 1
     for member in group_members:
-        draw_order += str(i) + ". " + member + " "
+        draw_order += str(i) + "." + member
         i += 1
-    return draw_order
+    return str(draw_order)
 
 
 def pick_alert(request, context):
