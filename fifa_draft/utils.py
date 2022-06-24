@@ -58,14 +58,14 @@ def edit_team_form_validation(request, form):
 def draw_draft_order(members):
     group_members = []
     for member in members:
-        group_members.append(member.username)
+        group_members.append(member.name)
     random.shuffle(group_members)
     draw_order = ""
     i = 1
     for member in group_members:
-        draw_order += str(i) + "." + member
+        draw_order += str(i) + "." + member + ' '
         i += 1
-    return str(draw_order)
+    return draw_order
 
 
 def pick_alert(request, context):
