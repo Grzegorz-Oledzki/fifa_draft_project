@@ -52,7 +52,7 @@
                         {% if group.draft_order %}
                             <a> <i class="fa-solid fa-shuffle"></i> The draw was made </a>
                             {% else %}
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'draft-order' group.id %}?next=/account"> <i class="fa-solid fa-shuffle"></i> Draw draft order </a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'draft-order' group.id %}"> <i class="fa-solid fa-shuffle"></i> Draw draft order </a>
                             {% endif %}
                 <td class="settings__tableActions">
                 <a style="font-size: 15px" class="tag tag--pill tag--main settings__btn" href="{% url 'choose-picking-person' group.id %}?next=/account"> <i class="fa-solid fa-people-arrows-left-right"></i> Choose who's picking player </a>
