@@ -55,19 +55,6 @@ def edit_team_form_validation(request, form):
     return form_valid
 
 
-def draw_draft_order(members):
-    group_members = []
-    for member in members:
-        group_members.append(member.name)
-    random.shuffle(group_members)
-    draw_order = ""
-    i = 1
-    for member in group_members:
-        draw_order += str(i) + "." + member + ' '
-        i += 1
-    return draw_order
-
-
 def pick_alert(request, context):
     if request.user.is_authenticated:
         group_ids = []

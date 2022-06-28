@@ -15,7 +15,6 @@ from django.forms import formset_factory
 from fifa_draft.utils import (
     team_form_validation,
     edit_team_form_validation,
-    draw_draft_order,
     pick_alert,
 )
 from tablib import Dataset
@@ -253,12 +252,18 @@ def player_pick_confirmation(request, pk, team_id):
 
 def draft_order(request, pk):
     group = Group.objects.get(id=pk)
-    form = DraftOrderForm(instance=group)
-    if request.method == "POST":
-        group.draft_order = draw_draft_order(group.members.all())
-        messages.success(request, "Draw completed, see results under Excel sheet")
-        group.save()
-        return redirect("group", group.id)
-    context = {"group": group, "form": form}
+    all_group_members = group.members.all().order_by('?')
+    group_members = []
+    for member in all_group_members:
+        group_members.append(member.username)
+    draw_order = ""
+    i = 1
+    for member in all_group_members:
+        draw_order += str(i) + ". " + str(member) + '  '
+        i += 1
+    group.draft_order = draw_order
+    group.save()
+    messages.success(request, "Draw completed, see results under Excel sheet")
+    context = {"group": group}
     pick_alert(request, context)
-    return render(request, "draft-order.html", context)
+    return render(request, "group.html", context)
