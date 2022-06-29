@@ -188,16 +188,16 @@ def players(request):
     return render(request, "players.html", context)
 
 
-def choose_person_to_pick_players(request, pk):
-    group = Group.objects.get(id=pk)
-    form = ChoosePersonPickingForm(instance=group)
-    if request.method == "POST":
-        form = ChoosePersonPickingForm(request.POST, instance=group)
-        form.save()
-        return redirect("group", group.id)
-    context = {"form": form}
-    pick_alert(request, context)
-    return render(request, "choose-picking-person.html", context)
+# def choose_person_to_pick_players(request, pk):
+#     group = Group.objects.get(id=pk)
+#     form = ChoosePersonPickingForm(instance=group)
+#     if request.method == "POST":
+#         form = ChoosePersonPickingForm(request.POST, instance=group)
+#         form.save()
+#         return redirect("group", group.id)
+#     context = {"form": form}
+#     pick_alert(request, context)
+#     return render(request, "choose-picking-person.html", context)
 
 
 @login_required(login_url="login")
@@ -252,18 +252,30 @@ def player_pick_confirmation(request, pk, team_id):
 
 def draft_order(request, pk):
     group = Group.objects.get(id=pk)
-    all_group_members = group.members.all().order_by('?')
-    group_members = []
-    for member in all_group_members:
-        group_members.append(member.username)
+    profiles_order = []
     draw_order = ""
     i = 1
-    for member in all_group_members:
-        draw_order += str(i) + ". " + str(member) + '  '
+    for member in group.members.all().order_by('?'):
+        draw_order += str(i) + ". " + str(member.name) + '\n'
         i += 1
+        profiles_order.append(member)
+    group.picking_person.add(profiles_order[0])
     group.draft_order = draw_order
+    group.profiles_order = profiles_order
     group.save()
     messages.success(request, "Draw completed, see results under Excel sheet")
     context = {"group": group}
     pick_alert(request, context)
     return render(request, "group.html", context)
+
+
+def choose_person_to_pick_players(request, pk):
+    group = Group.objects.get(id=pk)
+    form = ChoosePersonPickingForm(instance=group)
+    if request.method == "POST":
+        form = ChoosePersonPickingForm(request.POST, instance=group)
+        form.save()
+        return redirect("group", group.id)
+    context = {"form": form}
+    pick_alert(request, context)
+    return render(request, "choose-picking-person.html", context)

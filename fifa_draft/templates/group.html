@@ -110,7 +110,9 @@
             {% endif %} <p><i class="fa-solid fa-file-excel"></i> Tournament Excel sheet</a>
             {% if group.draft_order %}
                 <p>Draft Order: </p>
-                <p>{{ group.draft_order }}</p>
+                {% for name in group.draft_order_as_list %}
+                <p>{{ name }}</p>
+                {% endfor %}
                 {% else %}
                 <p>Waiting for the draw </p>
             {% endif %}

@@ -84,6 +84,10 @@ class Group(models.Model):
         Profile, blank=True, default=Profile, related_name="picking_person"
     )
     draft_order = models.CharField(max_length=200, blank=True, null=True)
+    profiles_order = models.CharField(max_length=400, blank=True, null=True)
+
+    def draft_order_as_list(self):
+        return self.draft_order.split('\n')
 
     def __str__(self):
         return self.name
