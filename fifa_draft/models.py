@@ -36,7 +36,7 @@ class Profile(models.Model):
         try:
             url = self.profile_image.url
         except:
-            url = "https://grzeoledzki-bucket.s3.eu-west-1.amazonaws.com/profile_images/user-default.png"
+            url = "http://dobrarobota.org/wp-content/uploads/2017/02/default-thumbnail.jpg"
         return url
 
     class Meta:
@@ -89,6 +89,9 @@ class Group(models.Model):
     def draft_order_as_list(self):
         return self.draft_order.split('\n')
 
+    def profiles_order_as_list(self):
+        return self.profiles_order.replace("[", "").replace("]", "").replace("<Profile: ", "").replace(">", "").split(', ')
+
     def __str__(self):
         return self.name
 
@@ -99,7 +102,7 @@ class Group(models.Model):
         try:
             url = self.featured_image.url
         except:
-            url = "https://grzeoledzki-bucket.s3.eu-west-1.amazonaws.com/team_images/default.jpg"
+            url = "http://dobrarobota.org/wp-content/uploads/2017/02/default-thumbnail.jpg"
         return url
 
 
@@ -150,7 +153,7 @@ class Team(models.Model):
         try:
             url = self.featured_image.url
         except:
-            url = "https://grzeoledzki-bucket.s3.eu-west-1.amazonaws.com/team_images/default.jpg"
+            url = "http://dobrarobota.org/wp-content/uploads/2017/02/default-thumbnail.jpg"
         return url
 
 
