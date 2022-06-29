@@ -40,9 +40,9 @@ def groups(request):
 @login_required(login_url="login")
 def group(request, pk):
     group = Group.objects.get(id=pk)
-
     profile = request.user.profile
     context = {"group": group, "profile": profile}
+    pick_alert(request, context)
     return render(request, "group.html", context)
 
 
@@ -232,7 +232,7 @@ def player_pick_confirmation(request, pk, team_id):
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
     group_players = team.belongs_group.group_players.all()
-    group_profiles_order = team.belongs_group.profiles_order_as_list()
+    group_profiles_order = team.belongs_group.profiles_order_as_list()[:-1]
     next_profile_index = group_profiles_order.index(str(profile.username))+1
     if request.method == "POST":
         team.team_players.add(player)
@@ -264,12 +264,11 @@ def draft_order(request, pk):
     draw_order = ""
     i = 1
     for member in group.members.all().order_by('?'):
-        draw_order += str(i) + ". " + str(member) + '\n'
+        draw_order += str(i) + ". " + str(member) + "\n"
         i += 1
         profiles_order.append(member)
     group.picking_person.add(profiles_order[0])
     group.draft_order = draw_order
-    group.profiles_order = profiles_order
     group.save()
     messages.success(request, "Draw completed, see results under Excel sheet")
     context = {"group": group}
