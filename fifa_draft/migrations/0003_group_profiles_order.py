@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('fifa_draft', '0002_remove_group_profiles_order'),
+        ("fifa_draft", "0002_remove_group_profiles_order"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='group',
-            name='profiles_order',
+            model_name="group",
+            name="profiles_order",
             field=models.CharField(blank=True, max_length=400, null=True),
         ),
     ]

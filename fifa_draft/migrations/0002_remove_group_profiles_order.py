@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('fifa_draft', '0001_initial'),
+        ("fifa_draft", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='group',
-            name='profiles_order',
+            model_name="group",
+            name="profiles_order",
         ),
     ]

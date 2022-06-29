@@ -87,10 +87,10 @@ class Group(models.Model):
     # profiles_order = models.CharField(max_length=400, blank=True, null=True)
 
     def draft_order_as_list(self):
-        return self.draft_order.split('\n')
+        return self.draft_order.split("\n")
 
     def profiles_order_as_list(self):
-        persons = self.draft_order.split('\n')
+        persons = self.draft_order.split("\n")
         profiles_order = []
         for person in persons:
             profiles_order.append(person[3::])
