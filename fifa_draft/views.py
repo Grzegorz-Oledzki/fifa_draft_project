@@ -232,12 +232,20 @@ def player_pick_confirmation(request, pk, team_id):
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
     group_players = team.belongs_group.group_players.all()
+    group_profiles_order = team.belongs_group.profiles_order_as_list()
+    next_profile_index = group_profiles_order.index(str(profile.username))+1
     if request.method == "POST":
         team.team_players.add(player)
         team.belongs_group.group_players.add(player)
         team.belongs_group.picking_person.clear()
-        team.save()
         team.belongs_group.save()
+        team.save()
+        if team.belongs_group.members.count() == next_profile_index:
+            team.belongs_group.picking_person.add(
+                team.belongs_group.members.get(username=group_profiles_order[0]))
+        else:
+            team.belongs_group.picking_person.add(
+                team.belongs_group.members.get(username=group_profiles_order[next_profile_index]))
         messages.success(request, "Player picked!")
         return redirect("team", team.id)
     context = {
@@ -256,7 +264,7 @@ def draft_order(request, pk):
     draw_order = ""
     i = 1
     for member in group.members.all().order_by('?'):
-        draw_order += str(i) + ". " + str(member.name) + '\n'
+        draw_order += str(i) + ". " + str(member) + '\n'
         i += 1
         profiles_order.append(member)
     group.picking_person.add(profiles_order[0])
