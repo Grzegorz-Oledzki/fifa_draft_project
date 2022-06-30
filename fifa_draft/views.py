@@ -134,20 +134,22 @@ def edit_team(request, pk):
 
 def draft_order(request, pk):
     group = Group.objects.get(id=pk)
-    profiles_order = []
-    draw_order = ""
-    i = 1
-    for member in group.members.all().order_by("?"):
-        draw_order += str(i) + ". " + str(member) + "\n"
-        i += 1
-        profiles_order.append(member)
-    group.picking_person.add(profiles_order[0])
-    group.draft_order = draw_order
-    group.save()
-    messages.success(request, "Draw completed, see results under Excel sheet")
+    if request.method == "POST":
+        profiles_order = []
+        draw_order = ""
+        i = 1
+        for member in group.members.all().order_by("?"):
+            draw_order += str(i) + ". " + str(member) + "\n"
+            i += 1
+            profiles_order.append(member)
+        group.picking_person.add(profiles_order[0])
+        group.draft_order = draw_order
+        group.save()
+        messages.success(request, "Draw completed, see results under Excel sheet")
+        return redirect("group", group.id)
     context = {"group": group}
     pick_alert(request, context)
-    return render(request, "group.html", context)
+    return render(request, "draft-order.html", context)
 
 
 def choose_person_to_pick_players(request, pk):
