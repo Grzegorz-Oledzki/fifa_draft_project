@@ -4,43 +4,7 @@ import uuid
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=50, blank=True, null=True)
-    username = models.CharField(max_length=50, blank=True, null=True, unique=True)
-    location = models.CharField(max_length=50, blank=True, null=True)
-    email = models.EmailField(max_length=50, blank=False, null=False)
-    short_intro = models.CharField(max_length=250, blank=True, null=True)
-    profile_image = models.ImageField(
-        null=True,
-        blank=True,
-        upload_to="profile_images/",
-    )
-    social_github = models.CharField(max_length=200, blank=True, null=True)
-    social_twitter = models.CharField(max_length=200, blank=True, null=True)
-    social_linkedin = models.CharField(max_length=200, blank=True, null=True)
-    social_youtube = models.CharField(max_length=200, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    draft_teams = models.ManyToManyField("Team", blank=True, related_name="draft_teams")
-    id = models.UUIDField(
-        default=uuid.uuid4, unique=True, primary_key=True, editable=False
-    )
-
-    def __str__(self):
-        return str(self.username)
-
-    @property
-    def image_url(self):
-        try:
-            url = self.profile_image.url
-        except:
-            url = "http://dobrarobota.org/wp-content/uploads/2017/02/default-thumbnail.jpg"
-        return url
-
-    class Meta:
-        ordering = ["created"]
+from users.models import Profile
 
 
 class Group(models.Model):
@@ -84,7 +48,6 @@ class Group(models.Model):
         Profile, blank=True, default=Profile, related_name="picking_person"
     )
     draft_order = models.CharField(max_length=200, blank=True, null=True)
-    # profiles_order = models.CharField(max_length=400, blank=True, null=True)
 
     def draft_order_as_list(self):
         return self.draft_order.split("\n")
