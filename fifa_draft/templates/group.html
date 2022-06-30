@@ -59,10 +59,8 @@
                     {% endif %}
             {% if group.picking_person.get %}
             <p>Picking person: {{ group.picking_person.get }}</p>
-                {% else %}
-                <p style="color: red">Group owner need to choose picking person</p>
             {% endif %}
-                                {% if group.team_set.count > 0 %}
+                {% if group.team_set.count > 0 %}
 
                     <table style="width: 100%; font-size: 12px" id="myTable1">
             <tr>

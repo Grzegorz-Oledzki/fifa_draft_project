@@ -16,6 +16,7 @@ from fifa_draft.utils import (
     team_form_validation,
     edit_team_form_validation,
     pick_alert,
+    change_picking_person,
 )
 from tablib import Dataset
 from django.http import HttpResponse
@@ -188,18 +189,6 @@ def players(request):
     return render(request, "players.html", context)
 
 
-# def choose_person_to_pick_players(request, pk):
-#     group = Group.objects.get(id=pk)
-#     form = ChoosePersonPickingForm(instance=group)
-#     if request.method == "POST":
-#         form = ChoosePersonPickingForm(request.POST, instance=group)
-#         form.save()
-#         return redirect("group", group.id)
-#     context = {"form": form}
-#     pick_alert(request, context)
-#     return render(request, "choose-picking-person.html", context)
-
-
 @login_required(login_url="login")
 def choose_team(request):
     profile = request.user.profile
@@ -232,20 +221,13 @@ def player_pick_confirmation(request, pk, team_id):
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
     group_players = team.belongs_group.group_players.all()
-    group_profiles_order = team.belongs_group.profiles_order_as_list()[:-1]
-    next_profile_index = group_profiles_order.index(str(profile.username))+1
     if request.method == "POST":
+        team.belongs_group.picking_person.clear()
         team.team_players.add(player)
         team.belongs_group.group_players.add(player)
-        team.belongs_group.picking_person.clear()
         team.belongs_group.save()
         team.save()
-        if team.belongs_group.members.count() == next_profile_index:
-            team.belongs_group.picking_person.add(
-                team.belongs_group.members.get(username=group_profiles_order[0]))
-        else:
-            team.belongs_group.picking_person.add(
-                team.belongs_group.members.get(username=group_profiles_order[next_profile_index]))
+        change_picking_person(team, profile)
         messages.success(request, "Player picked!")
         return redirect("team", team.id)
     context = {
@@ -263,7 +245,7 @@ def draft_order(request, pk):
     profiles_order = []
     draw_order = ""
     i = 1
-    for member in group.members.all().order_by('?'):
+    for member in group.members.all().order_by("?"):
         draw_order += str(i) + ". " + str(member) + "\n"
         i += 1
         profiles_order.append(member)
