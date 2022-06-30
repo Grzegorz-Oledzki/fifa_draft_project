@@ -39,7 +39,7 @@
                         <li><a href="{% url 'choose-team' %}" class="smoothScroll"><h4>Pick players</h4></a></li>
                     {% endif %}
                          {% if request.user.is_authenticated %}
-                             <li><a href="{% url 'account' %}" class="smoothScroll"><h4>Account</h4></a></li>
+                             <li><a href="{% url 'account' %}" class="smoothScroll"><h4>Account</h4>{{ user.first_name }}</a></li>
                           <li class="appointment-btn"><a href="{% url 'logout' %}" class="btn btn--sub">Logout</a></li>
                           {% else %}
                           <li class="appointment-btn"><a href="{% url 'login' %}" class="btn btn--sub">Login/Sign Up</a></li>
