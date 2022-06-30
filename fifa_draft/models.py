@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from users.models import Profile
+from players.models import Player
 
 
 class Group(models.Model):
@@ -42,7 +43,7 @@ class Group(models.Model):
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
     group_players = models.ManyToManyField(
-        "Player", blank=True, related_name="group_players"
+        Player, blank=True, related_name="group_players"
     )
     picking_person = models.ManyToManyField(
         Profile, blank=True, default=Profile, related_name="picking_person"
@@ -107,7 +108,7 @@ class Team(models.Model):
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
     team_players = models.ManyToManyField(
-        "Player", blank=True, related_name="team_players"
+        Player, blank=True, related_name="team_players"
     )
 
     def __str__(self):
@@ -124,43 +125,4 @@ class Team(models.Model):
         return url
 
 
-class Player(models.Model):
-    sofifa_id = models.IntegerField(_("sofifa_id"), default=False)
-    player_url = models.CharField(_("player_url"), max_length=150, default=False)
-    short_name = models.CharField(_("short_name"), max_length=50, default=False)
-    player_positions = models.CharField(
-        _("player_positions"), max_length=15, null=True, default=False
-    )
-    overall = models.IntegerField(_("overall"), null=True)
-    age = models.IntegerField(_("age"), null=True)
-    height_cm = models.IntegerField(_("height_cm"), null=True)
-    weight_kg = models.IntegerField(_("weight_kg"), null=True)
-    club_name = models.CharField(
-        _("club_name"), max_length=50, null=True, default=False
-    )
-    preferred_foot = models.CharField(
-        _("preferred_foot"), max_length=6, null=True, default=False
-    )
-    weak_foot = models.IntegerField(_("weak_foot"), null=True)
-    skill_moves = models.IntegerField(_("skill_moves"), null=True)
-    work_rate = models.CharField(
-        _("work_rate"), max_length=50, null=True, default=False
-    )
-    pace = models.IntegerField(_("pace"), null=True)
-    shooting = models.IntegerField(_("shooting"), null=True)
-    passing = models.IntegerField(_("passing"), null=True)
-    dribbling = models.IntegerField(_("dribbling"), null=True)
-    defending = models.IntegerField(_("defending"), null=True)
-    physic = models.IntegerField(_("physic"), null=True)
-    player_face_url = models.CharField(
-        _("player_face_url"), max_length=200, null=True, default=False
-    )
-    club_logo_url = models.CharField(
-        _("club_logo_url"), max_length=200, null=True, default=False
-    )
-    nation_flag_url = models.CharField(
-        _("nation_flag_url"), max_length=200, null=True, default=False
-    )
 
-    def __str__(self):
-        return self.short_name

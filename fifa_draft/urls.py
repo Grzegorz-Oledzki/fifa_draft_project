@@ -11,19 +11,5 @@ urlpatterns = [
     path("edit-team/<str:pk>/", views.edit_team, name="edit-team"),
     path("delete-group/<str:pk>/", views.delete_group, name="delete-group"),
     path("team/<str:pk>/", views.team, name="team"),
-    path("upload/", views.upload_players),
-    path("players/", views.players, name="players"),
-    path("choose-team/", views.choose_team, name="choose-team"),
-    path("players-pick/<str:pk>/", views.players_pick, name="players-pick"),
-    path(
-        "player-pick-confirmation/<str:pk>/<str:team_id>/",
-        views.player_pick_confirmation,
-        name="player-pick-confirmation",
-    ),
-    path(
-        "choose-picking-person/<str:pk>/",
-        views.choose_person_to_pick_players,
-        name="choose-picking-person",
-    ),
     path("draft-order/<str:pk>/", views.draft_order, name="draft-order"),
 ]

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "fifa_draft.apps.FifaDraftConfig",
     "users.apps.UsersConfig",
+    "players",
     "import_export",
     "storages",
 ]

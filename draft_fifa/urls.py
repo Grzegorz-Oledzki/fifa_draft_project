@@ -24,6 +24,7 @@ from django.urls import reverse_lazy
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("fifa_draft.urls")),
+    path("players/", include("players.urls")),
     path("users/", include("users.urls")),
     path(
         "reset-password/", auth_views.PasswordResetView.as_view(), name="reset-password"

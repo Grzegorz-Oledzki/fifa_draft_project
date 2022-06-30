@@ -1,5 +1,7 @@
 from django.forms import ModelForm
-from fifa_draft.models import Group, Profile, Team, Player
+from fifa_draft.models import Group, Team
+from users.models import Profile
+from players.models import Player
 from django.utils.translation import gettext_lazy as _
 from django import forms
 
@@ -78,29 +80,6 @@ class TeamForm(ModelForm):
                 "placeholder": "Add team description, eg. wings wide, wings converge inward ",
             }
         )
-
-
-class ProfileForm(ModelForm):
-    class Meta:
-        model = Profile
-        fields = [
-            "name",
-            "username",
-            "email",
-            "location",
-            "short_intro",
-            "profile_image",
-            "social_github",
-            "social_twitter",
-            "social_linkedin",
-            "social_youtube",
-        ]
-
-    def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
-
-        for name, field in self.fields.items():
-            field.widget.attrs.update({"class": "input", "placeholder": "Add " + name})
 
 
 class EditGroupForm(ModelForm):
