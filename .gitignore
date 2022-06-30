@@ -1,7 +1,7 @@
 .idea/
 venv/
 __pycache__/
-todo.py
+UUID problem.py
 db1.sqlite3
 db.sqlite3
 .env
