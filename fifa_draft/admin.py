@@ -1,5 +1,7 @@
 from django.contrib import admin
-from fifa_draft.models import Profile, Group, Team, Player
+from fifa_draft.models import Group, Team
+from users.models import Profile
+from players.models import Player
 from import_export.admin import ImportExportModelAdmin
 
 
