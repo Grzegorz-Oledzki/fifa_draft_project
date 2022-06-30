@@ -11,5 +11,10 @@ urlpatterns = [
     path("edit-team/<str:pk>/", views.edit_team, name="edit-team"),
     path("delete-group/<str:pk>/", views.delete_group, name="delete-group"),
     path("team/<str:pk>/", views.team, name="team"),
+    path(
+        "choose-picking-person/<str:pk>/",
+        views.choose_person_to_pick_players,
+        name="choose-picking-person",
+    ),
     path("draft-order/<str:pk>/", views.draft_order, name="draft-order"),
 ]
