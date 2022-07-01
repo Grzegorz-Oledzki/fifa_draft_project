@@ -10,4 +10,9 @@ urlpatterns = [
         "player-pick-confirmation/<str:pk>/<str:team_id>/",
         views.player_pick_confirmation,
         name="player-pick-confirmation",
+    ),
+    path(
+        "pending-player-pick-confirmation/<str:pk>/<str:team_id>/",
+        views.pending_player_pick_confirmation,
+        name="pending-player-pick-confirmation",
     )]

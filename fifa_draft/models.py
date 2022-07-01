@@ -110,6 +110,9 @@ class Team(models.Model):
     team_players = models.ManyToManyField(
         Player, blank=True, related_name="team_players"
     )
+    pending_player = models.ManyToManyField(
+        Player, blank=True, related_name="pending_player"
+    )
 
     def __str__(self):
         return self.name
