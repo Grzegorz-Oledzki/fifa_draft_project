@@ -99,7 +99,8 @@ def team(request, pk):
     profile = request.user.profile
     team = Team.objects.get(id=pk)
     players = team.team_players.all()
-    context = {"team": team, "profile": profile, "players": players}
+    pending_player = team.pending_player.all()
+    context = {"team": team, "profile": profile, "players": players, "pending_player": pending_player}
     pick_alert(request, context)
     return render(request, "team.html", context)
 

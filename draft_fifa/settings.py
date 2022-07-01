@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     "fifa_draft.apps.FifaDraftConfig",
     "users.apps.UsersConfig",
     "players",

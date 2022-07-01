@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from fifa_draft.models import Team
 from players.models import Player
 from players.utils import change_picking_person
 from django.contrib.auth.decorators import login_required
 from fifa_draft.utils import pick_alert
+from django.contrib import messages
 
 
 def upload_players(request):
