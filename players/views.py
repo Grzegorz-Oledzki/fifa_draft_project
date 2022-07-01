@@ -104,3 +104,23 @@ def player_pick_confirmation(request, pk, team_id):
     }
     pick_alert(request, context)
     return render(request, "player-pick-confirmation.html", context)
+
+
+def pending_player_pick_confirmation(request, pk, team_id):
+    profile = request.user.profile
+    player = Player.objects.get(sofifa_id=pk)
+    team = Team.objects.get(id=team_id)
+    group_players = team.belongs_group.group_players.all()
+    if request.method == "POST":
+        team.pending_player.add(player)
+        team.save()
+        messages.success(request, "Pending player added!")
+        return redirect("team", team.id)
+    context = {
+        "team": team,
+        "profile": profile,
+        "group_players": group_players,
+        "player": player,
+    }
+    pick_alert(request, context)
+    return render(request, "pending-player-pick-confirmation.html", context)
