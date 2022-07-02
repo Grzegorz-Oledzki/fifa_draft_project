@@ -2,7 +2,7 @@
 venv/
 __pycache__/
 UUID problem.py
-db.sqlite3
+venv/db.sqlite3
 venv/db.sqlite3
 .env
 db2.sqlite3

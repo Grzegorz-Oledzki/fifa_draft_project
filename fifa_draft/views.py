@@ -140,7 +140,7 @@ def draft_order(request, pk):
         draw_order = ""
         i = 1
         for member in group.members.all().order_by("?"):
-            draw_order += str(i) + ". " + str(member) + "\n"
+            draw_order += str(i) + ". " + str(member.name) + "\n"
             i += 1
             profiles_order.append(member)
         group.picking_person.add(profiles_order[0])

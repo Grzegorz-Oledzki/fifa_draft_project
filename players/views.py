@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from fifa_draft.models import Team
 from players.models import Player
-from players.utils import change_picking_person
+from players.utils import change_picking_person, add_player_to_team_and_group, picking_pending_player
 from django.contrib.auth.decorators import login_required
 from fifa_draft.utils import pick_alert
 from django.contrib import messages
@@ -88,13 +88,26 @@ def player_pick_confirmation(request, pk, team_id):
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
     group_players = team.belongs_group.group_players.all()
+    next_person = change_picking_person(team, profile, 0)
     if request.method == "POST":
-        team.belongs_group.picking_person.clear()
-        team.team_players.add(player)
-        team.belongs_group.group_players.add(player)
-        team.belongs_group.save()
-        team.save()
-        change_picking_person(team, profile)
+        add_player_to_team_and_group(team, player)
+        next_team = team.belongs_group.teams.get(owner=next_person)
+        team.belongs_group.picking_person.add(next_person)
+        if next_team.pending_player.count() > 0 and next_team.pending_player.all() not in team.belongs_group.group_players.all():
+            i = 0
+            for pending_team in team.belongs_group.team_set.all():
+
+                if pending_team.owner in team.belongs_group.picking_person.all() and pending_team.pending_player.count() > 0:
+                    next_person = change_picking_person(team, profile, i)
+                    add_player_to_team_and_group(pending_team, pending_team.pending_player.get())
+                    team.belongs_group.picking_person.add(next_person)
+                    i += 1
+                else:
+                    next_person = change_picking_person(team, profile, i)
+                    team.belongs_group.picking_person.add(next_person)
+                    pass
+        else:
+            team.belongs_group.picking_person.add(next_person)
         messages.success(request, "Player picked!")
         return redirect("team", team.id)
     context = {
