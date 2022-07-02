@@ -33,6 +33,11 @@ ALLOWED_HOSTS = ["localhost", "fifa-draft.herokuapp.com", ".herokuapp.com", "127
 # Application definition
 
 INSTALLED_APPS = [
+    "fifa_draft.apps.FifaDraftConfig",
+    "users.apps.UsersConfig",
+    "players",
+    "import_export",
+    "storages",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -40,12 +45,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    "fifa_draft.apps.FifaDraftConfig",
-    "users.apps.UsersConfig",
-    "players",
-    "import_export",
-    "storages",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
