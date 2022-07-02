@@ -14,15 +14,15 @@ class Group(models.Model):
         FIXED = _("Fixed")
 
     owner = models.ForeignKey(
-        Profile,
-        default=Profile,
+        'users.Profile',
+        default='users.Profile',
         null=False,
         blank=False,
         on_delete=models.CASCADE,
         db_constraint=False,
     )
     members = models.ManyToManyField(
-        Profile, blank=True, default=Profile, related_name="members"
+        'users.Profile', blank=True, default='users.Profile', related_name="members"
     )
     teams = models.ManyToManyField("Team", blank=True, related_name="teams")
     name = models.CharField(max_length=200, blank=False, null=False, unique=True)
@@ -46,7 +46,7 @@ class Group(models.Model):
         Player, blank=True, related_name="group_players"
     )
     picking_person = models.ManyToManyField(
-        Profile, blank=True, default=Profile, related_name="picking_person"
+        'users.Profile', blank=True, default='users.Profile', related_name="picking_person"
     )
     draft_order = models.CharField(max_length=200, blank=True, null=True)
 
@@ -86,7 +86,7 @@ class Team(models.Model):
         ("5–3–2", "5–3–2"),
     )
     owner = models.ForeignKey(
-        Profile, default=Profile, null=False, blank=False, on_delete=models.CASCADE
+        'users.Profile', default='users.Profile', null=False, blank=False, on_delete=models.CASCADE
     )
     belongs_group = models.ForeignKey(
         Group, null=False, blank=False, on_delete=models.CASCADE, db_constraint=False
