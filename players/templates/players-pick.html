@@ -89,10 +89,12 @@
                         <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
                             {% if profile in picking_person %}
                                 <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
+                            {% elif team.pending_player.count == 0 %}
+                                <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}"><small>Add player to pending list</small></a></td>
                             {% elif team.team_players.count == team.belongs_group.number_of_players %}
                                 <td>You have full team</td>
                             {% else %}
-                                <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}"><small>Add player to pending list</small></a></td>
+                                <td><small> You have pending player, wait for next pick</small></td>
 
                             {% endif %}
                     {% endif %}
