@@ -9,12 +9,19 @@ def add_player_to_team_and_group(team, player):
     team.pending_player.clear()
 
 
-def change_picking_person(team, profile, added_value):
+def last_and_first_picking_persons(team):
     group_profiles_order = team.belongs_group.profiles_order_as_list()[:-1]
-    next_profile_index = group_profiles_order.index(str(profile.name)) + 1 + added_value
     last_person = team.belongs_group.members.get(
-        name=group_profiles_order[team.belongs_group.members.count() - 1]
-    )
+        name=group_profiles_order[team.belongs_group.members.count() - 1])
+    first_person = team.belongs_group.members.get(
+        name=group_profiles_order[team.belongs_group.members.count() - team.belongs_group.members.count()])
+    return first_person, last_person
+
+
+def change_picking_person(team, profile):
+    group_profiles_order = team.belongs_group.profiles_order_as_list()[:-1]
+    next_profile_index = group_profiles_order.index(str(profile.name)) + 1
+    last_person = last_and_first_picking_persons(team)[1]
     last_team = team.belongs_group.team_set.get(owner=last_person)
     if team.belongs_group.draft_order_choice == "Serpentine":
         if (
@@ -45,7 +52,18 @@ def change_picking_person(team, profile, added_value):
                 )
 
 
-def picking_pending_player(team, next_team, next_person):
-    while next_team.pending_player.count() > 0:
-        add_player_to_team_and_group(next_team, next_team.pending_player.get())
+def pending_player_pick(next_person, next_team, team):
+    if next_team.pending_player.count() > 0 and next_team.pending_player.all() not in team.belongs_group.group_players.all():
+        for pending_team in team.belongs_group.team_set.all():
+            if pending_team.owner in team.belongs_group.picking_person.all() and pending_team.pending_player.count() > 0:
+                if pending_team.pending_player.all().count() == 2:
+                    for player in pending_team.pending_player.all():
+                        if player not in team.belongs_group.group_players.all():
+                            add_player_to_team_and_group(pending_team, player)
+                elif pending_team.pending_player.get() not in team.belongs_group.group_players.all():
+                    add_player_to_team_and_group(pending_team, pending_team.pending_player.get())
+            next_person = change_picking_person(team, pending_team.owner)
+            team.belongs_group.picking_person.clear()
+            team.belongs_group.picking_person.add(next_person)
+    else:
         team.belongs_group.picking_person.add(next_person)

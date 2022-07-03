@@ -56,7 +56,7 @@
                         <th>Add player</th>
                     </tr>
                         {% for player in players %}
-                            {% if player not in group_players %}
+                            {% if player not in group_players and player not in team.pending_player.all %}
 
                     <tr>
                         <td><img class="center-block" style='max-width:50px;max-height:70px; ' src="{{player.player_face_url}}" alt="project thumbnail" /></td>
@@ -89,12 +89,12 @@
                         <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
                             {% if profile in picking_person %}
                                 <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
-                            {% elif team.pending_player.count == 0 %}
+                            {% elif team.pending_player.count == 0 or profile == first_person and team.pending_player.count == 1 or profile == last_person and team.pending_player.count == 1%}
                                 <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}"><small>Add player to pending list</small></a></td>
                             {% elif team.team_players.count == team.belongs_group.number_of_players %}
                                 <td>You have full team</td>
                             {% else %}
-                                <td><small> You have pending player, wait for next pick</small></td>
+                                <td><small> You have full pending players list, wait for next pick</small></td>
 
                             {% endif %}
                     {% endif %}
