@@ -30,16 +30,25 @@ def change_picking_person(team, profile):
             / team.belongs_group.members.count()
             and team.team_players.count() != 0
         ):
+            print('1',profile)
             return profile
         elif (
             last_team.team_players.count()
             > team.belongs_group.group_players.count()
             / team.belongs_group.members.count()
         ):
+            print('2',team.belongs_group.members.get(
+                    name=group_profiles_order[next_profile_index - 2]
+                ))
+
             return team.belongs_group.members.get(
                     name=group_profiles_order[next_profile_index - 2]
                 )
         else:
+            print('3',team.belongs_group.members.get(
+                    name=group_profiles_order[next_profile_index]
+                ))
+
             return team.belongs_group.members.get(
                     name=group_profiles_order[next_profile_index]
                 )
@@ -60,10 +69,13 @@ def pending_player_pick(next_person, next_team, team):
                     for player in pending_team.pending_player.all():
                         if player not in team.belongs_group.group_players.all():
                             add_player_to_team_and_group(pending_team, player)
+                            team.belongs_group.picking_person.clear()
+                            next_person = change_picking_person(pending_team, pending_team.owner)
+                            team.belongs_group.picking_person.add(next_person)
                 elif pending_team.pending_player.get() not in team.belongs_group.group_players.all():
                     add_player_to_team_and_group(pending_team, pending_team.pending_player.get())
-            next_person = change_picking_person(team, pending_team.owner)
-            team.belongs_group.picking_person.clear()
-            team.belongs_group.picking_person.add(next_person)
+                    team.belongs_group.picking_person.clear()
+                    next_person = change_picking_person(pending_team, pending_team.owner)
+                    team.belongs_group.picking_person.add(next_person)
     else:
         team.belongs_group.picking_person.add(next_person)
