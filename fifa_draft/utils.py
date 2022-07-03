@@ -65,5 +65,3 @@ def pick_alert(request, context):
                 group_ids.append(group.id)
                 context["pick_alert"] = True
                 context["group_ids"] = group_ids
-
-

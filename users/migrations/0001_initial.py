@@ -16,24 +16,64 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('name', models.CharField(blank=True, max_length=50, null=True)),
-                ('username', models.CharField(blank=True, max_length=50, null=True, unique=True)),
-                ('location', models.CharField(blank=True, max_length=50, null=True)),
-                ('email', models.EmailField(max_length=50)),
-                ('short_intro', models.CharField(blank=True, max_length=250, null=True)),
-                ('profile_image', models.ImageField(blank=True, null=True, upload_to='profile_images/')),
-                ('social_github', models.CharField(blank=True, max_length=200, null=True)),
-                ('social_twitter', models.CharField(blank=True, max_length=200, null=True)),
-                ('social_linkedin', models.CharField(blank=True, max_length=200, null=True)),
-                ('social_youtube', models.CharField(blank=True, max_length=200, null=True)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('user', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ("name", models.CharField(blank=True, max_length=50, null=True)),
+                (
+                    "username",
+                    models.CharField(blank=True, max_length=50, null=True, unique=True),
+                ),
+                ("location", models.CharField(blank=True, max_length=50, null=True)),
+                ("email", models.EmailField(max_length=50)),
+                (
+                    "short_intro",
+                    models.CharField(blank=True, max_length=250, null=True),
+                ),
+                (
+                    "profile_image",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="profile_images/"
+                    ),
+                ),
+                (
+                    "social_github",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "social_twitter",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "social_linkedin",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "social_youtube",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['created'],
+                "ordering": ["created"],
             },
         ),
     ]

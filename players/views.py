@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
 from fifa_draft.models import Team
 from players.models import Player
-from players.utils import change_picking_person, add_player_to_team_and_group, pending_player_pick, last_and_first_picking_persons
+from players.utils import (
+    change_picking_person,
+    add_player_to_team_and_group,
+    pending_player_pick,
+    last_and_first_picking_persons,
+)
 from django.contrib.auth.decorators import login_required
 from fifa_draft.utils import pick_alert
 from django.contrib import messages
@@ -80,7 +85,7 @@ def players_pick(request, pk):
         "group_players": group_players,
         "picking_person": picking_person,
         "last_team": last_person,
-        "first_person": first_person
+        "first_person": first_person,
     }
     pick_alert(request, context)
     return render(request, "players-pick.html", context)
