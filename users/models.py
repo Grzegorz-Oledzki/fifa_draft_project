@@ -21,7 +21,9 @@ class Profile(models.Model):
     social_linkedin = models.CharField(max_length=200, blank=True, null=True)
     social_youtube = models.CharField(max_length=200, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    draft_teams = models.ManyToManyField("fifa_draft.Team", blank=True, related_name="draft_teams")
+    draft_teams = models.ManyToManyField(
+        "fifa_draft.Team", blank=True, related_name="draft_teams"
+    )
     id = models.UUIDField(
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )

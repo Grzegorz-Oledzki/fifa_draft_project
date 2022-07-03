@@ -15,4 +15,5 @@ urlpatterns = [
         "pending-player-pick-confirmation/<str:pk>/<str:team_id>/",
         views.pending_player_pick_confirmation,
         name="pending-player-pick-confirmation",
-    )]
+    ),
+]
