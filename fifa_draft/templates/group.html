@@ -58,7 +58,7 @@
                 <a style="font-size: 15px" class="tag tag--pill tag--main settings__btn" href="{% url 'choose-picking-person' group.id %}?next=/account"> <i class="fa-solid fa-people-arrows-left-right"></i> Choose who's picking player </a>
                     {% endif %}
             {% if group.picking_person.get %}
-            <p>Picking person: {{ group.picking_person.get }}</p>
+            <p>Picking person: {{ group.picking_person.get.name }}</p>
             {% endif %}
                 {% if group.team_set.count > 0 %}
 
@@ -68,12 +68,16 @@
                         <th>Team</th>
                         <th>No. players</th>
             </tr>
-            {% for team in group.team_set.all %}
+            {% for owner_name in group_profiles_order %}
+                {% for team in group.team_set.all %}
+                {% if team.owner.name == owner_name %}
             <tr>
                     <th>{{ team.owner.name }}</th>
                     <th>{{ team.name }}</th>
                     <th>{{ team.team_players.count }}</th>
             </tr>
+                {% endif %}
+                    {% endfor %}
             {% endfor %}
                                         </table>
                                 {% endif %}
