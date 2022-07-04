@@ -16,4 +16,9 @@ urlpatterns = [
         views.pending_player_pick_confirmation,
         name="pending-player-pick-confirmation",
     ),
+    path(
+        "delete-pending-player-pick-confirmation/<str:pk>/<str:team_id>/",
+        views.delete_pending_player_pick_confirmation,
+        name="delete-pending-player-pick-confirmation",
+    ),
 ]

@@ -60,7 +60,7 @@
             {% if group.picking_person.get %}
             <p>Picking person: {{ group.picking_person.get.name }}</p>
             {% endif %}
-                {% if group.team_set.count > 0 %}
+                {% if group.draft_order %}
 
                     <table style="width: 100%; font-size: 12px" id="myTable1">
             <tr>

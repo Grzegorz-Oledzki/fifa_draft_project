@@ -11,9 +11,8 @@
                 <br>
                 <form class="form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <h2>Are you want to add "{{player}}" to your queue?</h2>
-                    <h3>If you later want to remove this player from the pending list, you can do so on your team page.</h3>
-                    <a class="btn btn--sub btn--lg  my-md" href="{% url 'players-pick' team.id %}">Back to pick</a>
+                    <h2>Are you want to delete "{{player}}" from your queue?</h2>
+                    <a class="btn btn--sub btn--lg  my-md" href="{% url 'team' team.id %}">Back to team</a>
                     <input class="btn btn--sub btn--lg  my-md" type="submit" value="Yes" />
                 </form>
 
