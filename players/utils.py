@@ -74,7 +74,7 @@ def pending_player_pick(next_person, next_team, team):
                     for player in pending_team.pending_player.all():
                         if player not in team.belongs_group.group_players.all():
                             add_player_to_team_and_group(pending_team, player)
-                            pending_player_next_person_add(team)
+                            pending_player_next_person_add(pending_team)
                 elif (
                     pending_team.pending_player.get()
                     not in team.belongs_group.group_players.all()
@@ -82,6 +82,6 @@ def pending_player_pick(next_person, next_team, team):
                     add_player_to_team_and_group(
                         pending_team, pending_team.pending_player.get()
                     )
-                    pending_player_next_person_add(team)
+                    pending_player_next_person_add(pending_team)
     else:
         team.belongs_group.picking_person.add(next_person)
