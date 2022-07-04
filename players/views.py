@@ -103,7 +103,7 @@ def player_pick_confirmation(request, pk, team_id):
         next_person = change_picking_person(team, profile)
         next_team = team.belongs_group.teams.get(owner=next_person)
         team.belongs_group.picking_person.add(next_person)
-        pending_player_pick(next_person, next_team, team)
+        pending_player_pick(next_team, team)
         messages.success(request, "Player picked!")
         return redirect("team", team.id)
     context = {
@@ -134,3 +134,21 @@ def pending_player_pick_confirmation(request, pk, team_id):
     }
     pick_alert(request, context)
     return render(request, "pending-player-pick-confirmation.html", context)
+
+
+def delete_pending_player_pick_confirmation(request, pk, team_id):
+    profile = request.user.profile
+    player = Player.objects.get(sofifa_id=pk)
+    team = Team.objects.get(id=team_id)
+    if request.method == "POST":
+        team.pending_player.clear()
+        team.save()
+        messages.success(request, "Pending player deleted!")
+        return redirect("team", team.id)
+    context = {
+        "team": team,
+        "profile": profile,
+        "player": player,
+    }
+    pick_alert(request, context)
+    return render(request, "delete-pending-player-pick-confirmation.html", context)

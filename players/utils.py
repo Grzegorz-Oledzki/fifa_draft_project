@@ -60,7 +60,7 @@ def pending_player_next_person_add(team):
     team.belongs_group.picking_person.add(next_person)
 
 
-def pending_player_pick(next_person, next_team, team):
+def pending_player_pick(next_team, team):
     if (
         next_team.pending_player.count() > 0
         and next_team.pending_player.all() not in team.belongs_group.group_players.all()
