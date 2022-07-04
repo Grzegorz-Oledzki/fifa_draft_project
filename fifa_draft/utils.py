@@ -65,3 +65,16 @@ def pick_alert(request, context):
                 group_ids.append(group.id)
                 context["pick_alert"] = True
                 context["group_ids"] = group_ids
+
+
+def draw_draft_order(group):
+    profiles_order = []
+    draw_order = ""
+    i = 1
+    for member in group.members.all().order_by("?"):
+        draw_order += str(i) + ". " + str(member.name) + "\n"
+        i += 1
+        profiles_order.append(member)
+    group.picking_person.add(profiles_order[0])
+    group.draft_order = draw_order
+    group.picking_history = "Draft started!" + "\n"

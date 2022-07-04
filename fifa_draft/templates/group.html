@@ -149,8 +149,13 @@
                 </div>
               </div>
               {% endfor %}
-            </div>
 
+            </div>
+{% if group.picking_history %}
+            {% for pick in group.picking_history_as_list %}
+            <p>{{ pick }}</p>
+            {% endfor %}
+          {% endif %}
           </div>
 
         </div>
@@ -158,6 +163,7 @@
       </div>
 
     </div>
+
                 {% if group.group_players.count > 0 %}
                     <table class="center-block" style="width: 80%" id="myTable1">
             <tr style="font-size: 12px">
