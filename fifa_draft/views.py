@@ -34,8 +34,10 @@ def groups(request):
 def group(request, pk):
     group = Group.objects.get(id=pk)
     profile = request.user.profile
-    group_profiles_order = group.profiles_order_as_list()[:-1]
-    context = {"group": group, "profile": profile, "group_profiles_order": group_profiles_order}
+    context = {"group": group, "profile": profile}
+    if group.draft_order:
+        group_profiles_order = group.profiles_order_as_list()[:-1]
+        context["group_profiles_order"] = group_profiles_order
     pick_alert(request, context)
     return render(request, "group.html", context)
 
