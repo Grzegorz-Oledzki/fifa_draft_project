@@ -87,16 +87,20 @@
                         <td><img class="center-block" alt="" style="width: 35px; max-height: 35px" src="{{ player.club_logo_url }}"/></td>
                         <td><img class="center-block" alt="" style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
                         <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
-                            {% if profile in picking_person %}
-                                <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
-                            {% elif team.pending_player.count == 0 or profile == first_person and team.pending_player.count == 1 or profile == last_person and team.pending_player.count == 1%}
-                                <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}"><small>Add player to pending list</small></a></td>
-                            {% elif team.team_players.count == team.belongs_group.number_of_players %}
-                                <td>You have full team</td>
-                            {% else %}
-                                <td><small> You have full pending players list, wait for next pick</small></td>
+                                {% if team.belongs_group.draft_order %}
+                                    {% if profile in picking_person %}
+                                        <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
+                                    {% elif team.pending_player.count == 0 or profile == first_person and team.pending_player.count == 1 or profile == last_person and team.pending_player.count == 1%}
+                                        <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}"><small>Add player to pending list</small></a></td>
+                                    {% elif team.team_players.count == team.belongs_group.number_of_players %}
+                                        <td>You have full team</td>
+                                    {% else %}
+                                        <td><small> You have full pending players list, wait for next pick</small></td>
 
-                            {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    <td><small> Waiting for draw draft order</small></td>
+                                {% endif %}
                     {% endif %}
                     {% endfor %}
                         </tr></table>

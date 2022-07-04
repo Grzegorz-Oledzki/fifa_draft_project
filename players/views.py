@@ -77,16 +77,18 @@ def players_pick(request, pk):
     group = team.belongs_group
     group_players = group.group_players.all()
     picking_person = group.picking_person.all()
-    first_person, last_person = last_and_first_picking_persons(team)
     context = {
         "team": team,
         "profile": profile,
         "players": players,
         "group_players": group_players,
         "picking_person": picking_person,
-        "last_team": last_person,
-        "first_person": first_person,
     }
+    if team.belongs_group.draft_order:
+        first_person, last_person = last_and_first_picking_persons(team)
+        context["last_team"] = last_person
+        context["first_person"] = first_person
+
     pick_alert(request, context)
     return render(request, "players-pick.html", context)
 
