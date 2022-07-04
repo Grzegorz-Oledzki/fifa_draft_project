@@ -65,23 +65,24 @@ def pending_player_pick(next_person, next_team, team):
         next_team.pending_player.count() > 0
         and next_team.pending_player.all() not in team.belongs_group.group_players.all()
     ):
-        for pending_team in team.belongs_group.team_set.all():
-            if (
-                pending_team.owner in team.belongs_group.picking_person.all()
-                and pending_team.pending_player.count() > 0
-            ):
-                if pending_team.pending_player.all().count() == 2:
-                    for player in pending_team.pending_player.all():
-                        if player not in team.belongs_group.group_players.all():
-                            add_player_to_team_and_group(pending_team, player)
-                            pending_player_next_person_add(pending_team)
-                elif (
-                    pending_team.pending_player.get()
-                    not in team.belongs_group.group_players.all()
+        for pending_team_owner in team.belongs_group.members.all():
+            for pending_team in team.belongs_group.team_set.all():
+                if (
+                    pending_team.owner in team.belongs_group.picking_person.all()
+                    and pending_team.pending_player.count() > 0
                 ):
-                    add_player_to_team_and_group(
-                        pending_team, pending_team.pending_player.get()
-                    )
-                    pending_player_next_person_add(pending_team)
+                    if pending_team.pending_player.all().count() == 2:
+                        for player in pending_team.pending_player.all():
+                            if player not in team.belongs_group.group_players.all():
+                                add_player_to_team_and_group(pending_team, player)
+                                pending_player_next_person_add(pending_team)
+                    elif (
+                        pending_team.pending_player.get()
+                        not in team.belongs_group.group_players.all()
+                    ):
+                        add_player_to_team_and_group(
+                            pending_team, pending_team.pending_player.get()
+                        )
+                        pending_player_next_person_add(pending_team)
     else:
-        team.belongs_group.picking_person.add(next_person)
+        pending_player_next_person_add(next_team)
