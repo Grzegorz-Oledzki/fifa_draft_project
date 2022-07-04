@@ -52,6 +52,10 @@ class Group(models.Model):
         related_name="picking_person",
     )
     draft_order = models.CharField(max_length=200, blank=True, null=True)
+    picking_history = models.CharField(max_length=10000000, blank=True, null=True)
+
+    def picking_history_as_list(self):
+        return self.picking_history.split("\n")
 
     def draft_order_as_list(self):
         return self.draft_order.split("\n")

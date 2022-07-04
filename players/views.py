@@ -6,6 +6,7 @@ from players.utils import (
     add_player_to_team_and_group,
     pending_player_pick,
     last_and_first_picking_persons,
+    add_to_picking_history
 )
 from django.contrib.auth.decorators import login_required
 from fifa_draft.utils import pick_alert

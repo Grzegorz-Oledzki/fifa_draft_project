@@ -1,9 +1,16 @@
+def add_to_picking_history(profile, player, group):
+    draft_history = str(profile.name) + " picked " + str(player.short_name) + "\n"
+    group.picking_history += draft_history
+    group.save()
+
+
 def add_player_to_team_and_group(team, player):
     team.belongs_group.picking_person.clear()
     team.team_players.add(player)
     team.belongs_group.group_players.add(player)
     team.belongs_group.save()
     team.save()
+    add_to_picking_history(team.owner, player, team.belongs_group)
     team.pending_player.clear()
 
 

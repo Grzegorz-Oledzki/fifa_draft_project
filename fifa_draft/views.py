@@ -13,6 +13,7 @@ from fifa_draft.utils import (
     team_form_validation,
     edit_team_form_validation,
     pick_alert,
+    draw_draft_order,
 )
 
 
@@ -51,6 +52,7 @@ def create_group(request):
         if form.is_valid():
             group = form.save(commit=False)
             group.owner = profile
+            group.picking_history = "Draft started " + "\n"
             form.save()
             messages.success(request, "Now create a team!")
             return redirect("create-team")
@@ -144,15 +146,7 @@ def edit_team(request, pk):
 def draft_order(request, pk):
     group = Group.objects.get(id=pk)
     if request.method == "POST":
-        profiles_order = []
-        draw_order = ""
-        i = 1
-        for member in group.members.all().order_by("?"):
-            draw_order += str(i) + ". " + str(member.name) + "\n"
-            i += 1
-            profiles_order.append(member)
-        group.picking_person.add(profiles_order[0])
-        group.draft_order = draw_order
+        draw_draft_order(group)
         group.save()
         messages.success(request, "Draw completed, see results under Excel sheet")
         return redirect("group", group.id)
