@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('fifa_draft', '0001_initial'),
+        ("fifa_draft", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='group',
-            name='picking_history',
+            model_name="group",
+            name="picking_history",
             field=models.CharField(blank=True, max_length=10000000, null=True),
         ),
     ]

@@ -27,38 +27,54 @@ def last_and_first_picking_persons(team):
     return first_person, last_person
 
 
+def sum_of_team_players_is_equal_average_sum_of_other_group_teams_players(team):
+    if (
+        team.team_players.count()
+        == team.belongs_group.group_players.count() / team.belongs_group.members.count()
+        and team.team_players.count() != 0
+    ):
+        return True
+
+
+def sum_of_team_players_is_greater_average_sum_of_other_group_teams_players(team):
+    last_person = last_and_first_picking_persons(team)[1]
+    last_team = team.belongs_group.team_set.get(owner=last_person)
+    if (
+        last_team.team_players.count()
+        > team.belongs_group.group_players.count() / team.belongs_group.members.count()
+    ):
+        return True
+
+
+def change_picking_person_for_serpentine_draft(team, next_profile_index, group_profiles_order, profile):
+    if sum_of_team_players_is_equal_average_sum_of_other_group_teams_players(team):
+        return profile
+    elif sum_of_team_players_is_greater_average_sum_of_other_group_teams_players(team):
+        return team.belongs_group.members.get(
+            name=group_profiles_order[next_profile_index - 2]
+        )
+    else:
+        return team.belongs_group.members.get(
+            name=group_profiles_order[next_profile_index]
+        )
+
+
+def change_picking_person_for_fixed_draft(team, next_profile_index, group_profiles_order):
+    if team.belongs_group.members.count() == next_profile_index:
+        return team.belongs_group.members.get(name=group_profiles_order[0])
+    else:
+        return team.belongs_group.members.get(
+            name=group_profiles_order[next_profile_index]
+        )
+
+
 def change_picking_person(team, profile):
     group_profiles_order = team.belongs_group.profiles_order_as_list()[:-1]
     next_profile_index = group_profiles_order.index(str(profile.name)) + 1
-    last_person = last_and_first_picking_persons(team)[1]
-    last_team = team.belongs_group.team_set.get(owner=last_person)
     if team.belongs_group.draft_order_choice == "Serpentine":
-        if (
-            team.team_players.count()
-            == team.belongs_group.group_players.count()
-            / team.belongs_group.members.count()
-            and team.team_players.count() != 0
-        ):
-            return profile
-        elif (
-            last_team.team_players.count()
-            > team.belongs_group.group_players.count()
-            / team.belongs_group.members.count()
-        ):
-            return team.belongs_group.members.get(
-                name=group_profiles_order[next_profile_index - 2]
-            )
-        else:
-            return team.belongs_group.members.get(
-                name=group_profiles_order[next_profile_index]
-            )
+        return change_picking_person_for_serpentine_draft(team, next_profile_index, group_profiles_order, profile)
     else:
-        if team.belongs_group.members.count() == next_profile_index:
-            return team.belongs_group.members.get(name=group_profiles_order[0])
-        else:
-            return team.belongs_group.members.get(
-                name=group_profiles_order[next_profile_index]
-            )
+        return change_picking_person_for_fixed_draft(team, next_profile_index, group_profiles_order)
 
 
 def pending_player_next_person_add(team):
