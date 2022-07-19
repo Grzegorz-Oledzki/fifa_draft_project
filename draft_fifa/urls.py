@@ -26,6 +26,7 @@ urlpatterns = [
     path("", include("fifa_draft.urls")),
     path("players/", include("players.urls")),
     path("users/", include("users.urls")),
+    path("api/", include("api.urls")),
     path(
         "reset-password/", auth_views.PasswordResetView.as_view(), name="reset-password"
     ),
