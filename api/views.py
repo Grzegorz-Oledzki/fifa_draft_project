@@ -1,8 +1,10 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from api.serializers import TeamSerializer
+from fifa_draft.models import Team, Group
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def get_routes(request):
 
     routes = [
@@ -19,3 +21,17 @@ def get_routes(request):
     ]
 
     return Response(routes)
+
+
+@api_view(["GET"])
+def get_teams(request):
+    teams = Team.objects.all()
+    serializer = TeamSerializer(teams, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_team(request, pk):
+    team = Team.objects.get(id=pk)
+    serializer = TeamSerializer(team, many=False)
+    return Response(serializer.data)

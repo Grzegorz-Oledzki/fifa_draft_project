@@ -3,5 +3,7 @@ from api import views
 
 
 urlpatterns = [
-    path('', views.get_routes)
+    path('', views.get_routes),
+    path('teams/', views.get_teams),
+    path('team/<str:pk>/', views.get_team),
 ]
