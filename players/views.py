@@ -9,7 +9,6 @@ from players.utils import (
     add_to_picking_history,
 )
 from django.contrib.auth.decorators import login_required
-from fifa_draft.utils import pick_alert
 from django.contrib import messages
 
 
@@ -58,7 +57,6 @@ def players(request):
     profile = request.user.profile
     players = Player.objects.all()
     context = {"players": players, "profile": profile}
-    pick_alert(request, context)
     return render(request, "players.html", context)
 
 
@@ -67,7 +65,6 @@ def choose_team(request):
     profile = request.user.profile
     teams = profile.draft_teams.all()
     context = {"teams": teams, "profile": profile}
-    pick_alert(request, context)
     return render(request, "choose-team.html", context)
 
 
@@ -90,7 +87,6 @@ def players_pick(request, pk):
         context["last_team"] = last_person
         context["first_person"] = first_person
 
-    pick_alert(request, context)
     return render(request, "players-pick.html", context)
 
 
@@ -113,7 +109,6 @@ def player_pick_confirmation(request, pk, team_id):
         "group_players": group_players,
         "player": player,
     }
-    pick_alert(request, context)
     return render(request, "player-pick-confirmation.html", context)
 
 
@@ -133,7 +128,6 @@ def pending_player_pick_confirmation(request, pk, team_id):
         "group_players": group_players,
         "player": player,
     }
-    pick_alert(request, context)
     return render(request, "pending-player-pick-confirmation.html", context)
 
 
@@ -151,5 +145,4 @@ def delete_pending_player_pick_confirmation(request, pk, team_id):
         "profile": profile,
         "player": player,
     }
-    pick_alert(request, context)
     return render(request, "delete-pending-player-pick-confirmation.html", context)

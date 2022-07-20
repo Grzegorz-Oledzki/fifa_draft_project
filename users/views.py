@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from users.forms import CustomUserCreationForm, ProfileForm
 from django.contrib import messages
-from fifa_draft.utils import pick_alert
 
 
 def login_user(request):
@@ -63,7 +62,6 @@ def register_user(request):
 def profiles(request):
     profiles = Profile.objects.all
     context = {"profiles": profiles}
-    pick_alert(request, context)
     return render(request, "profiles.html", context)
 
 
@@ -71,7 +69,6 @@ def profiles(request):
 def user_profile(request, pk):
     profile = Profile.objects.get(id=pk)
     context = {"profile": profile}
-    pick_alert(request, context)
     return render(request, "user-profile.html", context)
 
 
@@ -80,7 +77,6 @@ def user_account(request):
     teams = profile.team_set.all()
     groups = profile.group_set.all()
     context = {"profile": profile, "teams": teams, "groups": groups}
-    pick_alert(request, context)
     return render(request, "account.html", context)
 
 
@@ -96,5 +92,4 @@ def edit_account(request):
             messages.success(request, "User updated!")
             return redirect("account")
     context = {"form": form}
-    pick_alert(request, context)
     return render(request, "profile_form.html", context)
