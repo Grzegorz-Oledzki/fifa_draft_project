@@ -4,18 +4,6 @@ from players.models import Player
 from users.models import Profile
 
 
-class TeamSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Team
-        fields = '__all__'
-
-
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Group
-        fields = '__all__'
-
-
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
@@ -26,3 +14,24 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    owner = ProfileSerializer(many=False)
+
+    class Meta:
+        model = Team
+        fields = '__all__'
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    teams = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Group
+        fields = '__all__'
+
+    def get_teams(self, obj):
+        teams = obj.team_set.all()
+        serializer = TeamSerializer(teams, many=True)
+        return serializer.data
