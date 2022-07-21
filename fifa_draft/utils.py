@@ -58,11 +58,9 @@ def edit_team_form_validation(request, form):
 def draw_draft_order(group):
     profiles_order = []
     draw_order = ""
-    i = 1
     for member in group.members.all().order_by("?"):
-        draw_order += str(i) + ". " + str(member.name) + "\n"
-        i += 1
+        draw_order += str(member.name) + ":"
         profiles_order.append(member)
     group.picking_person.add(profiles_order[0])
     group.draft_order = draw_order
-    group.picking_history = "Draft started!" + "\n"
+    group.picking_history = "Draft started!:"
