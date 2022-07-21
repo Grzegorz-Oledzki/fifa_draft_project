@@ -1,5 +1,5 @@
 def add_to_picking_history(profile, player, group):
-    draft_history = str(profile.name) + " picked " + str(player.short_name) + "\n"
+    draft_history = str(profile.name) + " picked " + str(player.short_name) + ":"
     group.picking_history += draft_history
     group.save()
 
@@ -15,7 +15,7 @@ def add_player_to_team_and_group(team, player):
 
 
 def last_and_first_picking_persons(team):
-    group_profiles_order = team.belongs_group.profiles_order_as_list()[:-1]
+    group_profiles_order = team.belongs_group.profiles_order_as_list()
     last_person = team.belongs_group.members.get(
         name=group_profiles_order[team.belongs_group.members.count() - 1]
     )
@@ -69,7 +69,7 @@ def change_picking_person_for_fixed_draft(
 
 
 def change_picking_person(team, profile):
-    group_profiles_order = team.belongs_group.profiles_order_as_list()[:-1]
+    group_profiles_order = team.belongs_group.profiles_order_as_list()
     next_profile_index = group_profiles_order.index(str(profile.name)) + 1
     if team.belongs_group.draft_order_choice == "Serpentine":
         return change_picking_person_for_serpentine_draft(

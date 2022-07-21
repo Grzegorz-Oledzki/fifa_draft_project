@@ -33,7 +33,7 @@ def group(request, pk):
     profile = request.user.profile
     context = {"group": group, "profile": profile}
     if group.draft_order:
-        group_profiles_order = group.profiles_order_as_list()[:-1]
+        group_profiles_order = group.profiles_order_as_list()
         context["group_profiles_order"] = group_profiles_order
     return render(request, "group.html", context)
 

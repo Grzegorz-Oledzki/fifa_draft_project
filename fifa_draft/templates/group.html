@@ -58,7 +58,7 @@
                 <a style="font-size: 15px" class="tag tag--pill tag--main settings__btn" href="{% url 'choose-picking-person' group.id %}?next=/account"> <i class="fa-solid fa-people-arrows-left-right"></i> Choose who's picking player </a>
                     {% endif %}
             {% if group.picking_person.get %}
-            <p>Picking person: {{ group.picking_person.get.name }}</p>
+            <p>Picking person: <a>{{ group.picking_person.get.name }}</a></p>
             {% endif %}
                 {% if group.draft_order %}
 
@@ -68,7 +68,7 @@
                         <th>Team</th>
                         <th>No. players</th>
             </tr>
-            {% for owner_name in group_profiles_order %}
+            {% for owner_name in group.profiles_order_as_list %}
                 {% for team in group.team_set.all %}
                 {% if team.owner.name == owner_name %}
             <tr>
@@ -111,9 +111,8 @@
                 <a>There will be
             {% endif %} <p><i class="fa-solid fa-file-excel"></i> Tournament Excel sheet</a>
             {% if group.draft_order %}
-                <p>Draft Order: </p>
-                {% for name in group.draft_order_as_list %}
-                <p>{{ name }} </p>
+                {% for profile in group.profiles_order_as_list  %}
+                <p>{{ forloop.counter }}. {{ profile }}</p>
                 {% endfor %}
                 {% else %}
                 <p>Waiting for the draw </p>
