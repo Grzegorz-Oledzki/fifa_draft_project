@@ -20,21 +20,18 @@ def home(request):
     return render(request, "home.html")
 
 
-@login_required(login_url="login")
 def groups(request):
     groups = Group.objects.all()
     context = {"groups": groups}
     return render(request, "groups.html", context)
 
 
-@login_required(login_url="login")
 def group(request, pk):
     group = Group.objects.get(id=pk)
-    profile = request.user.profile
-    context = {"group": group, "profile": profile}
-    if group.draft_order:
-        group_profiles_order = group.profiles_order_as_list()
-        context["group_profiles_order"] = group_profiles_order
+    context = {"group": group}
+    if request.user.is_authenticated:
+        profile = request.user.profile
+        context["profile"] = profile
     return render(request, "group.html", context)
 
 
@@ -91,18 +88,18 @@ def delete_group(request, pk):
     return render(request, "delete-group.html", context)
 
 
-@login_required(login_url="login")
 def team(request, pk):
-    profile = request.user.profile
     team = Team.objects.get(id=pk)
     players = team.team_players.all()
     pending_player = team.pending_player.all()
     context = {
         "team": team,
-        "profile": profile,
         "players": players,
         "pending_player": pending_player,
     }
+    if request.user.is_authenticated:
+        profile = request.user.profile
+        context["profile"] = profile
     return render(request, "team.html", context)
 
 
