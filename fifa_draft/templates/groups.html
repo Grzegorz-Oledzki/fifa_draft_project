@@ -14,17 +14,19 @@
             {% for group in groups %}
           <div class="column">
             <div class="card project">
-                  <div class="two-column-div">
-                    <a href="{% url 'group' group.id %}" class="project">
-                        <h4 class="center-block">{{group.name}}</h4></a></div>
-                        <p><a href="{% url 'group' group.id %}" class="project">
-                        <img class="project--thumbnail" style='text-align: right; margin-right: 15px; top:2px; max-width:250px;' src="{{group.image_url}}" alt="project thumbnail" /></a></p>
-                        <div class="project__tags" style="float: top">
+                <a href="{% url 'group' group.id %}" >
+                  <div class="dev__meta">
+                    <a   style="margin-left: 30px; font-size: 35px;">
+                        {{group.name}}</a></div>
+                        <a href="{% url 'group' group.id %}" class="card__body">
+                        <img class="project--thumbnail" style='text-align: left; max-width:250px; margin-bottom: 5px' src="{{group.image_url}}" alt="project thumbnail" /></a>
+                        <div class="card__body" style="float: right">
+
                       <p>Teams: {{ group.teams.all.count }}</p>
                       <p>Picked players: {{ group.group_players.all.count }} / {%  widthratio group.number_of_players 1 group.teams.all.count %}</p>
                       <p>Max team players: {{ group.number_of_players }}</p>
                             <p>Owner: {{ group.owner }}</p></div>
-            </div>
+                </a></div>
           </div>
             {% endfor %}
         </div>
