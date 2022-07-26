@@ -58,14 +58,12 @@ def register_user(request):
     return render(request, "login_register.html", context)
 
 
-@login_required(login_url="login")
 def profiles(request):
     profiles = Profile.objects.all
     context = {"profiles": profiles}
     return render(request, "profiles.html", context)
 
 
-@login_required(login_url="login")
 def user_profile(request, pk):
     profile = Profile.objects.get(id=pk)
     context = {"profile": profile}
