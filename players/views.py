@@ -52,11 +52,12 @@ def upload_players(request):
             return render(request, "upload.html")
 
 
-@login_required(login_url="login")
 def players(request):
-    profile = request.user.profile
     players = Player.objects.all()
-    context = {"players": players, "profile": profile}
+    context = {"players": players}
+    if request.user.is_authenticated:
+        profile = request.user.profile
+        context["profile"] = profile
     return render(request, "players.html", context)
 
 
