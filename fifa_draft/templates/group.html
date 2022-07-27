@@ -31,7 +31,13 @@
 <body>
 <!-- Main Section -->
   <main class="profile my-md">
+  {% if group.picking_history %}
+            {% for pick in group.picking_history_as_list %}
+            <p>{{ pick }}</p>
+            {% endfor %}
+          {% endif %}
     <div class="container">
+
       <div class="layout">
         <div class="column column--1of3">
                   <a class="im im-angle-left" href="{% url 'groups' %}">Back to all groups</a>
@@ -150,11 +156,7 @@
               {% endfor %}
 
             </div>
-{% if group.picking_history %}
-            {% for pick in group.picking_history_as_list %}
-            <p>{{ pick }}</p>
-            {% endfor %}
-          {% endif %}
+
           </div>
 
         </div>
@@ -164,7 +166,7 @@
     </div>
 
                 {% if group.group_players.count > 0 %}
-                    <table class="center-block" style="width: 80%" id="myTable1">
+                    <table class="center-block" style="width: 70%; margin-left: 360px" id="myTable1">
             <tr style="font-size: 12px">
                         <th>Image</th>
                         <th>Name</th>
