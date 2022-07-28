@@ -7,13 +7,14 @@ def pick_alert(request):
         group_ids = []
         profile = request.user.profile
         groups = Group.objects.all()
-        for group in groups:
-            if profile in group.picking_person.all():
-                group_ids.append(group.id)
-                context["pick_alert"] = True
-                context["group_ids"] = group_ids
-                return context
-            else:
-                return context
+        if groups.count() > 0:
+            for group in groups:
+                if profile in group.picking_person.all():
+                    group_ids.append(group.id)
+                    context["pick_alert"] = True
+                    context["group_ids"] = group_ids
+                    return context
+        else:
+            return context
     else:
         return context
