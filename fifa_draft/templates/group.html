@@ -32,6 +32,7 @@
 <!-- Main Section -->
   <main class="profile my-md">
   {% if group.picking_history %}
+      <h4>Draft history:</h4>
             {% for pick in group.picking_history_as_list %}
             <p>{{ pick }}</p>
             {% endfor %}
@@ -114,7 +115,7 @@
                 {% elif group.members.count == 15 %}
                 <a href="https://docs.google.com/spreadsheets/d/1hM6nP_Lh4sX0-uR867H6wOlF3BkNsVXU/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true">
                 {% else %}
-                <a>There will be
+                <p>There will be
             {% endif %} <p><i class="fa-solid fa-file-excel"></i> Tournament Excel sheet</a>
             {% if group.draft_order %}
                 {% for profile in group.profiles_order_as_list  %}
@@ -123,6 +124,7 @@
                 {% else %}
                 <p>Waiting for the draw </p>
             {% endif %}
+                </a>
             </div>
           </div>
         </div>
@@ -166,7 +168,7 @@
     </div>
 
                 {% if group.group_players.count > 0 %}
-                    <table class="center-block" style="width: 70%; margin-left: 360px" id="myTable1">
+                    <table class="center-block" style="width: 70%;" id="myTable1">
             <tr style="font-size: 12px">
                         <th>Image</th>
                         <th>Name</th>
