@@ -31,12 +31,7 @@
 <body>
 <!-- Main Section -->
   <main class="profile my-md">
-  {% if group.picking_history %}
-      <h4>Draft history:</h4>
-            {% for pick in group.picking_history_as_list %}
-            <p>{{ pick }}</p>
-            {% endfor %}
-          {% endif %}
+
     <div class="container">
 
       <div class="layout">
@@ -166,7 +161,6 @@
       </div>
 
     </div>
-
                 {% if group.group_players.count > 0 %}
                     <table class="center-block" style="width: 70%;" id="myTable1">
             <tr style="font-size: 12px">
@@ -229,6 +223,10 @@
                     {% endfor %}
                     </tr>
                 </table>
+      <h4>Draft history:</h4>
+            {% for pick in group.picking_history_as_list %}
+            <p>{{ pick }}</p>
+            {% endfor %}
                         {% endif %}
   </main>
     {% include 'bottombar.html' %}
