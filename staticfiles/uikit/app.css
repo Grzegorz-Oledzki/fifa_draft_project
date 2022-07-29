@@ -110,3 +110,12 @@ top: 120px;
 transform: translate(-50%, -50%);
 z-index: 99999;
 }
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.two-column-div {
+ column-count: 2;
+}
