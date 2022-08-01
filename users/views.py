@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from users.forms import CustomUserCreationForm, ProfileForm
 from django.contrib import messages
+from fifa_draft.views import delete_group
 
 
 def login_user(request):
@@ -97,6 +98,10 @@ def delete_account(request, pk):
     profile = Profile.objects.get(id=pk)
     context = {"profile": profile}
     if request.method == "POST":
+        for group in profile.group_set.all():
+            group.delete()
+        for team in profile.team_set.all():
+            team.belongs_group.delete()
         profile.delete()
         messages.success(request, "User deleted, see you soon!")
         return redirect("home")
