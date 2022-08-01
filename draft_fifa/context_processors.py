@@ -16,7 +16,7 @@ def pick_alert(request):
                     return context
                 else:
                     return context
-        # else:
-        #     return context
+        else:
+            return context
     else:
         return context
