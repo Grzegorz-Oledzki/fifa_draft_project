@@ -3,8 +3,7 @@ from rest_framework.response import Response
 from api.serializers import (
     TeamSerializer,
     GroupSerializer,
-    PlayerSerializer,
-    ProfileSerializer,
+    PlayerSerializer, ProfileSerializer,
 )
 from fifa_draft.models import Team, Group
 from players.models import Player
