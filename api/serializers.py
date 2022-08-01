@@ -7,13 +7,13 @@ from users.models import Profile
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = "__all__"
 
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -21,7 +21,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = '__all__'
+        fields = "__all__"
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
-        fields = '__all__'
+        fields = "__all__"
 
     def get_teams(self, obj):
         teams = obj.team_set.all()
