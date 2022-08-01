@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+    <main class="formPage my-xl">
+        <div class="content-box">
+            <div class="formWrapper">
+                <br>
+                <form class="form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2>Are you want to delete your account?</h2>
+                    <h3 style="color: red">Remember - all your teams and group will be deleted. If you are in someone else's group, and you are in the middle of a game, your friends will need to set up the group again!</h3>
+                    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Yes" />
+                    <a class="btn btn--sub btn--lg  my-md" href="{% url 'account' %}">Back to account</a>
+                    <a class="btn btn--sub btn--lg  my-md" href="{% url 'edit-account' %}">Update account</a>
+                </form>
+            </div>
+        </div>
+    </main>
+{% include 'bottombar.html' %}
+{% endblock content %}

@@ -91,3 +91,13 @@ def edit_account(request):
             return redirect("account")
     context = {"form": form}
     return render(request, "profile_form.html", context)
+
+
+def delete_account(request, pk):
+    profile = Profile.objects.get(id=pk)
+    context = {"profile": profile}
+    if request.method == "POST":
+        profile.delete()
+        messages.success(request, "User deleted, see you soon!")
+        return redirect("home")
+    return render(request, "delete_profile.html", context)
