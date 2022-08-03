@@ -2,6 +2,8 @@
 
 <sub>Project background and idea history will be updated soon</sub>
 
+Currently (August 2022) you can find and use my project on free Heroku server "fifa-draft.herokuapp.com/"
+
 
 **TLTR:**
 
@@ -28,8 +30,8 @@ Quick guide:
 
 
 # Installation:
-1. Clone this repository: git clone git@github.com:Grzegorz-Oledzki/fifa_draft_project.git
-2. Install requirements: pip install -r requirements.txt
+1. Clone this repository: <code>git clone git@github.com:Grzegorz-Oledzki/fifa_draft_project.git</code>
+2. Install requirements: <code>pip install -r requirements.txt</code>
 3. Set up your database. If you want to use local database go to draft_fifa folder > settings.py and comment lines 88 to 97, and uncomment lines 98 to 103.
 4. Type:
 <code>python manage.py migrate</code>
@@ -42,6 +44,7 @@ https://docs.google.com/spreadsheets/d/1xOSDGC8MhbUNWA6OeNcWmpOjFRkPzLYb/edit?us
 7. Invite your friends and play! 
 
 Screenshots: 
+
 Home:
 ![img.png](static/images/img.png)
 Players list:
