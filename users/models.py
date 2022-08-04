@@ -2,9 +2,16 @@ from django.db import models
 import uuid
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 class Profile(models.Model):
+    def validate_image(self):
+        file_size = self.file.size
+        limit_mb = 0.3 * 1024 * 1024
+        if file_size > limit_mb:
+            raise ValidationError(_("Featured image is too big (max 3mb)"))
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=50, blank=True, null=True)
     username = models.CharField(max_length=50, blank=True, null=True, unique=True)
@@ -14,7 +21,7 @@ class Profile(models.Model):
     profile_image = models.ImageField(
         null=True,
         blank=True,
-        upload_to="profile_images/",
+        upload_to="profile_images/", validators=[validate_image]
     )
     social_github = models.CharField(max_length=200, blank=True, null=True)
     social_twitter = models.CharField(max_length=200, blank=True, null=True)
