@@ -1,4 +1,3 @@
-from fifa_draft.forms import GroupForm, TeamForm
 from django.contrib import messages
 from fifa_draft.models import Group
 import random
@@ -64,3 +63,12 @@ def draw_draft_order(group):
     group.picking_person.add(profiles_order[0])
     group.draft_order = draw_order
     group.picking_history = "Draft started!:"
+
+
+def group_validation(request, group):
+    if group.featured_image.size > 3 * 1024 * 1024:
+        messages.error(request, "Featured image is too big (max 3mb)")
+    elif group.number_of_players > 20 or group.number_of_players < 14:
+        messages.error(request, "Number of players must be between 14 and 20")
+    else:
+        messages.error(request, "Group name is not unique")
