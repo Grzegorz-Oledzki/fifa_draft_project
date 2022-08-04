@@ -24,14 +24,16 @@ def team_form_validation(request, form, profile):
             team.belongs_group.teams.add(team)
             messages.success(request, "Team created and added to group successful!")
             form_valid = True
-            return form_valid, team.belongs_group_id
+            return form_valid
         elif team.belongs_group.password != team.group_password:
             messages.error(request, "Password error")
         elif not unique_name:
             messages.error(request, "Please choose unique name")
         elif profile in team.belongs_group.members.all():
             messages.error(request, "You have already team in this group")
-        return form_valid, team.belongs_group_id
+        return form_valid
+    else:
+        messages.error(request, "Featured image is too big (max 3mb)")
 
 
 def edit_team_form_validation(request, form):
@@ -51,6 +53,7 @@ def edit_team_form_validation(request, form):
             messages.error(request, "Please choose unique name")
         elif team.belongs_group.password != team.group_password:
             messages.error(request, "Password error")
+    messages.error(request, "Featured image is too big (max 3mb)")
     return form_valid
 
 
