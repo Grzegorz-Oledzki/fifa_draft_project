@@ -104,9 +104,10 @@ def create_team(request):
     profile = request.user.profile
     if request.method == "POST":
         form = TeamForm(request.POST, request.FILES)
-        form_valid, group_id = team_form_validation(request, form, profile)
+        form_valid = team_form_validation(request, form, profile)
         if form_valid:
-            return redirect("group", group_id)
+            team = form.save(commit=False)
+            return redirect("group", team.belongs_group.id)
     context = {"form": form}
     return render(request, "team-form.html", context)
 
