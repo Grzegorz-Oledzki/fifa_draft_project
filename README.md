@@ -2,7 +2,9 @@
 
 <sub>Project background and idea history will be updated soon</sub>
 
-Currently (August 2022) you can find and use my project on free Heroku server "fifa-draft.herokuapp.com/"
+Currently, (August 2022) you can find and use my project on free Heroku server: 
+
+https://fifa-draft.herokuapp.com/
 
 
 **TLTR:**
@@ -39,8 +41,8 @@ Quick guide:
 And finally:
 <code>python manage.py runserver</code>
 5. Download players list from
-https://docs.google.com/spreadsheets/d/1xOSDGC8MhbUNWA6OeNcWmpOjFRkPzLYb/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true
-6. Import players from .xlsx file on http://127.0.0.1:8000/admin/players/player/ 
+<code>https://docs.google.com/spreadsheets/d/1xOSDGC8MhbUNWA6OeNcWmpOjFRkPzLYb/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true </code>
+6. Import players from .xlsx file on <code>http://127.0.0.1:8000/admin/players/player/ </code> 
 7. Invite your friends and play! 
 
 Screenshots: 
