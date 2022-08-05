@@ -7,9 +7,9 @@ Currently, (August 2022) you can find and use my project on free Heroku server:
 https://fifa-draft.herokuapp.com/
 
 
-**TLTR:**
+**TL;TR:**
 
-The site allows you to create your dream team lineups in FIFA game. The idea is that when you get bored of playing the same rigid line-ups this app gives you the opportunity to change that. Group members choose players to their teams from all players over 79 (it can be changed) overall points available in FIFA 22 in a predetermined order one player at a time until the teams are full. **Line-ups must be set manually in the FIFA game settings.** There is an option for fixed and serpentine drafts.
+The site allows you to create your dream team lineups in FIFA game. The idea is that when you get bored with playing the same rigid line-ups this app gives you the opportunity to change that. Group members choose players to their teams from all players over 79 (it can be changed) overall points available in FIFA 22 in a predetermined order one player at a time until the teams are full. **Line-ups must be set manually in the FIFA game settings.** There is an option for fixed and serpentine drafts.
 Quick guide:
 
 1. Create a Group, then a Team, and invite your friends to join your Group,
