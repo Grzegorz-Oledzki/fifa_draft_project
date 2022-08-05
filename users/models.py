@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 class Profile(models.Model):
     def validate_image(self):
         file_size = self.file.size
-        limit_mb = 0.3 * 1024 * 1024
+        limit_mb = 3 * 1024 * 1024
         if file_size > limit_mb:
             raise ValidationError(_("Featured image is too big (max 3mb)"))
 
