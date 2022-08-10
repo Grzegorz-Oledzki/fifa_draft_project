@@ -145,11 +145,13 @@ EMAIL_HOST_PASSWORD = "omvkvkvchykrhdkm"
 
 STATIC_URL = "draft_fifa.s3utils.StaticRootS3BotoStorage/"
 
+MEDIA_URL = "/images/"
 STATICFILES_STORAGE = 'draft_fifa.s3utils.StaticRootS3BotoStorage'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),
 )
 MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 SITE_ID = 1
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
