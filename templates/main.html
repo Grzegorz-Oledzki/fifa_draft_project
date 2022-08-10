@@ -37,7 +37,21 @@
 
 </head>
 <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+    <body>
+    {% include 'navbar.html' %}
+    {% if messages %}
+            {% for message in messages %}
+        <div class="alert alert--{{message.tags}}">
+            <p class="alert__message" > {{message}}</p>
+        </div>
+    {% endfor %}
+    {% endif %}
 
+
+    {% block content %}
+
+    {% endblock content %}
+</body>
 
      <!-- SCRIPTS -->
      <script src="{% static 'js/jquery.js' %}"></script>
