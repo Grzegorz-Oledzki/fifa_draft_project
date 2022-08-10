@@ -53,7 +53,7 @@ def register_user(request):
             return redirect("edit-account")
 
         else:
-            messages.error(request, "Error! User not registered")
+            messages.error(request, "Email error, or featured image is too big (max 3mb)")
 
     context = {"page": page, "form": form}
     return render(request, "login_register.html", context)
@@ -90,6 +90,8 @@ def edit_account(request):
             form.save()
             messages.success(request, "User updated!")
             return redirect("account")
+        else:
+            messages.error(request, "Email error, or featured image is too big (max 3mb)")
     context = {"form": form}
     return render(request, "profile_form.html", context)
 

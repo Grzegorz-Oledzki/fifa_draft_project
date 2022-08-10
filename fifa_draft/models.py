@@ -13,6 +13,12 @@ class Group(models.Model):
         SERPENTINE = (_("Serpentine"),)
         FIXED = _("Fixed")
 
+    def validate_image(self):
+        file_size = self.file.size
+        limit_mb = 3 * 1024 * 1024
+        if file_size > limit_mb:
+            raise ValidationError("Featured image is too big (max 3mb)")
+
     owner = models.ForeignKey(
         "users.Profile",
         default="users.Profile",
@@ -27,7 +33,7 @@ class Group(models.Model):
     teams = models.ManyToManyField("Team", blank=True, related_name="teams")
     name = models.CharField(max_length=200, blank=False, null=False, unique=True)
     description = models.TextField(null=True, blank=True)
-    featured_image = models.ImageField(null=True, blank=True, upload_to="group_images/")
+    featured_image = models.ImageField(null=True, blank=True, upload_to="group_images/", validators=[validate_image])
     password = models.CharField(null=False, blank=False, max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     number_of_players = models.PositiveIntegerField(
@@ -80,6 +86,12 @@ class Group(models.Model):
 
 
 class Team(models.Model):
+    def validate_image(self):
+        file_size = self.file.size
+        limit_mb = 3 * 1024 * 1024
+        if file_size > limit_mb:
+            raise ValidationError(_("Featured image is too big (max 3mb)"))
+
     FORMATION_CHOICES = (
         ("4–4–2", "4–4–2"),
         ("4–3–3", "4–3–3"),
@@ -101,7 +113,7 @@ class Team(models.Model):
         Group, null=False, blank=False, on_delete=models.CASCADE, db_constraint=False
     )
     name = models.CharField(max_length=20, blank=False, null=False)
-    featured_image = models.ImageField(null=True, blank=True, upload_to="team_images/")
+    featured_image = models.ImageField(null=True, blank=True, upload_to="team_images/", validators=[validate_image])
     created = models.DateTimeField(auto_now_add=True)
     group_password = models.CharField(null=False, blank=False, max_length=50)
     max_players = models.PositiveIntegerField(default=14, blank=False)
