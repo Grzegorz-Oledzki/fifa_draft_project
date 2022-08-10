@@ -3,14 +3,20 @@ from fifa_draft.models import Group
 import random
 
 
+def is_unique_name(team):
+    unique_name = True
+    for team_in_group in team.belongs_group.teams.all():
+        if str(team_in_group).lower() == str(team).lower() and team.owner != team_in_group.owner:
+            unique_name = False
+    return unique_name
+
+
+
 def team_form_validation(request, form, profile):
     form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
-        unique_name = True
-        for team_name in team.belongs_group.teams.all():
-            if str(team_name) == str(team):
-                unique_name = False
+        unique_name = is_unique_name
         if (
             team.belongs_group.password == team.group_password
             and profile not in team.belongs_group.members.all()
@@ -40,10 +46,7 @@ def edit_team_form_validation(request, form):
     form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
-        unique_name = True
-        for team_in_group in team.belongs_group.teams.all():
-            if str(team_in_group) == str(team) and team.owner != team_in_group.owner:
-                unique_name = False
+        unique_name = is_unique_name(team)
         if team.belongs_group.password == team.group_password and unique_name:
             team.save()
             form_valid = True
@@ -53,7 +56,8 @@ def edit_team_form_validation(request, form):
             messages.error(request, "Please choose unique name")
         elif team.belongs_group.password != team.group_password:
             messages.error(request, "Password error")
-    messages.error(request, "Featured image is too big (max 3mb)")
+    else:
+        messages.error(request, "Featured image is too big (max 3mb)")
     return form_valid
 
 
