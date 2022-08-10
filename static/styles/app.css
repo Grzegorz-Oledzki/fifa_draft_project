@@ -73,9 +73,6 @@ img {
 .project--thumbnail {
   height: 250px;
   object-fit: cover;
-  position:relative;
-  left: 20px;
-  top: 2px
 }
 
 @media screen and (max-width: 800px) {
@@ -847,4 +844,20 @@ img {
   color: var(--color-sub);
   margin-bottom: 1rem;
   margin-top: 2rem;
+}
+
+
+
+/*=======================
+  Fixed Position Alerts Wrapper
+========================*/
+
+.alert {
+  position: fixed;
+  left: 50%;
+  top: 120px;
+  transform: translate(-50%, -50%);
+
+
+  z-index: 99999;
 }
