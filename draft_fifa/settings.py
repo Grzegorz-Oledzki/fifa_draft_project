@@ -155,7 +155,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 SITE_ID = 1
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-AWS_LOCATION = 'static'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
