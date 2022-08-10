@@ -37,13 +37,13 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "players",
     "import_export",
+    "django.contrib.staticfiles",
     "storages",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     "django.contrib.sites",
     "rest_framework",
 ]
@@ -147,7 +147,7 @@ STATIC_URL = "/static/"
 MEDIA_URL = "/images/"
 
 
-# STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATICFILES_STORAGE = 'draft_fifa.s3utils.StaticRootS3BotoStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 # STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -155,13 +155,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 SITE_ID = 1
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-
+AWS_LOCATION = 'static'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 AWS_S3_FILE_OVERWRITE = False
-AWS_QUERYSTRING_AUTH = False
+AWS_QUERYSTRING_AUTH = True
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = config("BUCKET")
