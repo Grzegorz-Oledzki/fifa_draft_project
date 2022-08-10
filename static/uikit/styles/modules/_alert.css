@@ -1,16 +1,8 @@
 .alert {
-/*  display: inline-flex;
+  display: inline-flex;
   gap: 3rem;
   justify-content: space-between;
-  align-items: center;*/
-
-
-  position: fixed;
-  left: 50%;
-  top: 120px;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-
+  align-items: center;
   padding: 1.5rem 2.5rem;
   border-radius: 3px;
   border: 1px solid var(--color-white-light);
