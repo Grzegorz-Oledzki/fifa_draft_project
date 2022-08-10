@@ -137,7 +137,7 @@ def delete_pending_player_pick_confirmation(request, pk, team_id):
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
     if request.method == "POST":
-        team.pending_player.clear()
+        team.pending_player.remove(player)
         team.save()
         messages.success(request, "Pending player deleted!")
         return redirect("team", team.id)

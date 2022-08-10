@@ -1,4 +1,3 @@
-from fifa_draft.forms import GroupForm, TeamForm
 from django.contrib import messages
 from fifa_draft.models import Group
 import random
@@ -25,14 +24,16 @@ def team_form_validation(request, form, profile):
             team.belongs_group.teams.add(team)
             messages.success(request, "Team created and added to group successful!")
             form_valid = True
-            return form_valid, team.belongs_group_id
+            return form_valid
         elif team.belongs_group.password != team.group_password:
             messages.error(request, "Password error")
         elif not unique_name:
             messages.error(request, "Please choose unique name")
         elif profile in team.belongs_group.members.all():
             messages.error(request, "You have already team in this group")
-        return form_valid, team.belongs_group_id
+        return form_valid
+    else:
+        messages.error(request, "Featured image is too big (max 3mb)")
 
 
 def edit_team_form_validation(request, form):
@@ -52,6 +53,7 @@ def edit_team_form_validation(request, form):
             messages.error(request, "Please choose unique name")
         elif team.belongs_group.password != team.group_password:
             messages.error(request, "Password error")
+    messages.error(request, "Featured image is too big (max 3mb)")
     return form_valid
 
 
@@ -64,3 +66,12 @@ def draw_draft_order(group):
     group.picking_person.add(profiles_order[0])
     group.draft_order = draw_order
     group.picking_history = "Draft started!:"
+
+
+def group_validation(request, group):
+    if group.featured_image.size > 3 * 1024 * 1024:
+        messages.error(request, "Featured image is too big (max 3mb)")
+    elif group.number_of_players > 20 or group.number_of_players < 14:
+        messages.error(request, "Number of players must be between 14 and 20")
+    else:
+        messages.error(request, "Group name is not unique")

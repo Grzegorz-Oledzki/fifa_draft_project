@@ -84,7 +84,7 @@ WSGI_APPLICATION = "draft_fifa.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-# # DATABASES = {}
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -151,6 +151,7 @@ MEDIA_URL = "/images/"
 STATICFILES_STORAGE = 'draft_fifa.s3utils.StaticRootS3BotoStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 # STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 SITE_ID = 1
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

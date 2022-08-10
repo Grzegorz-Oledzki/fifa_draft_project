@@ -13,6 +13,7 @@ from fifa_draft.utils import (
     team_form_validation,
     edit_team_form_validation,
     draw_draft_order,
+    group_validation
 )
 
 
@@ -41,18 +42,15 @@ def create_group(request):
     profile = request.user.profile
     if request.method == "POST":
         form = GroupForm(request.POST, request.FILES)
+        group = form.save(commit=False)
         if form.is_valid():
-            group = form.save(commit=False)
             group.owner = profile
             group.picking_history = "Draft started " + "\n"
             form.save()
             messages.success(request, "Now create a team!")
             return redirect("create-team")
         else:
-            messages.error(
-                request,
-                "Error, name is not unique, or you have type the wrong number of players",
-            )
+            group_validation(request, group)
     context = {"form": form}
     return render(request, "group-form.html", context)
 
@@ -70,10 +68,7 @@ def edit_group(request, pk):
             messages.success(request, "Group edited successful!")
             return redirect("group", group.id)
         else:
-            messages.error(
-                request,
-                "Error, name is not unique, or you have type the wrong number of players",
-            )
+            group_validation(request, group)
     context = {"form": form, "group": group, "groups": groups}
     return render(request, "group-form.html", context)
 
@@ -109,9 +104,10 @@ def create_team(request):
     profile = request.user.profile
     if request.method == "POST":
         form = TeamForm(request.POST, request.FILES)
-        form_valid, group_id = team_form_validation(request, form, profile)
+        form_valid = team_form_validation(request, form, profile)
         if form_valid:
-            return redirect("group", group_id)
+            team = form.save(commit=False)
+            return redirect("group", team.belongs_group.id)
     context = {"form": form}
     return render(request, "team-form.html", context)
 
