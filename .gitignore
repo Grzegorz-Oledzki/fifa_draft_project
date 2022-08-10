@@ -1,9 +1,6 @@
 .idea/
 venv/
 __pycache__/
-UUID problem.py
-venv/db.sqlite3
-db-wybrani.sqlite3
 .env
-db2.sqlite3
 db.sqlite3
+index.html
