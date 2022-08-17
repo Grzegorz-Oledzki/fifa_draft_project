@@ -41,7 +41,7 @@ automatic replenishment of the match schedule file.
 # Installation:
 1. Clone this repository: <code>git clone git@github.com:Grzegorz-Oledzki/fifa_draft_project.git</code>
 2. Install requirements: <code>pip install -r requirements.txt</code>
-3. Set up your database. If you want to use local database go to draft_fifa folder > settings.py and comment lines 88 to 97, and uncomment lines 98 to 103.
+3. Set up your database and static files ROOT. If you want to use local database go to draft_fifa folder > settings.py and comment lines 88 to 97, and uncomment lines 98 to 103. For static ROOT, uncomment line 153 and comment line 151 + type <code> python manage.py collectstatic</code>. 
 4. Type:
 <code>python manage.py migrate</code>
 <code>python manage.py createsuperuser</code>
