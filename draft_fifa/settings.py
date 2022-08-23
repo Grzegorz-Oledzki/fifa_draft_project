@@ -88,9 +88,12 @@ WSGI_APPLICATION = "draft_fifa.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
+        # "NAME": "fifa_local_db",
         "NAME": "grzesdb",
         "USER": "grzes",
+        # "PASSWORD": "grzes",
         "PASSWORD": config("PASSWORD"),
+        # "HOST": "localhost",
         "HOST": "grzesdb.cm3vehgcrs7p.eu-central-1.rds.amazonaws.com",
         "PORT": "5432",
     }
@@ -137,8 +140,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "django.page.email@gmail.com"
-EMAIL_HOST_PASSWORD = "omvkvkvchykrhdkm"
+EMAIL_HOST_USER = config("GMAIL_ADDRESS")
+EMAIL_HOST_PASSWORD = config("GMAIL_PASSWORD")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
