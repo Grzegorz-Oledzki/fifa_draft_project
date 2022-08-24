@@ -3,10 +3,9 @@ from fifa_draft.models import Profile
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
-from django.contrib import messages
 
 
-def create_profile(sender, instance, created, **kwargs):
+def create_profile(instance: Profile, created: bool, **kwargs):
     if created:
         user = instance
         profile = Profile.objects.create(
@@ -23,15 +22,15 @@ def create_profile(sender, instance, created, **kwargs):
         )
 
 
-def delete_profile(sender, instance, **kwargs):
+def delete_profile(instance: Profile, **kwargs):
     user = instance.user
     user.delete()
 
 
-def update_user(sender, instance, created, **kwargs):
+def update_user(instance: Profile, created: bool, **kwargs):
     profile = instance
     user = profile.user
-    if created == False:
+    if not created:
         user.first_name = profile.name
         user.username = profile.username
         user.email = profile.email

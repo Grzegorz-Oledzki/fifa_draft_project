@@ -1,14 +1,14 @@
+from django.core.handlers.wsgi import WSGIRequest
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from fifa_draft.models import Profile
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from users.forms import CustomUserCreationForm, ProfileForm
 from django.contrib import messages
-from fifa_draft.views import delete_group
 
 
-def login_user(request):
+def login_user(request: WSGIRequest) -> HttpResponse:
     if request.user.is_authenticated:
         return redirect("profiles")
 
@@ -33,13 +33,13 @@ def login_user(request):
     return render(request, "login_register.html")
 
 
-def logout_user(request):
+def logout_user(request: WSGIRequest) -> HttpResponse:
     logout(request)
     messages.success(request, "User logout!")
     return redirect("login")
 
 
-def register_user(request):
+def register_user(request: WSGIRequest) -> HttpResponse:
     page = "register"
     form = CustomUserCreationForm()
     if request.method == "POST":
@@ -59,19 +59,19 @@ def register_user(request):
     return render(request, "login_register.html", context)
 
 
-def profiles(request):
+def profiles(request: WSGIRequest) -> HttpResponse:
     profiles = Profile.objects.all
     context = {"profiles": profiles}
     return render(request, "profiles.html", context)
 
 
-def user_profile(request, pk):
+def user_profile(request: WSGIRequest, pk: str) -> HttpResponse:
     profile = Profile.objects.get(id=pk)
     context = {"profile": profile}
     return render(request, "user-profile.html", context)
 
 
-def user_account(request):
+def user_account(request: WSGIRequest) -> HttpResponse:
     profile = request.user.profile
     teams = profile.team_set.all()
     groups = profile.group_set.all()
@@ -79,7 +79,7 @@ def user_account(request):
     return render(request, "account.html", context)
 
 
-def edit_account(request):
+def edit_account(request: WSGIRequest) -> HttpResponse:
     profile = request.user.profile
     form = ProfileForm(instance=profile)
     if request.method == "POST":
@@ -96,7 +96,7 @@ def edit_account(request):
     return render(request, "profile_form.html", context)
 
 
-def delete_account(request, pk):
+def delete_account(request: WSGIRequest, pk: str) -> HttpResponse:
     profile = Profile.objects.get(id=pk)
     context = {"profile": profile}
     if request.method == "POST":
