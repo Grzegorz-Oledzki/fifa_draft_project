@@ -88,19 +88,17 @@ def pending_player_next_person_add(team):
 
 
 def is_pending_player_and_pending_player_not_in_group_players(next_team, team):
-    if (
+    return (
         next_team.pending_player.count() > 0
         and next_team.pending_player.all() not in team.belongs_group.group_players.all()
-    ):
-        return True
+    )
 
 
 def is_pending_team_owner_is_picking_person_and_have_pending_player(pending_team, team):
-    if (
+    return (
         pending_team.owner in team.belongs_group.picking_person.all()
         and pending_team.pending_player.count() > 0
-    ):
-        return True
+    )
 
 
 def check_count_of_pending_players_and_add_to_team_and_change_picking_person(
@@ -121,7 +119,7 @@ def check_count_of_pending_players_and_add_to_team_and_change_picking_person(
 
 def pending_player_pick(next_team, team):
     if is_pending_player_and_pending_player_not_in_group_players:
-        for pending_team_owner in team.belongs_group.members.all():
+        for _ in team.belongs_group.members.all():
             for pending_team in team.belongs_group.team_set.all():
                 if is_pending_team_owner_is_picking_person_and_have_pending_player(
                     pending_team, team
