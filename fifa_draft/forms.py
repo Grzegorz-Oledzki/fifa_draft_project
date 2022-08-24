@@ -1,8 +1,6 @@
 from django.forms import ModelForm
 from fifa_draft.models import Group, Team
 from users.models import Profile
-from players.models import Player
-from django.utils.translation import gettext_lazy as _
 from django import forms
 
 

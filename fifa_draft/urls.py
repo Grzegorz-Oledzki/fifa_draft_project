@@ -3,8 +3,8 @@ from fifa_draft import views
 
 urlpatterns = [
     path("", views.home, name="home"),
-    path("groups/", views.groups, name="groups"),
-    path("group/<str:pk>/", views.group, name="group"),
+    path("groups/", views.all_groups, name="groups"),
+    path("group/<str:pk>/", views.single_group, name="group"),
     path("create-group/", views.create_group, name="create-group"),
     path("edit-group/<str:pk>/", views.edit_group, name="edit-group"),
     path("create-team/", views.create_team, name="create-team"),

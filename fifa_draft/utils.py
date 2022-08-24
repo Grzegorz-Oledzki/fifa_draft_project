@@ -1,18 +1,27 @@
 from django.contrib import messages
-from fifa_draft.models import Group
-import random
+from django.core.handlers.wsgi import WSGIRequest
+from fifa_draft.forms import EditTeamForm, TeamForm
+from fifa_draft.models import Team, Group
+from users.models import Profile
 
 
-def is_unique_name(team):
-    unique_name = True
+def is_unique_name(team: Team) -> bool:
     for team_in_group in team.belongs_group.teams.all():
         if str(team_in_group).lower() == str(team).lower() and team.owner != team_in_group.owner:
-            unique_name = False
-    return unique_name
+            return False
+    return True
 
 
+def creating_team(team: Team, profile):
+    team.owner = profile
+    team.max_players = team.belongs_group.number_of_players
+    team.save()
+    team.belongs_group.members.add(profile)
+    profile.draft_teams.add(team)
+    team.belongs_group.teams.add(team)
 
-def team_form_validation(request, form, profile):
+
+def team_form_validation(request: WSGIRequest, form: TeamForm, profile: Profile) -> bool:
     form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
@@ -22,12 +31,7 @@ def team_form_validation(request, form, profile):
             and profile not in team.belongs_group.members.all()
             and unique_name
         ):
-            team.owner = profile
-            team.max_players = team.belongs_group.number_of_players
-            team.save()
-            team.belongs_group.members.add(profile)
-            profile.draft_teams.add(team)
-            team.belongs_group.teams.add(team)
+            creating_team(team, profile)
             messages.success(request, "Team created and added to group successful!")
             form_valid = True
             return form_valid
@@ -42,7 +46,7 @@ def team_form_validation(request, form, profile):
         messages.error(request, "Featured image is too big (max 3mb)")
 
 
-def edit_team_form_validation(request, form):
+def edit_team_form_validation(request: WSGIRequest, form: EditTeamForm) -> bool:
     form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
@@ -61,7 +65,7 @@ def edit_team_form_validation(request, form):
     return form_valid
 
 
-def draw_draft_order(group):
+def draw_draft_order(group: Group):
     profiles_order = []
     draw_order = ""
     for member in group.members.all().order_by("?"):
@@ -72,7 +76,7 @@ def draw_draft_order(group):
     group.picking_history = "Draft started!:"
 
 
-def group_validation(request, group):
+def group_validation(request: WSGIRequest, group: Group) -> messages:
     if group.featured_image.size > 3 * 1024 * 1024:
         messages.error(request, "Featured image is too big (max 3mb)")
     elif group.number_of_players > 20 or group.number_of_players < 14:
