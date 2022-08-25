@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 
-def create_profile(instance: Profile, created: bool, **kwargs):
+def create_profile(instance: Profile, created: bool, **kwargs) -> None:
     if created:
         user = instance
         profile = Profile.objects.create(
@@ -22,12 +22,12 @@ def create_profile(instance: Profile, created: bool, **kwargs):
         )
 
 
-def delete_profile(instance: Profile, **kwargs):
+def delete_profile(instance: Profile, **kwargs) -> None:
     user = instance.user
     user.delete()
 
 
-def update_user(instance: Profile, created: bool, **kwargs):
+def update_user(instance: Profile, created: bool, **kwargs) -> None:
     profile = instance
     user = profile.user
     if not created:
