@@ -20,7 +20,7 @@ class GroupForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
 
-        self.fields['featured_image'].label = "Featured image (max 3mb)"
+        self.fields["featured_image"].label = "Featured image (max 3mb)"
 
         self.fields["password"].widget.attrs.update(
             {
@@ -68,7 +68,7 @@ class TeamForm(ModelForm):
             field.widget.attrs.update(
                 {"class": "input", "placeholder": "Add team " + name}
             )
-        self.fields['featured_image'].label = "Featured image (max 3mb)"
+        self.fields["featured_image"].label = "Featured image (max 3mb)"
         self.fields["group_password"].widget.attrs.update(
             {
                 "class": "input",

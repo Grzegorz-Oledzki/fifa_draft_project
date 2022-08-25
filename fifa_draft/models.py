@@ -1,11 +1,15 @@
-from django.db import models
-from django.contrib.auth.models import User
 import uuid
-from django.core.validators import MaxValueValidator, MinValueValidator
+from typing import List
+
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from django.db.models.fields.files import ImageFieldFile
 from django.utils.translation import gettext_lazy as _
-from users.models import Profile
+
 from players.models import Player
+from users.models import Profile
 
 
 class Group(models.Model):
@@ -33,7 +37,9 @@ class Group(models.Model):
     teams = models.ManyToManyField("Team", blank=True, related_name="teams")
     name = models.CharField(max_length=200, blank=False, null=False, unique=True)
     description = models.TextField(null=True, blank=True)
-    featured_image = models.ImageField(null=True, blank=True, upload_to="group_images/", validators=[validate_image])
+    featured_image = models.ImageField(
+        null=True, blank=True, upload_to="group_images/", validators=[validate_image]
+    )
     password = models.CharField(null=False, blank=False, max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     number_of_players = models.PositiveIntegerField(
@@ -60,10 +66,10 @@ class Group(models.Model):
     draft_order = models.CharField(max_length=200, blank=True, null=True)
     picking_history = models.CharField(max_length=10000000, blank=True, null=True)
 
-    def picking_history_as_list(self):
+    def picking_history_as_list(self) -> List[str]:
         return self.picking_history.split(":")
 
-    def profiles_order_as_list(self):
+    def profiles_order_as_list(self) -> List[str]:
         persons = self.draft_order.split(":")
         profiles_order = []
         for person in persons:
@@ -71,13 +77,13 @@ class Group(models.Model):
         profiles_order.pop(-1)
         return profiles_order
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
         ordering = ["created"]
 
-    def image_url(self):
+    def image_url(self) -> ImageFieldFile:
         try:
             url = self.featured_image.url
         except:
@@ -113,7 +119,9 @@ class Team(models.Model):
         Group, null=False, blank=False, on_delete=models.CASCADE, db_constraint=False
     )
     name = models.CharField(max_length=20, blank=False, null=False)
-    featured_image = models.ImageField(null=True, blank=True, upload_to="team_images/", validators=[validate_image])
+    featured_image = models.ImageField(
+        null=True, blank=True, upload_to="team_images/", validators=[validate_image]
+    )
     created = models.DateTimeField(auto_now_add=True)
     group_password = models.CharField(null=False, blank=False, max_length=50)
     max_players = models.PositiveIntegerField(default=14, blank=False)
@@ -135,13 +143,13 @@ class Team(models.Model):
         Player, blank=True, related_name="pending_player"
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
         ordering = ["created"]
 
-    def image_url(self):
+    def image_url(self) -> ImageFieldFile:
         try:
             url = self.featured_image.url
         except:

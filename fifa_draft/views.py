@@ -1,5 +1,9 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
 from fifa_draft.forms import (
     GroupForm,
     TeamForm,
@@ -8,15 +12,12 @@ from fifa_draft.forms import (
     ChoosePersonPickingForm,
 )
 from fifa_draft.models import Group, Team
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from fifa_draft.utils import (
     team_form_validation,
     edit_team_form_validation,
     draw_draft_order,
-    group_validation
+    group_validation,
 )
-from django.core.handlers.wsgi import WSGIRequest
 
 
 def home(request: WSGIRequest) -> HttpResponse:
