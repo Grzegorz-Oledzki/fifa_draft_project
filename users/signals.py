@@ -1,8 +1,9 @@
-from django.db.models.signals import post_save, post_delete
-from fifa_draft.models import Profile
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.conf import settings
+from django.db.models.signals import post_save, post_delete
+
+from fifa_draft.models import Profile
 
 
 def create_profile(instance: Profile, created: bool, **kwargs) -> None:

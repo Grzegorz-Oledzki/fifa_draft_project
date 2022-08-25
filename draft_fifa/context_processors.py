@@ -2,6 +2,7 @@ import uuid
 from typing import List
 
 from django.core.handlers.wsgi import WSGIRequest
+
 from fifa_draft.models import Group
 
 

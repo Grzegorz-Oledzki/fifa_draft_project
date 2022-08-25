@@ -1,11 +1,12 @@
+from django.contrib import messages
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.models import User
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+
 from fifa_draft.models import Profile
-from django.contrib.auth.models import User
 from users.forms import CustomUserCreationForm, ProfileForm
-from django.contrib import messages
 
 
 def login_user(request: WSGIRequest) -> HttpResponse:
