@@ -1,7 +1,10 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from tablib import Dataset
+
 from fifa_draft.models import Team
 from players.models import Player
 from players.utils import (
@@ -9,10 +12,7 @@ from players.utils import (
     add_player_to_team_and_group,
     pending_player_pick,
     last_and_first_picking_persons,
-    add_to_picking_history,
 )
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 
 
 def upload_players(request: WSGIRequest) -> HttpResponse:
@@ -26,31 +26,7 @@ def upload_players(request: WSGIRequest) -> HttpResponse:
 
         imported_data = dataset.load(new_player.read(), format="xlsx")
         for data in imported_data:
-            value = Player(
-                data[0],
-                data[1],
-                data[2],
-                data[3],
-                data[4],
-                data[5],
-                data[6],
-                data[7],
-                data[8],
-                data[9],
-                data[10],
-                data[11],
-                data[12],
-                data[13],
-                data[14],
-                data[15],
-                data[16],
-                data[17],
-                data[18],
-                data[19],
-                data[20],
-                data[21],
-                data[22],
-            )
+            value = Player(*data)
             value.save()
             return render(request, "upload.html")
 
@@ -94,7 +70,9 @@ def players_pick(request: WSGIRequest, pk: str) -> HttpResponse:
     return render(request, "players-pick.html", context)
 
 
-def player_pick_confirmation(request: WSGIRequest, pk: str, team_id: str) -> HttpResponse:
+def player_pick_confirmation(
+    request: WSGIRequest, pk: str, team_id: str
+) -> HttpResponse:
     profile = request.user.profile
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
@@ -116,7 +94,9 @@ def player_pick_confirmation(request: WSGIRequest, pk: str, team_id: str) -> Htt
     return render(request, "player-pick-confirmation.html", context)
 
 
-def pending_player_pick_confirmation(request: WSGIRequest, pk: str, team_id: str) -> HttpResponse:
+def pending_player_pick_confirmation(
+    request: WSGIRequest, pk: str, team_id: str
+) -> HttpResponse:
     profile = request.user.profile
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
@@ -135,7 +115,9 @@ def pending_player_pick_confirmation(request: WSGIRequest, pk: str, team_id: str
     return render(request, "pending-player-pick-confirmation.html", context)
 
 
-def delete_pending_player_pick_confirmation(request: WSGIRequest, pk: str, team_id: str) -> HttpResponse:
+def delete_pending_player_pick_confirmation(
+    request: WSGIRequest, pk: str, team_id: str
+) -> HttpResponse:
     profile = request.user.profile
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)

@@ -5,13 +5,13 @@ from players.models import Player
 from users.models import Profile
 
 
-def add_to_picking_history(profile: Profile, player: Player, group: Group):
+def add_to_picking_history(profile: Profile, player: Player, group: Group) -> None:
     draft_history = str(profile.name) + " picked " + str(player.short_name) + ":"
     group.picking_history += draft_history
     group.save()
 
 
-def add_player_to_team_and_group(team: Team, player: Player):
+def add_player_to_team_and_group(team: Team, player: Player) -> None:
     team.belongs_group.picking_person.clear()
     team.team_players.add(player)
     team.belongs_group.group_players.add(player)
@@ -21,7 +21,7 @@ def add_player_to_team_and_group(team: Team, player: Player):
     team.pending_player.clear()
 
 
-def last_and_first_picking_persons(team: Team) -> (Profile, Profile):
+def last_and_first_picking_persons(team: Team) -> tuple[Profile, Profile]:
     group_profiles_order = team.belongs_group.profiles_order_as_list()
     last_person = team.belongs_group.members.get(
         name=group_profiles_order[team.belongs_group.members.count() - 1]
@@ -30,7 +30,9 @@ def last_and_first_picking_persons(team: Team) -> (Profile, Profile):
     return first_person, last_person
 
 
-def sum_of_team_players_is_equal_average_sum_of_other_group_teams_players(team: Team) -> bool:
+def sum_of_team_players_is_equal_average_sum_of_other_group_teams_players(
+    team: Team,
+) -> bool:
     return (
         team.team_players.count()
         == team.belongs_group.group_players.count() / team.belongs_group.members.count()
@@ -38,7 +40,9 @@ def sum_of_team_players_is_equal_average_sum_of_other_group_teams_players(team: 
     )
 
 
-def sum_of_team_players_is_greater_average_sum_of_other_group_teams_players(team: Team) -> bool:
+def sum_of_team_players_is_greater_average_sum_of_other_group_teams_players(
+    team: Team,
+) -> bool:
     last_person = last_and_first_picking_persons(team)[1]
     last_team = team.belongs_group.team_set.get(owner=last_person)
     return (
@@ -48,7 +52,10 @@ def sum_of_team_players_is_greater_average_sum_of_other_group_teams_players(team
 
 
 def change_picking_person_for_serpentine_draft(
-    team: Team, next_profile_index: int, group_profiles_order: List, profile: Profile
+    team: Team,
+    next_profile_index: int,
+    group_profiles_order: List[str],
+    profile: Profile,
 ) -> Profile:
     if sum_of_team_players_is_equal_average_sum_of_other_group_teams_players(team):
         return profile
@@ -63,7 +70,7 @@ def change_picking_person_for_serpentine_draft(
 
 
 def change_picking_person_for_fixed_draft(
-    team: Team, next_profile_index: int, group_profiles_order: List
+    team: Team, next_profile_index: int, group_profiles_order: List[str]
 ) -> Profile:
     if team.belongs_group.members.count() == next_profile_index:
         return team.belongs_group.members.get(name=group_profiles_order[0])
@@ -86,20 +93,24 @@ def change_picking_person(team: Team, profile: Profile) -> Profile:
         )
 
 
-def pending_player_next_person_add(team: Team):
+def pending_player_next_person_add(team: Team) -> None:
     team.belongs_group.picking_person.clear()
     next_person = change_picking_person(team, team.owner)
     team.belongs_group.picking_person.add(next_person)
 
 
-def is_pending_player_and_pending_player_not_in_group_players(next_team: Team, team: Team) -> bool:
+def is_pending_player_and_pending_player_not_in_group_players(
+    next_team: Team, team: Team
+) -> bool:
     return (
         next_team.pending_player.count() > 0
         and next_team.pending_player.all() not in team.belongs_group.group_players.all()
     )
 
 
-def is_pending_team_owner_is_picking_person_and_have_pending_player(pending_team: Team, team: Team) -> bool:
+def is_pending_team_owner_is_picking_person_and_have_pending_player(
+    pending_team: Team, team: Team
+) -> bool:
     return (
         pending_team.owner in team.belongs_group.picking_person.all()
         and pending_team.pending_player.count() > 0
@@ -108,7 +119,7 @@ def is_pending_team_owner_is_picking_person_and_have_pending_player(pending_team
 
 def check_count_of_pending_players_and_add_to_team_and_change_picking_person(
     pending_team: Team, team: Team
-):
+) -> None:
 
     if pending_team.pending_player.all().count() == 2:
         for player in pending_team.pending_player.all():
@@ -122,7 +133,7 @@ def check_count_of_pending_players_and_add_to_team_and_change_picking_person(
         pending_player_next_person_add(pending_team)
 
 
-def pending_player_pick(next_team: Team, team: Team):
+def pending_player_pick(next_team: Team, team: Team) -> None:
     if is_pending_player_and_pending_player_not_in_group_players:
         for _ in team.belongs_group.members.all():
             for pending_team in team.belongs_group.team_set.all():
