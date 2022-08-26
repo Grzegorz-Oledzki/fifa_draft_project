@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-o%su%rl!n)-8tmq$0noowg!j*_o&6*-)2h-6_q=(*j%_fyixuk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "fifa-draft.herokuapp.com", ".herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]", "fifa-draft.herokuapp.com", ".herokuapp.com"]
 
 
 # Application definition
@@ -95,14 +95,15 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
+#         "HOST": "db",
 #         "NAME": "fifa_local_db",
 #         "USER": "grzes",
 #         "PASSWORD": "grzes",
-#         "HOST": "localhost",
-#         "PORT": "5432",
+#         "PORT": "5432"
 #     }
 # }
 

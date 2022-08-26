@@ -1,19 +1,22 @@
-version: "3.7"
+version: '3.8'
 
 services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./draft_fifa/:/usr/src/draft_fifa/
+    ports:
+      - 8000:8000
   db:
     image: postgres:14.1
     container_name: fifa-local-db
-    ports:
-      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=fifa_local_db
       - POSTGRES_USER=grzes
       - POSTGRES_PASSWORD=grzes
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    restart: unless-stopped
-
+      - POSTGRES_DB=fifa_local_db
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -27,7 +30,6 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     restart: unless-stopped
-
 volumes:
-  db-data:
+  postgres_data:
   pgadmin-data:
