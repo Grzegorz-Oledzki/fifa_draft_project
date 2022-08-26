@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 from fifa_draft.models import Group, Team
 from players.models import Player
@@ -21,7 +21,7 @@ def add_player_to_team_and_group(team: Team, player: Player) -> None:
     team.pending_player.clear()
 
 
-def last_and_first_picking_persons(team: Team) -> tuple[Profile, Profile]:
+def last_and_first_picking_persons(team: Team) -> Tuple[Profile, Profile]:
     group_profiles_order = team.belongs_group.profiles_order_as_list()
     last_person = team.belongs_group.members.get(
         name=group_profiles_order[team.belongs_group.members.count() - 1]
