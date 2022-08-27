@@ -1,6 +1,7 @@
 from django.contrib import admin
-from players.models import Player
 from import_export.admin import ImportExportModelAdmin
+
+from players.models import Player
 
 
 @admin.register(Player)

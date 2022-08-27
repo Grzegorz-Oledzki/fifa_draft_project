@@ -1,11 +1,13 @@
-from django.db import models
-from django.contrib.auth.models import User
 import uuid
-from django.core.validators import MaxValueValidator, MinValueValidator
+
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.utils.translation import gettext_lazy as _
-from users.models import Profile
+
 from players.models import Player
+from users.models import Profile
 
 
 class Group(models.Model):
@@ -33,7 +35,9 @@ class Group(models.Model):
     teams = models.ManyToManyField("Team", blank=True, related_name="teams")
     name = models.CharField(max_length=200, blank=False, null=False, unique=True)
     description = models.TextField(null=True, blank=True)
-    featured_image = models.ImageField(null=True, blank=True, upload_to="group_images/", validators=[validate_image])
+    featured_image = models.ImageField(
+        null=True, blank=True, upload_to="group_images/", validators=[validate_image]
+    )
     password = models.CharField(null=False, blank=False, max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     number_of_players = models.PositiveIntegerField(
@@ -113,7 +117,9 @@ class Team(models.Model):
         Group, null=False, blank=False, on_delete=models.CASCADE, db_constraint=False
     )
     name = models.CharField(max_length=20, blank=False, null=False)
-    featured_image = models.ImageField(null=True, blank=True, upload_to="team_images/", validators=[validate_image])
+    featured_image = models.ImageField(
+        null=True, blank=True, upload_to="team_images/", validators=[validate_image]
+    )
     created = models.DateTimeField(auto_now_add=True)
     group_password = models.CharField(null=False, blank=False, max_length=50)
     max_players = models.PositiveIntegerField(default=14, blank=False)

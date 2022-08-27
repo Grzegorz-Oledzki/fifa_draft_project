@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,7 +28,13 @@ SECRET_KEY = "django-insecure-o%su%rl!n)-8tmq$0noowg!j*_o&6*-)2h-6_q=(*j%_fyixuk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]", "fifa-draft.herokuapp.com", ".herokuapp.com"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "[::1]",
+    "fifa-draft.herokuapp.com",
+    ".herokuapp.com",
+]
 
 
 # Application definition
@@ -103,7 +110,7 @@ DATABASES = {
 #         "NAME": "fifa_local_db",
 #         "USER": "grzes",
 #         "PASSWORD": "grzes",
-#         "PORT": "5432"
+#         "PORT": "5432",
 #     }
 # }
 
@@ -153,7 +160,7 @@ MEDIA_URL = "/images/"
 
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATICFILES_STORAGE = 'draft_fifa.s3utils.StaticRootS3BotoStorage'
+STATICFILES_STORAGE = "draft_fifa.s3utils.StaticRootS3BotoStorage"
 MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 # STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 

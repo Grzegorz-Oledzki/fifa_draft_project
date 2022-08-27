@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
-from fifa_draft.models import Profile
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from users.forms import CustomUserCreationForm, ProfileForm
-from django.contrib import messages
+from django.shortcuts import redirect, render
+
+from fifa_draft.models import Profile
 from fifa_draft.views import delete_group
+from users.forms import CustomUserCreationForm, ProfileForm
 
 
 def login_user(request):
@@ -53,7 +54,9 @@ def register_user(request):
             return redirect("edit-account")
 
         else:
-            messages.error(request, "Email error, or featured image is too big (max 3mb)")
+            messages.error(
+                request, "Email error, or featured image is too big (max 3mb)"
+            )
 
     context = {"page": page, "form": form}
     return render(request, "login_register.html", context)
@@ -91,7 +94,9 @@ def edit_account(request):
             messages.success(request, "User updated!")
             return redirect("account")
         else:
-            messages.error(request, "Email error, or featured image is too big (max 3mb)")
+            messages.error(
+                request, "Email error, or featured image is too big (max 3mb)"
+            )
     context = {"form": form}
     return render(request, "profile_form.html", context)
 

@@ -1,12 +1,13 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
 from api.serializers import (
-    TeamSerializer,
     GroupSerializer,
     PlayerSerializer,
     ProfileSerializer,
+    TeamSerializer,
 )
-from fifa_draft.models import Team, Group
+from fifa_draft.models import Group, Team
 from players.models import Player
 from users.models import Profile
 

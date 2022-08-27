@@ -2,16 +2,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from tablib import Dataset
 
 from fifa_draft.models import Team
 from players.models import Player
 from players.utils import (
-    change_picking_person,
     add_player_to_team_and_group,
-    pending_player_pick,
+    change_picking_person,
     last_and_first_picking_persons,
+    pending_player_pick,
 )
 
 
