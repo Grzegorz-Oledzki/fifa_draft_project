@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   web:
@@ -11,12 +11,16 @@ services:
   db:
     image: postgres:14.1
     container_name: fifa-local-db
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
     environment:
+      - POSTGRES_DB=fifa_local_db
       - POSTGRES_USER=grzes
       - POSTGRES_PASSWORD=grzes
-      - POSTGRES_DB=fifa_local_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -30,6 +34,7 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     restart: unless-stopped
+
 volumes:
-  postgres_data:
+  db-data:
   pgadmin-data:
