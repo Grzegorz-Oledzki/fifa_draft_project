@@ -1,19 +1,20 @@
-from django.shortcuts import render, redirect
-from fifa_draft.forms import (
-    GroupForm,
-    TeamForm,
-    EditTeamForm,
-    EditGroupForm,
-    ChoosePersonPickingForm,
-)
-from fifa_draft.models import Group, Team
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+
+from fifa_draft.forms import (
+    ChoosePersonPickingForm,
+    EditGroupForm,
+    EditTeamForm,
+    GroupForm,
+    TeamForm,
+)
+from fifa_draft.models import Group, Team
 from fifa_draft.utils import (
-    team_form_validation,
-    edit_team_form_validation,
     draw_draft_order,
-    group_validation
+    edit_team_form_validation,
+    group_validation,
+    team_form_validation,
 )
 
 

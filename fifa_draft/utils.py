@@ -1,15 +1,17 @@
-from django.contrib import messages
-from fifa_draft.models import Group
 import random
+
+from django.contrib import messages
 
 
 def is_unique_name(team):
     unique_name = True
     for team_in_group in team.belongs_group.teams.all():
-        if str(team_in_group).lower() == str(team).lower() and team.owner != team_in_group.owner:
+        if (
+            str(team_in_group).lower() == str(team).lower()
+            and team.owner != team_in_group.owner
+        ):
             unique_name = False
     return unique_name
-
 
 
 def team_form_validation(request, form, profile):
