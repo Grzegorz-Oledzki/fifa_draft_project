@@ -1,13 +1,12 @@
 from django.contrib import messages
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.handlers.wsgi import WSGIRequest
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from fifa_draft.models import Profile
-from fifa_draft.views import delete_group
-
 from users.forms import CustomUserCreationForm, ProfileForm
 
 
