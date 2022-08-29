@@ -1,5 +1,5 @@
 import uuid
-from typing import List
+from typing import List, Union
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -38,7 +38,7 @@ class Group(models.Model):
     name = models.CharField(max_length=200, blank=False, null=False, unique=True)
     description = models.TextField(null=True, blank=True)
     featured_image = models.ImageField(
-        null=True, blank=True, upload_to="group_images/", validators=[validate_image]
+        null=True, blank=True, upload_to="group_images/", validators=[validate_image], default="default-thumbnail.jpg"
     )
     password = models.CharField(null=False, blank=False, max_length=50)
     created = models.DateTimeField(auto_now_add=True)
@@ -71,9 +71,7 @@ class Group(models.Model):
 
     def profiles_order_as_list(self) -> List[str]:
         persons = self.draft_order.split(":")
-        profiles_order = []
-        for person in persons:
-            profiles_order.append(person)
+        profiles_order = [person for person in persons]
         profiles_order.pop(-1)
         return profiles_order
 
@@ -83,11 +81,11 @@ class Group(models.Model):
     class Meta:
         ordering = ["created"]
 
-    def image_url(self) -> ImageFieldFile:
+    def image_url(self) -> Union[ImageFieldFile, str]:
         try:
             url = self.featured_image.url
         except:
-            url = "http://dobrarobota.org/wp-content/uploads/2017/02/default-thumbnail.jpg"
+            url = "https://grzes-bucket2.s3.eu-central-1.amazonaws.com/default-thumbnail.jpg"
         return url
 
 
@@ -149,9 +147,9 @@ class Team(models.Model):
     class Meta:
         ordering = ["created"]
 
-    def image_url(self) -> ImageFieldFile:
+    def image_url(self) -> Union[ImageFieldFile, str]:
         try:
             url = self.featured_image.url
         except:
-            url = "http://dobrarobota.org/wp-content/uploads/2017/02/default-thumbnail.jpg"
+            url = "https://grzes-bucket2.s3.eu-central-1.amazonaws.com/default-thumbnail.jpg"
         return url

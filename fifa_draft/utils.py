@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.contrib import messages
 from django.core.handlers.wsgi import WSGIRequest
 
@@ -27,7 +29,7 @@ def creating_team(team: Team, profile: Profile) -> None:
 
 def team_form_validation(
     request: WSGIRequest, form: TeamForm, profile: Profile
-) -> bool:
+) -> Optional[bool]:
     form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
