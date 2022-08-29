@@ -40,5 +40,8 @@ class Player(models.Model):
         _("nation_flag_url"), max_length=200, null=True, default=False
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.short_name
+
+    class Meta:
+        ordering = ["-overall"]

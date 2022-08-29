@@ -1,9 +1,10 @@
-from django.forms import ModelForm
-from fifa_draft.models import Group, Team
-from users.models import Profile
-from players.models import Player
-from django.utils.translation import gettext_lazy as _
 from django import forms
+from django.forms import ModelForm
+from django.utils.translation import gettext_lazy as _
+
+from fifa_draft.models import Group, Team
+from players.models import Player
+from users.models import Profile
 
 
 class GroupForm(ModelForm):
@@ -22,7 +23,7 @@ class GroupForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
 
-        self.fields['featured_image'].label = "Featured image (max 3mb)"
+        self.fields["featured_image"].label = "Featured image (max 3mb)"
 
         self.fields["password"].widget.attrs.update(
             {
@@ -70,7 +71,7 @@ class TeamForm(ModelForm):
             field.widget.attrs.update(
                 {"class": "input", "placeholder": "Add team " + name}
             )
-        self.fields['featured_image'].label = "Featured image (max 3mb)"
+        self.fields["featured_image"].label = "Featured image (max 3mb)"
         self.fields["group_password"].widget.attrs.update(
             {
                 "class": "input",

@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,12 +23,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-o%su%rl!n)-8tmq$0noowg!j*_o&6*-)2h-6_q=(*j%_fyixuk"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "fifa-draft.herokuapp.com", ".herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "[::1]",
+    "fifa-draft.herokuapp.com",
+    ".herokuapp.com",
+]
 
 
 # Application definition
@@ -92,19 +99,18 @@ WSGI_APPLICATION = "draft_fifa.wsgi.application"
 #         "USER": "grzes",
 #         "PASSWORD": config("PASSWORD"),
 #         "HOST": "grzesdb.cm3vehgcrs7p.eu-central-1.rds.amazonaws.com",
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "HOST": "db",
+#         "NAME": "fifa_local_db",
+#         "USER": "grzes",
+#         "PASSWORD": "grzes",
 #         "PORT": "5432",
 #     }
 # }
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "fifa_local_db",
-        "USER": "grzes",
-        "PASSWORD": "grzes",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
-}
+
 
 
 # Password validation
@@ -152,7 +158,7 @@ MEDIA_URL = "/images/"
 
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATICFILES_STORAGE = 'draft_fifa.s3utils.StaticRootS3BotoStorage'
+STATICFILES_STORAGE = "draft_fifa.s3utils.StaticRootS3BotoStorage"
 MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 # STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 

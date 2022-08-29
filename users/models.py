@@ -1,8 +1,9 @@
-from django.db import models
 import uuid
-from django.utils.translation import gettext_lazy as _
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Profile(models.Model):
@@ -19,9 +20,7 @@ class Profile(models.Model):
     email = models.EmailField(max_length=50, blank=False, null=False)
     short_intro = models.CharField(max_length=250, blank=True, null=True)
     profile_image = models.ImageField(
-        null=True,
-        blank=True,
-        upload_to="profile_images/", validators=[validate_image]
+        null=True, blank=True, upload_to="profile_images/", validators=[validate_image]
     )
     social_github = models.CharField(max_length=200, blank=True, null=True)
     social_twitter = models.CharField(max_length=200, blank=True, null=True)
