@@ -1,12 +1,12 @@
 import uuid
-from typing import List
+from typing import List, Union
 
 from django.core.handlers.wsgi import WSGIRequest
 
 from fifa_draft.models import Group
 
 
-def pick_alert(request: WSGIRequest) -> dict[str, bool | List[uuid.UUID]]:
+def pick_alert(request: WSGIRequest) -> dict[str, Union[bool, uuid.UUID]]:
     context = {"pick_alert": False}
     if request.user.is_authenticated:
         group_ids = []
