@@ -1,5 +1,5 @@
 import uuid
-from typing import List, Union, Dict
+from typing import Dict, List, Union
 
 from django.core.handlers.wsgi import WSGIRequest
 
