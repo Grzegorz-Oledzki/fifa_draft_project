@@ -18,8 +18,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    owner = ProfileSerializer(many=False)
-
     class Meta:
         model = Team
         fields = "__all__"
