@@ -10,6 +10,7 @@ from api.serializers import (
     TeamSerializer,
 )
 from fifa_draft.models import Group, Team
+from fifa_draft.utils import team_form_validation
 from players.models import Player
 from users.models import Profile
 
@@ -47,6 +48,27 @@ def get_team(request: Request, pk: str) -> Response:
 
 
 @api_view(["GET"])
+def get_profile(request: Request, pk: str) -> Response:
+    profile = Profile.objects.get(id=pk)
+    serializer = ProfileSerializer(profile, many=False)
+    return Response(serializer.data)
+
+
+@api_view(["POST"])
+def create_team(request: Request) -> Response:
+    serializer = TeamSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        belongs_group = Group.objects.get(id=serializer['belongs_group'].value)
+        team = Team.objects.get(id=serializer['id'].value)
+        profile = Profile.objects.get(id=serializer['owner'].value)
+        belongs_group.members.add(profile)
+        profile.draft_teams.add(team)
+        belongs_group.teams.add(team)
+    return Response(serializer.data)
+#need to add validations
+
+@api_view(["GET"])
 def get_groups(request: Request) -> Response:
     groups = Group.objects.all()
     serializer = GroupSerializer(groups, many=True)
@@ -60,6 +82,14 @@ def get_group(request: Request, pk: str) -> Response:
     return Response(serializer.data)
 
 
+@api_view(["POST"])
+def create_group(request: Request) -> Response:
+    serializer = GroupSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
 @api_view(["GET"])
 def get_player(request: Request, pk: str) -> Response:
     player = Player.objects.get(id=pk)
@@ -67,8 +97,4 @@ def get_player(request: Request, pk: str) -> Response:
     return Response(serializer.data)
 
 
-@api_view(["GET"])
-def get_profile(request: Request, pk: str) -> Response:
-    profile = Profile.objects.get(id=pk)
-    serializer = ProfileSerializer(profile, many=False)
-    return Response(serializer.data)
+
