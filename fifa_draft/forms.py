@@ -3,8 +3,10 @@ from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
 from fifa_draft.models import Group, Team
+
 from players.models import Player
 from users.models import Profile
+
 
 
 class GroupForm(ModelForm):
@@ -20,7 +22,7 @@ class GroupForm(ModelForm):
             "draft_order_choice",
         ]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super(GroupForm, self).__init__(*args, **kwargs)
 
         self.fields["featured_image"].label = "Featured image (max 3mb)"
@@ -64,7 +66,7 @@ class TeamForm(ModelForm):
         ]
         labels = {"group_password": "Enter group password"}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super(TeamForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
@@ -98,7 +100,7 @@ class EditGroupForm(ModelForm):
             "draft_order_choice",
         ]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super(EditGroupForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
@@ -133,7 +135,7 @@ class EditTeamForm(ModelForm):
             "description",
         ]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super(EditTeamForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
@@ -152,7 +154,7 @@ class ChoosePersonPickingForm(ModelForm):
         fields = ["picking_person"]
         widgets = {"picking_person": forms.CheckboxSelectMultiple()}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super(ChoosePersonPickingForm, self).__init__(*args, **kwargs)
         self.picking_people_choices = Profile.objects.filter(members=self.instance)
         self.fields["picking_person"].queryset = self.picking_people_choices

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+
 from django.utils.translation import gettext_lazy as _
 
 from players.models import Player
@@ -36,7 +37,7 @@ class Group(models.Model):
     name = models.CharField(max_length=200, blank=False, null=False, unique=True)
     description = models.TextField(null=True, blank=True)
     featured_image = models.ImageField(
-        null=True, blank=True, upload_to="group_images/", validators=[validate_image]
+        null=True, blank=True, upload_to="group_images/", validators=[validate_image], default="default-thumbnail.jpg"
     )
     password = models.CharField(null=False, blank=False, max_length=50)
     created = models.DateTimeField(auto_now_add=True)
@@ -64,28 +65,26 @@ class Group(models.Model):
     draft_order = models.CharField(max_length=200, blank=True, null=True)
     picking_history = models.CharField(max_length=10000000, blank=True, null=True)
 
-    def picking_history_as_list(self):
+    def picking_history_as_list(self) -> List[str]:
         return self.picking_history.split(":")
 
-    def profiles_order_as_list(self):
+    def profiles_order_as_list(self) -> List[str]:
         persons = self.draft_order.split(":")
-        profiles_order = []
-        for person in persons:
-            profiles_order.append(person)
+        profiles_order = [person for person in persons]
         profiles_order.pop(-1)
         return profiles_order
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
         ordering = ["created"]
 
-    def image_url(self):
+    def image_url(self) -> Union[ImageFieldFile, str]:
         try:
             url = self.featured_image.url
         except:
-            url = "http://dobrarobota.org/wp-content/uploads/2017/02/default-thumbnail.jpg"
+            url = "https://grzes-bucket2.s3.eu-central-1.amazonaws.com/default-thumbnail.jpg"
         return url
 
 
@@ -141,15 +140,15 @@ class Team(models.Model):
         Player, blank=True, related_name="pending_player"
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
         ordering = ["created"]
 
-    def image_url(self):
+    def image_url(self) -> Union[ImageFieldFile, str]:
         try:
             url = self.featured_image.url
         except:
-            url = "http://dobrarobota.org/wp-content/uploads/2017/02/default-thumbnail.jpg"
+            url = "https://grzes-bucket2.s3.eu-central-1.amazonaws.com/default-thumbnail.jpg"
         return url

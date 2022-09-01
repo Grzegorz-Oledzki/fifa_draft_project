@@ -1,6 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+
+from django.core.handlers.wsgi import WSGIRequest
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 from fifa_draft.forms import (
     ChoosePersonPickingForm,
@@ -12,23 +15,24 @@ from fifa_draft.forms import (
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import (
     draw_draft_order,
+    group_validation,
     edit_team_form_validation,
     group_validation,
     team_form_validation,
 )
 
 
-def home(request):
+def home(request: WSGIRequest) -> HttpResponse:
     return render(request, "home.html")
 
 
-def groups(request):
+def all_groups(request: WSGIRequest) -> HttpResponse:
     groups = Group.objects.all()
     context = {"groups": groups}
     return render(request, "groups.html", context)
 
 
-def group(request, pk):
+def single_group(request: WSGIRequest, pk: str) -> HttpResponse:
     group = Group.objects.get(id=pk)
     context = {"group": group}
     if request.user.is_authenticated:
@@ -38,7 +42,7 @@ def group(request, pk):
 
 
 @login_required(login_url="login")
-def create_group(request):
+def create_group(request: WSGIRequest) -> HttpResponse:
     form = GroupForm()
     profile = request.user.profile
     if request.method == "POST":
@@ -57,7 +61,7 @@ def create_group(request):
 
 
 @login_required(login_url="login")
-def edit_group(request, pk):
+def edit_group(request: WSGIRequest, pk: str) -> HttpResponse:
     profile = request.user.profile
     groups = Group.objects.all()
     group = profile.group_set.get(id=pk)
@@ -74,7 +78,7 @@ def edit_group(request, pk):
     return render(request, "group-form.html", context)
 
 
-def delete_group(request, pk):
+def delete_group(request: WSGIRequest, pk: str) -> HttpResponse:
     group = Group.objects.get(id=pk)
     if request.method == "POST":
         group.delete()
@@ -84,7 +88,7 @@ def delete_group(request, pk):
     return render(request, "delete-group.html", context)
 
 
-def team(request, pk):
+def team(request: WSGIRequest, pk: str) -> HttpResponse:
     team = Team.objects.get(id=pk)
     players = team.team_players.all()
     pending_player = team.pending_player.all()
@@ -100,7 +104,7 @@ def team(request, pk):
 
 
 @login_required(login_url="login")
-def create_team(request):
+def create_team(request: WSGIRequest) -> HttpResponse:
     form = TeamForm()
     profile = request.user.profile
     if request.method == "POST":
@@ -113,7 +117,7 @@ def create_team(request):
     return render(request, "team-form.html", context)
 
 
-def edit_team(request, pk):
+def edit_team(request: WSGIRequest, pk: str) -> HttpResponse:
     profile = request.user.profile
     team = profile.draft_teams.get(id=pk)
     form = EditTeamForm(instance=team)
@@ -126,7 +130,7 @@ def edit_team(request, pk):
     return render(request, "team-form.html", context)
 
 
-def draft_order(request, pk):
+def draft_order(request: WSGIRequest, pk: str) -> HttpResponse:
     group = Group.objects.get(id=pk)
     if request.method == "POST":
         draw_draft_order(group)
@@ -137,7 +141,7 @@ def draft_order(request, pk):
     return render(request, "draft-order.html", context)
 
 
-def choose_person_to_pick_players(request, pk):
+def choose_person_to_pick_players(request: WSGIRequest, pk: str) -> HttpResponse:
     group = Group.objects.get(id=pk)
     form = ChoosePersonPickingForm(instance=group)
     if request.method == "POST":
