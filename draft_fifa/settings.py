@@ -104,11 +104,13 @@ DATABASES = {
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
-#         "HOST": "db",
+#         "HOST": "localhost",
 #         "NAME": "fifa_local_db",
 #         "USER": "grzes",
 #         "PASSWORD": "grzes",
 #         "PORT": "5432",
+#     }
+# }
 
 
 # Password validation
