@@ -39,9 +39,28 @@ possibility to comment on other Profiles' players picks,
 automatic replenishment of the match schedule file.
 
 # Installation:
+Docker:
+1. Clone this repository: <code>git clone git@github.com:Grzegorz-Oledzki/fifa_draft_project.git</code>
+2. Set up your database and static files ROOT. If you want to use local database go to draft_fifa folder > settings.py and comment lines with AWS database, uncomment fifa_local_db database. For static ROOT, uncomment line 165 and comment line 163 + type <code> python manage.py collectstatic</code>. 
+3. Type:
+<code>docker-compose -f docker-compose-dev.yml up -d --build</code>
+then:
+<code>docker-compose -f docker-compose-dev.yml exec web python manage.py migrate</code>
+4. When you have error with database `django.db.utils.OperationalError: could not translate host name "db" to address: No address associated with hostname`
+type:
+<code>docker-compose -f docker-compose-dev.yml down -v</code>
+and repeat point 3
+5. Download players list from
+<code>https://docs.google.com/spreadsheets/d/1xOSDGC8MhbUNWA6OeNcWmpOjFRkPzLYb/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true </code>
+6. Run <code>docker-compose -f docker-compose-dev.yml exec web python manage.py createsuperuser</code>
+7. Log in and import players from .xlsx file on <code>http://127.0.0.1:8000/admin/players/player/ </code> 
+8. Invite your friends and play! 
+
+
+local:
 1. Clone this repository: <code>git clone git@github.com:Grzegorz-Oledzki/fifa_draft_project.git</code>
 2. Install requirements: <code>pip install -r requirements.txt</code>
-3. Set up your database and static files ROOT. If you want to use local database go to draft_fifa folder > settings.py and comment lines 88 to 97, and uncomment lines 98 to 103. For static ROOT, uncomment line 153 and comment line 151 + type <code> python manage.py collectstatic</code>. 
+3. Set up your database and static files ROOT. If you want to use local database go to draft_fifa folder > settings.py and comment lines with AWS database, uncomment fifa_local_db database. For static ROOT, uncomment line 165 and comment line 163 + type <code> python manage.py collectstatic</code>. 
 4. Type:
 <code>python manage.py migrate</code>
 <code>python manage.py createsuperuser</code>
@@ -49,8 +68,9 @@ And finally:
 <code>python manage.py runserver</code>
 5. Download players list from
 <code>https://docs.google.com/spreadsheets/d/1xOSDGC8MhbUNWA6OeNcWmpOjFRkPzLYb/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true </code>
-6. Import players from .xlsx file on <code>http://127.0.0.1:8000/admin/players/player/ </code> 
-7. Invite your friends and play! 
+6. Run: <code>python manage.py createsuperuser</code>
+7. Import players from .xlsx file on <code>http://127.0.0.1:8000/admin/players/player/ </code> 
+8. Invite your friends and play! 
 
 Screenshots: 
 

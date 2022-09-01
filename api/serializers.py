@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from fifa_draft.models import Team, Group
+
+from fifa_draft.models import Group, Team
 from players.models import Player
 from users.models import Profile
 
@@ -17,8 +18,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    owner = ProfileSerializer(many=False)
-
     class Meta:
         model = Team
         fields = "__all__"

@@ -1,6 +1,13 @@
-version: "3.7"
+version: "3.8"
 
 services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./draft_fifa/:/usr/src/draft_fifa/
+    ports:
+      - 8000:8000
   db:
     image: postgres:14.1
     container_name: fifa-local-db
