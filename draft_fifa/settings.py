@@ -92,25 +92,25 @@ WSGI_APPLICATION = "draft_fifa.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "grzesdb",
-#         "USER": "grzes",
-#         "PASSWORD": config("PASSWORD"),
-#         "HOST": "grzesdb.cm3vehgcrs7p.eu-central-1.rds.amazonaws.com",
-#     }
-# }
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": "localhost",
-        "NAME": "fifa_local_db",
+        "NAME": "grzesdb",
         "USER": "grzes",
-        "PASSWORD": "grzes",
-        "PORT": "5432",
+        "PASSWORD": config("PASSWORD"),
+        "HOST": "grzesdb.cm3vehgcrs7p.eu-central-1.rds.amazonaws.com",
     }
 }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "HOST": "localhost",
+#         "NAME": "fifa_local_db",
+#         "USER": "grzes",
+#         "PASSWORD": "grzes",
+#         "PORT": "5432",
+#     }
+# }
 
 
 # Password validation
