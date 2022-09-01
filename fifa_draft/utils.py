@@ -29,8 +29,8 @@ def creating_team(team: Team, profile: Profile) -> None:
 
 def team_form_validation(
     request: WSGIRequest, form: TeamForm, profile: Profile
-) -> Optional[bool]:
-    form_valid = False
+) -> bool:
+    is_form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
         unique_name = is_unique_name
@@ -41,17 +41,17 @@ def team_form_validation(
         ):
             creating_team(team, profile)
             messages.success(request, "Team created and added to group successful!")
-            form_valid = True
-            return form_valid
+            is_form_valid = True
+            return is_form_valid
         elif team.belongs_group.password != team.group_password:
             messages.error(request, "Password error")
         elif not unique_name:
             messages.error(request, "Please choose unique name")
         elif profile in team.belongs_group.members.all():
             messages.error(request, "You have already team in this group")
-        return form_valid
     else:
         messages.error(request, "Featured image is too big (max 3mb)")
+    return is_form_valid
 
 
 def edit_team_form_validation(request: WSGIRequest, form: EditTeamForm) -> bool:
