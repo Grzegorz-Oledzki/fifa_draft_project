@@ -3,12 +3,8 @@ from urllib.request import Request
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.serializers import (
-    GroupSerializer,
-    PlayerSerializer,
-    ProfileSerializer,
-    TeamSerializer,
-)
+from api.serializers import (GroupSerializer, PlayerSerializer,
+                             ProfileSerializer, TeamSerializer)
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import team_form_validation
 from players.models import Player
