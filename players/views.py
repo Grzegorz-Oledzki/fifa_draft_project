@@ -7,12 +7,8 @@ from tablib import Dataset
 
 from fifa_draft.models import Team
 from players.models import Player
-from players.utils import (
-    add_player_to_team_and_group,
-    change_picking_person,
-    last_and_first_picking_persons,
-    pending_player_pick,
-)
+from players.utils import (add_player_to_team_and_group, change_picking_person,
+                           last_and_first_picking_persons, pending_player_pick)
 
 
 def upload_players(request: WSGIRequest) -> HttpResponse:

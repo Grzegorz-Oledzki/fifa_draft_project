@@ -3,10 +3,8 @@ from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
 from fifa_draft.models import Group, Team
-
 from players.models import Player
 from users.models import Profile
-
 
 
 class GroupForm(ModelForm):

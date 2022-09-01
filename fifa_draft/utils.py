@@ -2,10 +2,8 @@ from django.contrib import messages
 from django.core.handlers.wsgi import WSGIRequest
 
 from fifa_draft.forms import EditTeamForm, TeamForm
-from fifa_draft.models import Team, Group
+from fifa_draft.models import Group, Team
 from users.models import Profile
-
-from django.contrib import messages
 
 
 def is_unique_name(team: Team) -> bool:
