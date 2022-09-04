@@ -1,8 +1,4 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.http import JsonResponse
-from requests import Response
-
-from fifa_draft.utils import creating_team, is_unique_name
+from fifa_draft.utils import is_unique_name
 from users.models import Profile
 
 
