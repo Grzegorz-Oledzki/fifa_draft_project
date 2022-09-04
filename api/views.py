@@ -3,8 +3,12 @@ from urllib.request import Request
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.serializers import (GroupSerializer, PlayerSerializer,
-                             ProfileSerializer, TeamSerializer)
+from api.serializers import (
+    GroupSerializer,
+    PlayerSerializer,
+    ProfileSerializer,
+    TeamSerializer,
+)
 from api.utils import team_form_validation_api
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import team_form_validation
@@ -55,18 +59,20 @@ def get_profile(request: Request, pk: str) -> Response:
 def create_team(request: Request) -> Response:
     serializer = TeamSerializer(data=request.data)
     if serializer.is_valid():
-        team_password = serializer.validated_data['group_password']
-        profile = serializer.validated_data['owner']
-        belongs_group = serializer.validated_data['belongs_group']
+        team_password = serializer.validated_data["group_password"]
+        profile = serializer.validated_data["owner"]
+        belongs_group = serializer.validated_data["belongs_group"]
         if team_form_validation_api(team_password, profile, belongs_group):
             serializer.save()
             belongs_group.members.add(profile)
-            team = Team.objects.get(id=serializer['id'].value)
+            team = Team.objects.get(id=serializer["id"].value)
             profile.draft_teams.add(team)
             belongs_group.teams.add(team)
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
-#need to add specific validation messages
+
+
+# need to add specific validation messages
 
 
 @api_view(["GET"])
@@ -96,6 +102,3 @@ def get_player(request: Request, pk: str) -> Response:
     player = Player.objects.get(id=pk)
     serializer = PlayerSerializer(player, many=False)
     return Response(serializer.data)
-
-
-
