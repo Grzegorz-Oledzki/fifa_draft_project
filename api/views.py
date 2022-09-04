@@ -4,10 +4,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from api.serializers import (GroupSerializer, PlayerSerializer,
-                             ProfileSerializer, TeamSerializer)
-from api.utils import team_form_validation_api
+                             ProfileSerializer, TeamSerializer, GroupAvailablePlayersSerializer)
+from api.utils import is_team_valid, group_available_players
 from fifa_draft.models import Group, Team
-from fifa_draft.utils import team_form_validation
 from players.models import Player
 from users.models import Profile
 
@@ -58,7 +57,7 @@ def create_team(request: Request) -> Response:
         team_password = serializer.validated_data["group_password"]
         profile = serializer.validated_data["owner"]
         belongs_group = serializer.validated_data["belongs_group"]
-        if team_form_validation_api(team_password, profile, belongs_group):
+        if is_team_valid(team_password, profile, belongs_group):
             serializer.save()
             belongs_group.members.add(profile)
             team = Team.objects.get(id=serializer["id"].value)
@@ -66,8 +65,6 @@ def create_team(request: Request) -> Response:
             belongs_group.teams.add(team)
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
-
-
 # need to add specific validation messages
 
 
@@ -97,4 +94,11 @@ def create_group(request: Request) -> Response:
 def get_player(request: Request, pk: str) -> Response:
     player = Player.objects.get(id=pk)
     serializer = PlayerSerializer(player, many=False)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def get_group_available_players(request: Request, pk: str) -> Response:
+    players = group_available_players(pk)
+    serializer = GroupAvailablePlayersSerializer(players, many=True)
     return Response(serializer.data)
