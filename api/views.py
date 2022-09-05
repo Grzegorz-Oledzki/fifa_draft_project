@@ -133,5 +133,18 @@ def pending_player_confirmation(request: Request, player_id: str, team_id: str) 
     return Response(serializer.errors, status=400)
 
 
+@api_view(["POST"])
+def delete_pending_player_confirmation(request: Request, player_id: str, team_id: str) -> Response:
+    player = Player.objects.get(sofifa_id=player_id)
+    team = Team.objects.get(id=team_id)
+    serializer = PlayerSerializer(data=request.data)
+    if serializer.is_valid():
+        if serializer.validated_data["sofifa_id"] == int(player_id):
+            team.pending_player.remove(player)
+            return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
+
+
 
 
