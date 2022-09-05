@@ -111,7 +111,7 @@ def pick_player_confirmation(request: Request, player_id: str, team_id: str) -> 
     team = Team.objects.get(id=team_id)
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
-        if player not in team.belongs_group.group_players.all():
+        if player not in team.belongs_group.group_players.all() and serializer.validated_data["sofifa_id"] == int(player_id):
             add_player_to_team_and_group(team, player)
             next_person = change_picking_person(team, team.owner)
             next_team = team.belongs_group.teams.get(owner=next_person)
@@ -119,6 +119,19 @@ def pick_player_confirmation(request: Request, player_id: str, team_id: str) -> 
             pending_player_pick(next_team, team)
             return Response(serializer.data)
     return Response(serializer.errors, status=400)
+
+
+@api_view(["POST"])
+def pending_player_confirmation(request: Request, player_id: str, team_id: str) -> Response:
+    player = Player.objects.get(sofifa_id=player_id)
+    team = Team.objects.get(id=team_id)
+    serializer = PlayerSerializer(data=request.data)
+    if serializer.is_valid():
+        if player not in team.belongs_group.group_players.all() and serializer.validated_data["sofifa_id"] == int(player_id):
+            team.pending_player.add(player)
+            return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
 
 
 
