@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from api.serializers import (GroupSerializer, PlayerSerializer,
-                             ProfileSerializer, TeamSerializer, GroupAvailablePlayersSerializer)
+                             ProfileSerializer, TeamSerializer)
 from api.utils import is_team_valid, group_available_players
 from fifa_draft.models import Group, Team
 from players.models import Player
