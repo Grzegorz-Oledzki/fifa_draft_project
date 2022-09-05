@@ -100,5 +100,5 @@ def get_player(request: Request, pk: str) -> Response:
 @api_view(["GET"])
 def get_group_available_players(request: Request, pk: str) -> Response:
     players = group_available_players(pk)
-    serializer = GroupAvailablePlayersSerializer(players, many=True)
+    serializer = PlayerSerializer(players, many=True)
     return Response(serializer.data)

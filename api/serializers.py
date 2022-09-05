@@ -11,12 +11,6 @@ class PlayerSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class GroupAvailablePlayersSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Player
-        fields = "__all__"
-
-
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile

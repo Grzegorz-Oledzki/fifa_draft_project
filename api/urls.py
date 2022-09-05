@@ -11,6 +11,6 @@ urlpatterns = [
     path("group/<str:pk>/", views.get_group),
     path("create_group/", views.create_group),
     path("player/<str:pk>/", views.get_player),
-    path("group_players/<str:pk>", views.get_group_available_players),
+    path("group_players/<str:pk>/", views.get_group_available_players),
     path("user/<str:pk>/", views.get_profile),
 ]
