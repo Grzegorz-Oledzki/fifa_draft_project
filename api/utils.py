@@ -6,10 +6,10 @@ from players.models import Player
 from users.models import Profile
 
 
-def is_team_valid(team_password: str, profile: Profile, belongs_group: Group) -> bool:
-    unique_name = is_unique_name
+def is_team_valid(team: Team, profile: Profile, belongs_group: Group) -> bool:
+    unique_name = is_unique_name(team, profile)
     return (
-        belongs_group.password == team_password
+        belongs_group.password == team.group_password
         and profile not in belongs_group.members.all()
         and unique_name
     )
