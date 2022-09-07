@@ -7,6 +7,7 @@ from api.serializers import (GroupSerializer, PlayerSerializer,
                              ProfileSerializer, TeamSerializer)
 from api.utils import is_team_valid, group_available_players
 from fifa_draft.models import Group, Team
+from fifa_draft.utils import creating_team
 from players.models import Player
 from players.utils import add_player_to_team_and_group, change_picking_person, pending_player_pick
 from users.models import Profile
@@ -55,15 +56,13 @@ def get_profile(request: Request, pk: str) -> Response:
 def create_team(request: Request) -> Response:
     serializer = TeamSerializer(data=request.data)
     if serializer.is_valid():
-        team_password = serializer.validated_data["group_password"]
+        serializer.save()
+        # team_password = serializer.validated_data["group_password"]
         profile = serializer.validated_data["owner"]
+        team = Team.objects.get(id=serializer["id"].value)
         belongs_group = serializer.validated_data["belongs_group"]
-        if is_team_valid(team_password, profile, belongs_group):
-            serializer.save()
-            belongs_group.members.add(profile)
-            team = Team.objects.get(id=serializer["id"].value)
-            profile.draft_teams.add(team)
-            belongs_group.teams.add(team)
+        if is_team_valid(team, profile, belongs_group):
+            creating_team(team, profile)
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 # need to add specific validation messages
