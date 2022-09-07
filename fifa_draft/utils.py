@@ -31,7 +31,8 @@ def team_form_validation(
     is_form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
-        unique_name = is_unique_name
+        team.owner = profile
+        unique_name = is_unique_name(team)
         if (
             team.belongs_group.password == team.group_password
             and profile not in team.belongs_group.members.all()
@@ -47,6 +48,7 @@ def team_form_validation(
             messages.error(request, "Please choose unique name")
         elif profile in team.belongs_group.members.all():
             messages.error(request, "You have already team in this group")
+        return is_form_valid
     else:
         messages.error(request, "Featured image is too big (max 3mb)")
     return is_form_valid
