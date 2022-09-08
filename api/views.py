@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from api.serializers import (GroupSerializer, PlayerSerializer,
                              ProfileSerializer, TeamSerializer)
-from api.utils import is_team_valid, group_available_players
+from api.utils import is_team_valid, group_available_players, get_profile_and_team
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import creating_team
 from players.models import Player
@@ -57,15 +57,14 @@ def create_team(request: Request) -> Response:
     serializer = TeamSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        # team_password = serializer.validated_data["group_password"]
-        profile = serializer.validated_data["owner"]
-        team = Team.objects.get(id=serializer["id"].value)
-        belongs_group = serializer.validated_data["belongs_group"]
-        if is_team_valid(team, profile, belongs_group):
+        profile, team = get_profile_and_team(serializer)
+        if is_team_valid(profile, team):
             creating_team(team, profile)
             return Response(serializer.data)
-        return Response(serializer.errors, status=400)
-# need to add specific validation messages
+        else:
+            team.delete()
+            return Response(serializer.errors, status=400)
+    return Response(serializer.errors, status=400)
 
 
 @api_view(["GET"])
