@@ -73,7 +73,7 @@ def player_pick_confirmation(
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
     group_players = team.belongs_group.group_players.all()
-    if request.method == "POST":
+    if request.method == "POST" and team.owner == profile:
         add_player_to_team_and_group(team, player)
         next_person = change_picking_person(team, profile)
         next_team = team.belongs_group.teams.get(owner=next_person)
@@ -97,7 +97,7 @@ def pending_player_pick_confirmation(
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
     group_players = team.belongs_group.group_players.all()
-    if request.method == "POST":
+    if request.method == "POST" and team.owner == profile:
         team.pending_player.add(player)
         team.save()
         messages.success(request, "Pending player added!")
@@ -117,7 +117,7 @@ def delete_pending_player_pick_confirmation(
     profile = request.user.profile
     player = Player.objects.get(sofifa_id=pk)
     team = Team.objects.get(id=team_id)
-    if request.method == "POST":
+    if request.method == "POST" and team.owner == profile:
         team.pending_player.remove(player)
         team.save()
         messages.success(request, "Pending player deleted!")
