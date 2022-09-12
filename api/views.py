@@ -5,7 +5,8 @@ from rest_framework.response import Response
 
 from api.serializers import (GroupSerializer, PlayerSerializer,
                              ProfileSerializer, TeamSerializer)
-from api.utils import is_team_valid, group_available_players, get_profile_and_team
+from api.utils import group_available_players, get_profile_and_team
+from api.validators import is_team_valid, is_pick_player_valid
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import creating_team
 from players.models import Player
@@ -109,13 +110,15 @@ def pick_player_confirmation(request: Request, player_id: str, team_id: str) -> 
     team = Team.objects.get(id=team_id)
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
-        if player not in team.belongs_group.group_players.all() and serializer.validated_data["sofifa_id"] == int(player_id):
+        if is_pick_player_valid(player, team):
             add_player_to_team_and_group(team, player)
             next_person = change_picking_person(team, team.owner)
             next_team = team.belongs_group.teams.get(owner=next_person)
             team.belongs_group.picking_person.add(next_person)
             pending_player_pick(next_team, team)
             return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=400)
     return Response(serializer.errors, status=400)
 
 
