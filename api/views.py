@@ -3,14 +3,25 @@ from urllib.request import Request
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.serializers import (GroupSerializer, PlayerSerializer,
-                             ProfileSerializer, TeamSerializer)
-from api.utils import group_available_players, get_profile_and_team, is_team_serializer_valid
+from api.serializers import (
+    GroupSerializer,
+    PlayerSerializer,
+    ProfileSerializer,
+    TeamSerializer,
+)
+from api.utils import (
+    group_available_players,
+    get_profile_and_group,
+)
 from api.validators import team_validation_errors
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import creating_team
 from players.models import Player
-from players.utils import add_player_to_team_and_group, change_picking_person, pending_player_pick
+from players.utils import (
+    add_player_to_team_and_group,
+    change_picking_person,
+    pending_player_pick,
+)
 from users.models import Profile
 
 
@@ -32,7 +43,7 @@ def get_routes(request: Request) -> Response:
     return Response(routes)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def current_user(request):
     serializer = ProfileSerializer(request.user)
     return Response(serializer.data)
@@ -63,15 +74,13 @@ def get_profile(request: Request, pk: str) -> Response:
 def create_team(request: Request) -> Response:
     serializer = TeamSerializer(data=request.data)
     if serializer.is_valid():
+        # breakpoint()
+        profile, group = get_profile_and_group(serializer.validated_data)
+        team_validation_errors(profile, group, serializer.validated_data)
         serializer.save()
-        profile, team = get_profile_and_team(serializer)
-        is_team_valid = is_team_serializer_valid(profile, team)
-        if is_team_valid:
-            creating_team(team, profile)
-            return Response(serializer.data)
-        else:
-            team.delete()
-            team_validation_errors(profile, team)
+        team = Team.objects.get(id=serializer["id"].value)
+        creating_team(team, profile)
+        return Response(serializer.data)
     return Response(serializer.errors, status=400)
 
 
@@ -112,12 +121,17 @@ def get_group_available_players(request: Request, group_id: str) -> Response:
 
 
 @api_view(["POST"])
-def pick_player_confirmation(request: Request, player_id: str, team_id: str) -> Response:
+def pick_player_confirmation(
+    request: Request, player_id: str, team_id: str
+) -> Response:
     player = Player.objects.get(sofifa_id=player_id)
     team = Team.objects.get(id=team_id)
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
-        if player not in team.belongs_group.group_players.all() and serializer.validated_data["sofifa_id"] == int(player_id):
+        if (
+            player not in team.belongs_group.group_players.all()
+            and serializer.validated_data["sofifa_id"] == int(player_id)
+        ):
             add_player_to_team_and_group(team, player)
             next_person = change_picking_person(team, team.owner)
             next_team = team.belongs_group.teams.get(owner=next_person)
@@ -128,19 +142,26 @@ def pick_player_confirmation(request: Request, player_id: str, team_id: str) -> 
 
 
 @api_view(["POST"])
-def pending_player_confirmation(request: Request, player_id: str, team_id: str) -> Response:
+def pending_player_confirmation(
+    request: Request, player_id: str, team_id: str
+) -> Response:
     player = Player.objects.get(sofifa_id=player_id)
     team = Team.objects.get(id=team_id)
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
-        if player not in team.belongs_group.group_players.all() and serializer.validated_data["sofifa_id"] == int(player_id):
+        if (
+            player not in team.belongs_group.group_players.all()
+            and serializer.validated_data["sofifa_id"] == int(player_id)
+        ):
             team.pending_player.add(player)
             return Response(serializer.data)
     return Response(serializer.errors, status=400)
 
 
 @api_view(["POST"])
-def delete_pending_player_confirmation(request: Request, player_id: str, team_id: str) -> Response:
+def delete_pending_player_confirmation(
+    request: Request, player_id: str, team_id: str
+) -> Response:
     player = Player.objects.get(sofifa_id=player_id)
     team = Team.objects.get(id=team_id)
     serializer = PlayerSerializer(data=request.data)
@@ -149,10 +170,3 @@ def delete_pending_player_confirmation(request: Request, player_id: str, team_id
             team.pending_player.remove(player)
             return Response(serializer.data)
     return Response(serializer.errors, status=400)
-
-
-
-
-
-
-
