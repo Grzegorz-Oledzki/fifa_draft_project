@@ -5,8 +5,8 @@ from rest_framework.response import Response
 
 from api.serializers import (GroupSerializer, PlayerSerializer,
                              ProfileSerializer, TeamSerializer)
-from api.utils import group_available_players, get_profile_and_team
-from api.validators import is_team_valid, is_pick_player_valid
+from api.utils import group_available_players, get_profile_and_team, is_team_serializer_valid
+from api.validators import team_validation_errors
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import creating_team
 from players.models import Player
@@ -30,6 +30,12 @@ def get_routes(request: Request) -> Response:
     ]
 
     return Response(routes)
+
+
+@api_view(['GET'])
+def current_user(request):
+    serializer = ProfileSerializer(request.user)
+    return Response(serializer.data)
 
 
 @api_view(["GET"])
@@ -59,12 +65,13 @@ def create_team(request: Request) -> Response:
     if serializer.is_valid():
         serializer.save()
         profile, team = get_profile_and_team(serializer)
-        if is_team_valid(profile, team):
+        is_team_valid = is_team_serializer_valid(profile, team)
+        if is_team_valid:
             creating_team(team, profile)
             return Response(serializer.data)
         else:
             team.delete()
-            return Response(serializer.errors, status=400)
+            team_validation_errors(profile, team)
     return Response(serializer.errors, status=400)
 
 
@@ -110,15 +117,13 @@ def pick_player_confirmation(request: Request, player_id: str, team_id: str) -> 
     team = Team.objects.get(id=team_id)
     serializer = PlayerSerializer(data=request.data)
     if serializer.is_valid():
-        if is_pick_player_valid(player, team):
+        if player not in team.belongs_group.group_players.all() and serializer.validated_data["sofifa_id"] == int(player_id):
             add_player_to_team_and_group(team, player)
             next_person = change_picking_person(team, team.owner)
             next_team = team.belongs_group.teams.get(owner=next_person)
             team.belongs_group.picking_person.add(next_person)
             pending_player_pick(next_team, team)
             return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=400)
     return Response(serializer.errors, status=400)
 
 
@@ -144,6 +149,8 @@ def delete_pending_player_confirmation(request: Request, player_id: str, team_id
             team.pending_player.remove(player)
             return Response(serializer.data)
     return Response(serializer.errors, status=400)
+
+
 
 
 

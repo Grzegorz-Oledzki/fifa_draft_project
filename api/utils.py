@@ -1,8 +1,17 @@
 from typing import List
 
 from fifa_draft.models import Group, Team
+from fifa_draft.utils import is_unique_name
 from players.models import Player
 from users.models import Profile
+
+
+def is_team_serializer_valid(profile: Profile, team: Team) -> bool:
+    unique_name = is_unique_name(team, profile)
+    return (
+        team.belongs_group.password == team.group_password
+        and profile not in team.belongs_group.members.all()
+        and unique_name)
 
 
 def group_available_players(group_id: str) -> List[Player]:
