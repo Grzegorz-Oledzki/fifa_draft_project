@@ -7,7 +7,7 @@ from fifa_draft.utils import is_team_name_unique_in_group
 from users.models import Profile
 
 
-def team_validation_errors(
+def validate_if_team_serializer_is_correct(
     profile: Profile, group: Group, validated_data: dict
 ) -> None:
     unique_name = is_team_name_unique_in_group(validated_data["name"], group, profile)

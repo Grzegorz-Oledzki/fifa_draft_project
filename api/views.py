@@ -13,7 +13,7 @@ from api.utils import (
     group_available_players,
     get_profile_and_group,
 )
-from api.validators import team_validation_errors
+from api.validators import validate_if_team_serializer_is_correct
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import creating_team
 from players.models import Player
@@ -75,7 +75,7 @@ def create_team(request: Request) -> Response:
     serializer = TeamSerializer(data=request.data)
     if serializer.is_valid():
         profile, group = get_profile_and_group(serializer.validated_data)
-        team_validation_errors(profile, group, serializer.validated_data)
+        validate_if_team_serializer_is_correct(profile, group, serializer.validated_data)
         serializer.save()
         team = Team.objects.get(id=serializer["id"].value)
         creating_team(team, profile)
