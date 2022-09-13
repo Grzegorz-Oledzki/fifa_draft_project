@@ -11,11 +11,9 @@ from api.serializers import (
 )
 from api.utils import (
     group_available_players,
-    get_profile_and_group,
+    validate_team_and_create_team_if_validated,
 )
-from api.validators import validate_if_team_serializer_is_correct
 from fifa_draft.models import Group, Team
-from fifa_draft.utils import creating_team
 from players.models import Player
 from players.utils import (
     add_player_to_team_and_group,
@@ -73,14 +71,10 @@ def get_profile(request: Request, pk: str) -> Response:
 @api_view(["POST"])
 def create_team(request: Request) -> Response:
     serializer = TeamSerializer(data=request.data)
-    if serializer.is_valid():
-        profile, group = get_profile_and_group(serializer.validated_data)
-        validate_if_team_serializer_is_correct(profile, group, serializer.validated_data)
-        serializer.save()
-        team = Team.objects.get(id=serializer["id"].value)
-        creating_team(team, profile)
-        return Response(serializer.data)
-    return Response(serializer.errors, status=400)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
+    validate_team_and_create_team_if_validated(serializer)
+    return Response(serializer.data)
 
 
 @api_view(["GET"])
