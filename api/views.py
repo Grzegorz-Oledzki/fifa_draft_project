@@ -11,15 +11,11 @@ from api.serializers import (
 )
 from api.utils import (
     group_available_players,
-    validate_team_and_create_team_if_validated,
+    validate_team_and_create_team_if_validated, get_profile_player_team_and_serializer,
+    validate_pick_and_pick_player_if_validated,
 )
 from fifa_draft.models import Group, Team
 from players.models import Player
-from players.utils import (
-    add_player_to_team_and_group,
-    change_picking_person,
-    pending_player_pick,
-)
 from users.models import Profile
 
 
@@ -42,7 +38,7 @@ def get_routes(request: Request) -> Response:
 
 
 @api_view(["GET"])
-def current_user(request):
+def current_user(request) -> Response:
     serializer = ProfileSerializer(request.user)
     return Response(serializer.data)
 
@@ -117,21 +113,11 @@ def get_group_available_players(request: Request, group_id: str) -> Response:
 def pick_player_confirmation(
     request: Request, player_id: str, team_id: str
 ) -> Response:
-    player = Player.objects.get(sofifa_id=player_id)
-    team = Team.objects.get(id=team_id)
-    serializer = PlayerSerializer(data=request.data)
-    if serializer.is_valid():
-        if (
-            player not in team.belongs_group.group_players.all()
-            and serializer.validated_data["sofifa_id"] == int(player_id)
-        ):
-            add_player_to_team_and_group(team, player)
-            next_person = change_picking_person(team, team.owner)
-            next_team = team.belongs_group.teams.get(owner=next_person)
-            team.belongs_group.picking_person.add(next_person)
-            pending_player_pick(next_team, team)
-            return Response(serializer.data)
-    return Response(serializer.errors, status=400)
+    profile, player, team, serializer = get_profile_player_team_and_serializer(player_id, team_id, request)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
+    validate_pick_and_pick_player_if_validated(player, team, profile, serializer)
+    return Response(serializer.data)
 
 
 @api_view(["POST"])
