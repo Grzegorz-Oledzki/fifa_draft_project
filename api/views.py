@@ -74,7 +74,6 @@ def get_profile(request: Request, pk: str) -> Response:
 def create_team(request: Request) -> Response:
     serializer = TeamSerializer(data=request.data)
     if serializer.is_valid():
-        # breakpoint()
         profile, group = get_profile_and_group(serializer.validated_data)
         team_validation_errors(profile, group, serializer.validated_data)
         serializer.save()

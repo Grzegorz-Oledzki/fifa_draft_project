@@ -1,18 +1,8 @@
 from typing import List
 
-from fifa_draft.models import Group, Team
+from fifa_draft.models import Group
 from players.models import Player
 from users.models import Profile
-
-
-def is_unique_name_api(team_name: str, group: Group, profile) -> bool:
-    for team_in_group in group.teams.all():
-        if (
-            str(team_in_group).lower() == str(team_name).lower()
-            and profile != team_in_group.owner
-        ):
-            return False
-    return True
 
 
 def group_available_players(group_id: str) -> List[Player]:

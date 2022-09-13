@@ -2,15 +2,15 @@ from django.utils.translation import gettext_lazy as _
 
 from rest_framework.exceptions import ValidationError
 
-from api.utils import is_unique_name_api
 from fifa_draft.models import Group
+from fifa_draft.utils import is_team_name_unique_in_group
 from users.models import Profile
 
 
 def team_validation_errors(
     profile: Profile, group: Group, validated_data: dict
 ) -> None:
-    unique_name = is_unique_name_api(validated_data["group_password"], group, profile)
+    unique_name = is_team_name_unique_in_group(validated_data["name"], group, profile)
     if group.password != validated_data["group_password"]:
         raise ValidationError(_("Incorrect password"), code="invalid password")
     elif not unique_name:
