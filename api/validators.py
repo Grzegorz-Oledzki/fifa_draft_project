@@ -10,7 +10,7 @@ from users.models import Profile
 def team_validation_errors(
     profile: Profile, group: Group, validated_data: dict
 ) -> None:
-    unique_name = is_unique_name_api(validated_data["group_password"], group, profile)
+    unique_name = is_unique_name_api(validated_data["name"], group, profile)
     if group.password != validated_data["group_password"]:
         raise ValidationError(_("Incorrect password"), code="invalid password")
     elif not unique_name:
