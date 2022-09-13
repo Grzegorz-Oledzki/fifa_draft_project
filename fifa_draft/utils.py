@@ -6,10 +6,10 @@ from fifa_draft.models import Group, Team
 from users.models import Profile
 
 
-def is_unique_name(team: Team, profile) -> bool:
-    for team_in_group in team.belongs_group.teams.all():
+def is_team_name_unique_in_group(team_name: str, group: Group, profile) -> bool:
+    for team_in_group in group.teams.all():
         if (
-            str(team_in_group).lower() == str(team).lower()
+            str(team_in_group).lower() == team_name.lower()
             and profile != team_in_group.owner
         ):
             return False
@@ -31,7 +31,7 @@ def team_form_validation(
     is_form_valid = False
     if form.is_valid():
         team = form.save(commit=False)
-        unique_name = is_unique_name(team, profile)
+        unique_name = is_team_name_unique_in_group(str(team.name), team.belongs_group, profile)
         if (
             team.belongs_group.password == team.group_password
             and profile not in team.belongs_group.members.all()
@@ -58,7 +58,7 @@ def edit_team_form_validation(request: WSGIRequest, form: EditTeamForm) -> bool:
     profile = request.user.profile
     if form.is_valid():
         team = form.save(commit=False)
-        unique_name = is_unique_name(team, profile)
+        unique_name = is_team_name_unique_in_group(str(team.name), team.belongs_group, profile)
         if team.belongs_group.password == team.group_password and unique_name:
             team.save()
             form_valid = True
