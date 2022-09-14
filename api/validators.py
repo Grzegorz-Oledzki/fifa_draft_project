@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ValidationError
 
@@ -8,8 +10,9 @@ from users.models import Profile
 
 
 def validate_if_team_serializer_is_correct(
-    profile: Profile, group: Group, validated_data: dict
+    profile: Profile, group: Group, validated_data: OrderedDict
 ) -> None:
+    breakpoint()
     unique_name = is_team_name_unique_in_group(validated_data["name"], group, profile)
     if group.password != validated_data["group_password"]:
         raise ValidationError(_("Incorrect password"), code="invalid password")
@@ -35,7 +38,7 @@ def validate_if_profile_is_picking_person(profile: Profile, team: Team):
 
 
 def validate_if_pick_player_serializer_is_correct(
-    player: Player, team: Team, profile: Profile, serializer: dict
+    player: Player, team: Team, profile: Profile, serializer: OrderedDict
 ) -> None:
     if serializer["sofifa_id"] != player.sofifa_id:
         raise ValidationError(
