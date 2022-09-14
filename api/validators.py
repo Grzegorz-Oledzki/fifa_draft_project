@@ -26,7 +26,15 @@ def validate_if_team_serializer_is_correct(
             )
 
 
-def validate_if_pick_player_confirmation_serializer_is_correct(
+def validate_if_profile_is_picking_person(profile: Profile, team: Team):
+    if profile not in team.belongs_group.picking_person.all():
+        raise ValidationError(
+            _("User is not picking person"),
+            code="request profile is not picking person",
+        )
+
+
+def validate_if_pick_player_serializer_is_correct(
     player: Player, team: Team, profile: Profile, serializer: dict
 ) -> None:
     if serializer["sofifa_id"] != player.sofifa_id:
@@ -41,9 +49,4 @@ def validate_if_pick_player_confirmation_serializer_is_correct(
     elif profile != team.owner:
         raise ValidationError(
             _("Request profile is not team owner"), code="request profile error"
-        )
-    elif profile not in team.belongs_group.picking_person.all():
-        raise ValidationError(
-            _("User is not picking person"),
-            code="request profile is not picking person",
         )
