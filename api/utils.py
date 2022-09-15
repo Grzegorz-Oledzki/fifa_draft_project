@@ -2,10 +2,10 @@ from typing import List, Tuple
 
 from rest_framework.request import Request
 
-from api.serializers import PlayerSerializer
+from api.serializers import PlayerSerializer, TeamSerializer
 from api.validators import (
-    validate_if_pick_player_confirmation_serializer_is_correct,
-    validate_if_team_serializer_is_correct)
+    validate_if_pick_player_serializer_is_correct,
+    validate_if_team_serializer_is_correct, validate_if_profile_is_picking_person)
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import creating_team
 from players.models import Player
@@ -30,7 +30,7 @@ def get_profile_and_group(serializer: dict) -> Tuple[Profile, Group]:
     return profile, group
 
 
-def validate_team_and_create_team_if_validated(serializer: PlayerSerializer) -> None:
+def validate_team_and_create_team_if_validated(serializer: TeamSerializer) -> None:
     profile, group = get_profile_and_group(serializer.validated_data)
     validate_if_team_serializer_is_correct(profile, group, serializer.validated_data)
     serializer.save()
@@ -51,11 +51,16 @@ def get_profile_player_team_and_serializer(
 def validate_pick_and_pick_player_if_validated(
     player: Player, team: Team, profile: Profile, serializer: PlayerSerializer
 ) -> None:
-    validate_if_pick_player_confirmation_serializer_is_correct(
-        player, team, profile, serializer.validated_data
-    )
+    validate_if_profile_is_picking_person(profile, team)
+    validate_if_pick_player_serializer_is_correct(player, team, profile, serializer.validated_data)
     add_player_to_team_and_group(team, player)
     next_person = change_picking_person(team, team.owner)
     next_team = team.belongs_group.teams.get(owner=next_person)
     team.belongs_group.picking_person.add(next_person)
     pending_player_pick(next_team, team)
+
+
+def validate_pending_pick_and_pick_player_if_validated(
+    player: Player, team: Team, profile: Profile, serializer: PlayerSerializer
+) -> None:
+    validate_if_pick_player_serializer_is_correct(player, team, profile, serializer.validated_data)

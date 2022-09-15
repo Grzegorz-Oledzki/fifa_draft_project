@@ -8,7 +8,8 @@ from api.serializers import (GroupSerializer, PlayerSerializer,
 from api.utils import (get_profile_player_team_and_serializer,
                        group_available_players,
                        validate_pick_and_pick_player_if_validated,
-                       validate_team_and_create_team_if_validated)
+                       validate_team_and_create_team_if_validated,
+                       validate_pending_pick_and_pick_player_if_validated)
 from fifa_draft.models import Group, Team
 from players.models import Player
 from users.models import Profile
@@ -121,28 +122,24 @@ def pick_player_confirmation(
 def pending_player_confirmation(
     request: Request, player_id: str, team_id: str
 ) -> Response:
-    player = Player.objects.get(sofifa_id=player_id)
-    team = Team.objects.get(id=team_id)
-    serializer = PlayerSerializer(data=request.data)
-    if serializer.is_valid():
-        if (
-            player not in team.belongs_group.group_players.all()
-            and serializer.validated_data["sofifa_id"] == int(player_id)
-        ):
-            team.pending_player.add(player)
-            return Response(serializer.data)
-    return Response(serializer.errors, status=400)
+    profile, player, team, serializer = get_profile_player_team_and_serializer(
+        player_id, team_id, request
+    )
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
+    validate_pending_pick_and_pick_player_if_validated(player, team, profile, serializer)
+    team.pending_player.add(player)
+    return Response(serializer.data)
 
 
 @api_view(["POST"])
 def delete_pending_player_confirmation(
     request: Request, player_id: str, team_id: str
 ) -> Response:
-    player = Player.objects.get(sofifa_id=player_id)
-    team = Team.objects.get(id=team_id)
-    serializer = PlayerSerializer(data=request.data)
-    if serializer.is_valid():
-        if serializer.validated_data["sofifa_id"] == int(player_id):
-            team.pending_player.remove(player)
-            return Response(serializer.data)
-    return Response(serializer.errors, status=400)
+    profile, player, team, serializer = get_profile_player_team_and_serializer(
+        player_id, team_id, request)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
+    validate_pending_pick_and_pick_player_if_validated(player, team, profile, serializer)
+    team.pending_player.remove(player)
+    return Response(serializer.data)

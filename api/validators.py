@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ValidationError
 
@@ -8,7 +10,7 @@ from users.models import Profile
 
 
 def validate_if_team_serializer_is_correct(
-    profile: Profile, group: Group, validated_data: dict
+    profile: Profile, group: Group, validated_data: OrderedDict
 ) -> None:
     unique_name = is_team_name_unique_in_group(validated_data["name"], group, profile)
     if group.password != validated_data["group_password"]:
@@ -26,8 +28,16 @@ def validate_if_team_serializer_is_correct(
             )
 
 
-def validate_if_pick_player_confirmation_serializer_is_correct(
-    player: Player, team: Team, profile: Profile, serializer: dict
+def validate_if_profile_is_picking_person(profile: Profile, team: Team):
+    if profile not in team.belongs_group.picking_person.all():
+        raise ValidationError(
+            _("User is not picking person"),
+            code="request profile is not picking person",
+        )
+
+
+def validate_if_pick_player_serializer_is_correct(
+    player: Player, team: Team, profile: Profile, serializer: OrderedDict
 ) -> None:
     if serializer["sofifa_id"] != player.sofifa_id:
         raise ValidationError(
@@ -41,9 +51,4 @@ def validate_if_pick_player_confirmation_serializer_is_correct(
     elif profile != team.owner:
         raise ValidationError(
             _("Request profile is not team owner"), code="request profile error"
-        )
-    elif profile not in team.belongs_group.picking_person.all():
-        raise ValidationError(
-            _("User is not picking person"),
-            code="request profile is not picking person",
         )
