@@ -12,7 +12,6 @@ from users.models import Profile
 def validate_if_team_serializer_is_correct(
     profile: Profile, group: Group, validated_data: OrderedDict
 ) -> None:
-    breakpoint()
     unique_name = is_team_name_unique_in_group(validated_data["name"], group, profile)
     if group.password != validated_data["group_password"]:
         raise ValidationError(_("Incorrect password"), code="invalid password")
