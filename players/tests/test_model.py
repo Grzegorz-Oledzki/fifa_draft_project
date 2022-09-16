@@ -38,7 +38,7 @@ class TestPlayer(TestCase):
     def setUp(self) -> None:
         self.player = Player.objects.create(**data)
 
-    def test_get_player_by_na(self) -> None:
+    def test_get_player_by_name(self) -> None:
         self.assertEqual(self.player.short_name, data['short_name'])
 
     def test_get_player_by_sofifa_id(self) -> None:
