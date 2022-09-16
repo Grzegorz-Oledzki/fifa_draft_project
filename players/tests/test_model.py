@@ -35,11 +35,12 @@ data = {
 
 
 class TestPlayer(TestCase):
+    def setUp(self) -> None:
+        self.player = Player.objects.create(**data)
 
     def test_get_player_by_na(self) -> None:
-        player = Player.objects.create(**data)
-        self.assertEqual(player.short_name, data['short_name'])
+        self.assertEqual(self.player.short_name, data['short_name'])
 
     def test_get_player_by_sofifa_id(self) -> None:
-        player = Player.objects.create(**data)
-        self.assertEqual(player.sofifa_id, data['sofifa_id'])
+        self.assertEqual(self.player.sofifa_id, data['sofifa_id'])
+
