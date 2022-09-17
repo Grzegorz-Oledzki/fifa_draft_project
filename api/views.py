@@ -19,13 +19,20 @@ from users.models import Profile
 def get_routes(request: Request) -> Response:
 
     routes = [
-        {"GET": "/api/groups"},
+        {"GET": "/api/all-groups"},
         {"GET": "/api/group/id"},
         {"GET": "/api/team/id"},
-        {"GET": "/api/players/choose-team"},
-        {"GET": "/api/players/players-pick/id"},
-        {"POST": "/api/players/pending-player-pick-confirmation/sofifa_id/id"},
-        {"POST": "/api/players/player-pick-confirmation/sofifa_id/id"},
+        {"GET": "/api/teams/"},
+        {"GET": "/api/player/id"},
+        {"GET": "/api/group_players/group_id"},
+
+        {"POST": "/api/create-team"},
+        {"POST": "/api/create-group"},
+
+        {"POST": "/api/player-pick-confirmation/player_id/team_id"},
+        {"POST": "/api/pending-player-pick-confirmation/player_id/team_id"},
+        {"POST": "/api/delete-pending-player-pick-confirmation/player_id/team_id"},
+
         {"POST": "/api/users/token"},
         {"POST": "/api/users/token/refresh"},
     ]
