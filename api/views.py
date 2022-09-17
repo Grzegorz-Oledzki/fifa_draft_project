@@ -93,7 +93,7 @@ def create_group(request: Request) -> Response:
 
 @api_view(["GET"])
 def get_player(request: Request, pk: str) -> Response:
-    player = Player.objects.get(id=pk)
+    player = Player.objects.get(sofifa_id=pk)
     serializer = PlayerSerializer(player, many=False)
     return Response(serializer.data)
 

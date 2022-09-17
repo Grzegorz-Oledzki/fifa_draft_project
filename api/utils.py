@@ -7,7 +7,7 @@ from api.validators import (
     validate_if_pick_player_serializer_is_correct,
     validate_if_team_serializer_is_correct, validate_if_profile_is_picking_person)
 from fifa_draft.models import Group, Team
-from fifa_draft.utils import creating_team
+from fifa_draft.utils import create_team
 from players.models import Player
 from players.utils import (add_player_to_team_and_group, change_picking_person,
                            pending_player_pick)
@@ -35,7 +35,7 @@ def validate_team_and_create_team_if_validated(serializer: TeamSerializer) -> No
     validate_if_team_serializer_is_correct(profile, group, serializer.validated_data)
     serializer.save()
     team = Team.objects.get(id=serializer["id"].value)
-    creating_team(team, profile)
+    create_team(team, profile)
 
 
 def get_profile_player_team_and_serializer(
