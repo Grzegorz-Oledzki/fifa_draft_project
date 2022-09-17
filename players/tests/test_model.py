@@ -33,6 +33,9 @@ data = {
     "nation_flag_url": "https://cdn.sofifa.net/flags/pl.png"
 }
 
+def _create_player() -> Player:
+    player = Player.objects.create(**data)
+    return player
 
 class TestPlayer(TestCase):
 
