@@ -16,7 +16,7 @@ def is_team_name_unique_in_group(team_name: str, group: Group, profile) -> bool:
     return True
 
 
-def creating_team(team: Team, profile: Profile) -> None:
+def create_team(team: Team, profile: Profile) -> None:
     team.owner = profile
     team.max_players = team.belongs_group.number_of_players
     team.save()
@@ -37,7 +37,7 @@ def team_form_validation(
             and profile not in team.belongs_group.members.all()
             and unique_name
         ):
-            creating_team(team, profile)
+            create_team(team, profile)
             messages.success(request, "Team created and added to group successful!")
             is_form_valid = True
             return is_form_valid
