@@ -1,10 +1,4 @@
 from django.test import TestCase
-import os
-import django
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'draft_fifa.settings')
-django.setup()
-
 from players.models import Player
 
 data = {
@@ -33,12 +27,13 @@ data = {
     "nation_flag_url": "https://cdn.sofifa.net/flags/pl.png"
 }
 
+
 def _create_player() -> Player:
     player = Player.objects.create(**data)
     return player
 
-class TestPlayer(TestCase):
 
+class TestPlayer(TestCase):
     def test_get_player_by_na(self) -> None:
         player = Player.objects.create(**data)
         self.assertEqual(player.short_name, data['short_name'])
