@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from tablib import Dataset
 
+from api.utils import group_available_players
 from fifa_draft.models import Team
 from players.models import Player
 from players.utils import (add_player_to_team_and_group, change_picking_person,
@@ -47,15 +48,13 @@ def choose_team(request: WSGIRequest) -> HttpResponse:
 def players_pick(request: WSGIRequest, pk: str) -> HttpResponse:
     profile = request.user.profile
     team = Team.objects.get(id=pk)
-    players = Player.objects.all()
     group = team.belongs_group
-    group_players = group.group_players.all()
+    players = group_available_players(group.id)
     picking_person = group.picking_person.all()
     context = {
         "team": team,
         "profile": profile,
         "players": players,
-        "group_players": group_players,
         "picking_person": picking_person,
     }
     if team.belongs_group.draft_order:

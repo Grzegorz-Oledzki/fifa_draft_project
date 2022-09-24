@@ -56,8 +56,6 @@
                         <th>Add player</th>
                     </tr>
                         {% for player in players %}
-                            {% if player not in group_players and player not in team.pending_player.all %}
-
                     <tr>
                         <td><img class="center-block" style='max-width:50px;max-height:70px; ' src="{{player.player_face_url}}" alt="project thumbnail" /></td>
                         <td>{{ player.short_name }}</td>
@@ -102,7 +100,6 @@
                                 {% else %}
                                     <td><small> Waiting for draw draft order</small></td>
                                 {% endif %}
-                    {% endif %}
                     {% endfor %}
                         </tr></table>
 
