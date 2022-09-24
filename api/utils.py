@@ -17,10 +17,10 @@ from users.models import Profile
 def group_available_players(group_id: str) -> List[Player]:
     group = Group.objects.get(id=group_id)
     group_players = group.group_players.all()
-    available_players = []
+    available_players = list(Player.objects.all())
     for player in Player.objects.all():
-        if player not in group_players:
-            available_players.append(player)
+        if player in group_players:
+            available_players.remove(player)
     return available_players
 
 
