@@ -89,7 +89,7 @@
 
                                     {% if profile in picking_person %}
                                         <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
-                                    {% elif team.pending_player.count == 0 or profile == first_person and team.pending_player.count == 1 and team.belongs_group.draft_order_choice == "Serpentine" or profile == last_person and team.pending_player.count == 1 and team.belongs_group.draft_order_choice == "Serpentine"%}
+                                    {% elif add_pending_player == True %}
                                         <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}"><small>Add player to pending list</small></a></td>
                                     {% elif team.team_players.count == team.belongs_group.number_of_players %}
                                         <td>You have full team</td>
