@@ -61,6 +61,7 @@
                     {% endif %}
             {% if group.picking_person.get %}
             <p>Picking person: <a>{{ group.picking_person.get.name }}</a></p>
+                <p><a class="tag tag--pill tag--main settings__btn" href="{% url 'draft-history' group.id %}">Draft history</a></p>
             {% endif %}
                 {% if group.draft_order %}
 
@@ -223,10 +224,6 @@
                     {% endfor %}
                     </tr>
                 </table>
-      <h4>Draft history:</h4>
-            {% for pick in group.picking_history_as_list %}
-            <p>{{ pick }}</p>
-            {% endfor %}
                         {% endif %}
   </main>
     {% include 'bottombar.html' %}

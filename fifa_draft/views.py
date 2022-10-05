@@ -139,3 +139,10 @@ def choose_person_to_pick_players(request: WSGIRequest, pk: str) -> HttpResponse
         return redirect("group", group.id)
     context = {"form": form}
     return render(request, "choose-picking-person.html", context)
+
+
+def draft_history(request: WSGIRequest, pk: str) -> HttpResponse:
+    group = Group.objects.get(id=pk)
+    draft_picking_history = group.picking_history_as_list()
+    context = {"draft_picking_history": draft_picking_history}
+    return render(request, "draft-history.html", context)
