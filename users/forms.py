@@ -23,6 +23,12 @@ class CustomUserCreationForm(UserCreationForm):
                 "placeholder": "Enter your name/nickname",
             }
         )
+        self.fields["username"].widget.attrs.update(
+            {
+                "class": "input",
+                "placeholder": "Remember your username, as it will be used to log in",
+            }
+        )
         self.fields["password1"].widget.attrs.update(
             {
                 "class": "input",
