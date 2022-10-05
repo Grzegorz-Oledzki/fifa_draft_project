@@ -35,6 +35,7 @@
                         <label class="center-block" for="PositionInput"><input class="center-block" type="text" id="PositionInput" onkeyup="SearchByPosition()" placeholder="Type player position, eg. ST, CB"></label>
                     <a style="margin-left: 250px">Fifa 23 players</a>
                     <tr>
+                        <th>Add player</th>
                         <th>Image</th>
                         <th>Name</th>
                         <th>Overall</th>
@@ -54,10 +55,24 @@
                         <th>Club</th>
                         <th>Nation</th>
                         <th>Sofifa stats</th>
-                        <th>Add player</th>
                     </tr>
                         {% for player in players %}
                     <tr>
+                            {% if team.belongs_group.draft_order %}
+
+                                    {% if profile in picking_person %}
+                                        <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
+                                    {% elif add_pending_player == True %}
+                                        <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}"><small>Add player to pending list</small></a></td>
+                                    {% elif team.team_players.count == team.belongs_group.number_of_players %}
+                                        <td>You have full team</td>
+                                    {% else %}
+                                        <td><small> You have full pending players list, delete player from pending list, or wait for next pick</small></td>
+
+                                    {% endif %}
+                                {% else %}
+                                    <td><small> Waiting for draw draft order</small></td>
+                                {% endif %}
                         <td><img class="center-block" style='max-width:50px;max-height:70px; ' src="{{player.player_face_url}}" alt="project thumbnail" /></td>
                         <td>{{ player.short_name }}</td>
                         <td>{{ player.overall }}</td>
@@ -86,21 +101,7 @@
                         <td><img class="center-block" alt="" style="width: 35px; max-height: 35px" src="{{ player.club_logo_url }}"/></td>
                         <td><img class="center-block" alt="" style='max-width:30px;max-height:30px' src="{{ player.nation_flag_url }}"/> </td>
                         <td><a href="{{  player.player_url }}">Sofifa stats </a></td>
-                                {% if team.belongs_group.draft_order %}
 
-                                    {% if profile in picking_person %}
-                                        <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}">Add player </a></td>
-                                    {% elif add_pending_player == True %}
-                                        <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}"><small>Add player to pending list</small></a></td>
-                                    {% elif team.team_players.count == team.belongs_group.number_of_players %}
-                                        <td>You have full team</td>
-                                    {% else %}
-                                        <td><small> You have full pending players list, delete player from pending list, or wait for next pick</small></td>
-
-                                    {% endif %}
-                                {% else %}
-                                    <td><small> Waiting for draw draft order</small></td>
-                                {% endif %}
                     {% endfor %}
                         </tr></table>
 
