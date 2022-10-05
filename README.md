@@ -51,7 +51,7 @@ type:
 <code>docker-compose -f docker-compose-dev.yml down -v</code>
 and repeat point 3
 5. Download players list from
-<code>https://docs.google.com/spreadsheets/d/1xOSDGC8MhbUNWA6OeNcWmpOjFRkPzLYb/edit?usp=sharing&ouid=107358397983377935642&rtpof=true&sd=true </code>
+<code>https://docs.google.com/spreadsheets/d/1gpkecwLkQqoKWks6z64AduIeDXPyIGKH/edit#gid=969632413</code>
 6. Run <code>docker-compose -f docker-compose-dev.yml exec web python manage.py createsuperuser</code>
 7. Log in and import players from .xlsx file on <code>http://127.0.0.1:8000/admin/players/player/ </code> 
 8. Invite your friends and play! 
