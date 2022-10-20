@@ -18,10 +18,9 @@ def is_team_name_unique_in_group(team_name: str, group: Group, profile) -> bool:
     return True
 
 
-def get_group_players_by_history(group: Group) -> list[Any]:
+def get_group_players_by_history(group: Group) -> list:
     picked_players_oder_by_history = [group.group_players.get(id=pick) for pick in group.picking_history_as_list()]
     return picked_players_oder_by_history
-
 
 
 def create_team(team: Team, profile: Profile) -> None:
