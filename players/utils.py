@@ -5,9 +5,8 @@ from players.models import Player
 from users.models import Profile
 
 
-def add_to_picking_history(profile: Profile, player: Player, group: Group) -> None:
-    draft_history = str(profile.name) + " picked " + str(player.short_name) + ":"
-    group.picking_history += draft_history
+def add_to_picking_history(player: Player, group: Group) -> None:
+    group.picking_history += str(player.short_name) + ","
     group.save()
 
 
@@ -17,7 +16,7 @@ def add_player_to_team_and_group(team: Team, player: Player) -> None:
     team.belongs_group.group_players.add(player)
     team.belongs_group.save()
     team.save()
-    add_to_picking_history(team.owner, player, team.belongs_group)
+    add_to_picking_history(player, team.belongs_group)
     team.pending_player.clear()
 
 
