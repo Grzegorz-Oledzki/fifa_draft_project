@@ -6,7 +6,7 @@ from users.models import Profile
 
 
 def add_to_picking_history(player: Player, group: Group) -> None:
-    group.picking_history += str(player.short_name) + ","
+    group.picking_history += str(player.id) + ","
     group.save()
 
 

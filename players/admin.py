@@ -6,4 +6,4 @@ from players.models import Player
 
 @admin.register(Player)
 class PlayerAdmin(ImportExportModelAdmin):
-    list_display = ("sofifa_id", "short_name", "overall")
+    list_display = ("sofifa_id", "id", "short_name", "overall")

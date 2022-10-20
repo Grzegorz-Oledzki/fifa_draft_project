@@ -8,7 +8,7 @@ from fifa_draft.forms import (ChoosePersonPickingForm, EditGroupForm,
                               EditTeamForm, GroupForm, TeamForm)
 from fifa_draft.models import Group, Team
 from fifa_draft.utils import (draw_draft_order, edit_team_form_validation,
-                              group_validation, team_form_validation)
+                              group_validation, team_form_validation, get_group_players_by_history)
 
 
 def home(request: WSGIRequest) -> HttpResponse:
@@ -23,7 +23,8 @@ def all_groups(request: WSGIRequest) -> HttpResponse:
 
 def single_group(request: WSGIRequest, pk: str) -> HttpResponse:
     group = Group.objects.get(id=pk)
-    context = {"group": group}
+    players = get_group_players_by_history(group)
+    context = {"group": group, "players": players}
     if request.user.is_authenticated:
         profile = request.user.profile
         context["profile"] = profile
