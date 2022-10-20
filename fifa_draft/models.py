@@ -67,7 +67,7 @@ class Group(models.Model):
     picking_history = models.CharField(max_length=10000000, blank=True, null=True)
 
     def picking_history_as_list(self) -> List[str]:
-        return self.picking_history.split(":")
+        return self.picking_history.split(",")
 
     def profiles_order_as_list(self) -> List[str]:
         persons = self.draft_order.split(":")
