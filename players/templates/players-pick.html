@@ -36,7 +36,7 @@
                         <label class="center-block" for="NameInput"><input class="center-block" type="text" id="NameInput" onkeyup="SearchByName()" placeholder="Type player name"></label>
                         <label class="center-block" for="PositionInput"><input class="center-block" type="text" id="PositionInput" onkeyup="SearchByPosition()" placeholder="Type player position, eg. ST, CB"></label>
 
-<table style="table-layout: fixed;width: 20%; float: left; font-size: 11px; margin-left: 5px; margin-right: 15px">
+<table style="table-layout: fixed;width: 20%; float: left; font-size: 11px; margin-left: 5px; margin-right: 15px; min-width: 500px">
 <caption style="font-size: 20px; color: black">Your team:</caption>
 <tr style="font-size: 8px">
     <th style="width: 50px">Image</th>
@@ -53,7 +53,7 @@
     <td>{{ player.preferred_foot }}/{{ player.weak_foot }}<i class="fa-solid fa-star" style="color: #ffcc25;"></i></td>
 {% endfor %}
 </table>
-                    <table style="width: 75%" id="PlayersTable">
+                    <table style="width: 75%; min-width: 1000px" id="PlayersTable">
                         <caption style="font-size: 20px; color: black">Available players:</caption>
                     <tr>
                         <th>Add player</th>
