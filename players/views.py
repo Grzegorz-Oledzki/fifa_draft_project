@@ -57,6 +57,9 @@ def players_pick(request: WSGIRequest, pk: str) -> HttpResponse:
         "players": players,
         "picking_person": picking_person,
     }
+    if team.team_players.count() > 0:
+        team_players = team.team_players.all()
+        context["team_players"] = team_players
     if team.belongs_group.draft_order and profile not in group.picking_person.all():
         first_person, last_person = last_and_first_picking_persons(team)
         if team.pending_player.count() == 0 or profile == first_person and team.pending_player.count() == 1 and team.belongs_group.draft_order_choice == "Serpentine" or profile == last_person and team.pending_player.count() == 1 and team.belongs_group.draft_order_choice == "Serpentine":
