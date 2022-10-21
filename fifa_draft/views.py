@@ -23,11 +23,13 @@ def all_groups(request: WSGIRequest) -> HttpResponse:
 
 def single_group(request: WSGIRequest, pk: str) -> HttpResponse:
     group = Group.objects.get(id=pk)
-    players = get_group_players_by_history(group)
-    context = {"group": group, "players": players}
+    context = {"group": group}
     if request.user.is_authenticated:
         profile = request.user.profile
         context["profile"] = profile
+    if group.group_players.count() > 0:
+        players = get_group_players_by_history(group)
+        context["players"] = players
     return render(request, "group.html", context)
 
 
@@ -40,7 +42,6 @@ def create_group(request: WSGIRequest) -> HttpResponse:
         group = form.save(commit=False)
         if form.is_valid():
             group.owner = profile
-            group.picking_history = "Draft started " + "\n"
             form.save()
             messages.success(request, "Now create a team!")
             return redirect("create-team")
@@ -141,9 +142,3 @@ def choose_person_to_pick_players(request: WSGIRequest, pk: str) -> HttpResponse
     context = {"form": form}
     return render(request, "choose-picking-person.html", context)
 
-
-def draft_history(request: WSGIRequest, pk: str) -> HttpResponse:
-    group = Group.objects.get(id=pk)
-    draft_picking_history = group.picking_history_as_list()
-    context = {"draft_picking_history": draft_picking_history}
-    return render(request, "draft-history.html", context)

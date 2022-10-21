@@ -174,7 +174,7 @@
                     </tr>
                 {% for player in players %}
                     <tr>
-                        <td>{{ forloop.counter }}</td>
+                        <td>{{ forloop.revcounter }}</td>
                     {% for team in group.teams.all %}
                             {% if player in team.team_players.all %}
                             <td>{{ team.owner.name }}</td>

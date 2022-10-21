@@ -55,6 +55,6 @@ def test_create_group(tmp_path) -> None:
 def test_create_team() -> None:
     team, group, profile = _create_team_group_and_profile(profile_data, group_data, team_data)
     assert type(team) == Team
-    _delete_profile_and_group(profile, group)
+    # _delete_profile_and_group(profile, group)
 
 
