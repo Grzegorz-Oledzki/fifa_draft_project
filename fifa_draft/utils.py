@@ -19,7 +19,7 @@ def is_team_name_unique_in_group(team_name: str, group: Group, profile) -> bool:
 
 
 def get_group_players_by_history(group: Group) -> list:
-    picked_players_oder_by_history = [group.group_players.get(id=pick) for pick in group.picking_history_as_list()]
+    picked_players_oder_by_history = [group.group_players.get(sofifa_id=pick) for pick in group.picking_history_as_list()]
     return picked_players_oder_by_history
 
 
@@ -88,7 +88,7 @@ def draw_draft_order(group: Group) -> None:
         profiles_order.append(member)
     group.picking_person.add(profiles_order[0])
     group.draft_order = draw_order
-    group.picking_history = "Draft started!:"
+    group.picking_history = ""
 
 
 def group_validation(request: WSGIRequest, group: Group) -> None:
