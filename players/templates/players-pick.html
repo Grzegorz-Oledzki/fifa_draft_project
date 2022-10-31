@@ -81,12 +81,13 @@
                     <tr>
                             {% if team.belongs_group.draft_order %}
 
-                                    {% if profile in picking_person %}
+                                    {% if team.team_players.count == team.belongs_group.number_of_players %}
+                                     <td>You have full team</td>
+
+                                    {% elif profile in picking_person %}
                                         <td><a href="{% url 'player-pick-confirmation' player.sofifa_id team.id %}" style="font-size: 15px">Add player </a></td>
                                     {% elif add_pending_player == True %}
-                                        <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}" style="font-size: 13px">Add pending list</a></td>
-                                    {% elif team.team_players.count == team.belongs_group.number_of_players %}
-                                        <td>You have full team</td>
+                                     <td><a href="{% url 'pending-player-pick-confirmation' player.sofifa_id team.id %}" style="font-size: 13px">Add pending list</a></td>
                                     {% else %}
                                         <td><a style="font-size: 10px"> You have full pending players list, delete player from pending list, or wait for next pick</a></td>
                                     {% endif %}

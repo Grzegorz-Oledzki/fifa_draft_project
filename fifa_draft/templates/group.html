@@ -59,9 +59,9 @@
                 <td class="settings__tableActions">
                 <a style="font-size: 15px" class="tag tag--pill tag--main settings__btn" href="{% url 'choose-picking-person' group.id %}?next=/account"> <i class="fa-solid fa-people-arrows-left-right"></i> Choose who's picking player </a>
                     {% endif %}
-            {% if group.picking_person.get and picked_group_players < max_number_of_players_in_group %}
+            {% if group.picking_person.get %}
             <p>Picking person: <a>{{ group.picking_person.get.name }}</a></p>
-                {% else %}
+                {% elif picked_group_players == max_number_of_players_in_group %}
                 <p> Teams are full</p>
             {% endif %}
                 {% if group.draft_order %}

@@ -80,6 +80,8 @@ def player_pick_confirmation(
         next_team = team.belongs_group.teams.get(owner=next_person)
         team.belongs_group.picking_person.add(next_person)
         pending_player_pick(next_team, team)
+        if team.belongs_group.number_of_players * team.belongs_group.members.all().count() == team.belongs_group.group_players.all().count():
+            team.belongs_group.picking_person.clear()
         messages.success(request, "Player picked!")
         return redirect("team", team.id)
     context = {
