@@ -23,7 +23,9 @@ def all_groups(request: WSGIRequest) -> HttpResponse:
 
 def single_group(request: WSGIRequest, pk: str) -> HttpResponse:
     group = Group.objects.get(id=pk)
-    context = {"group": group}
+    picked_group_players = group.group_players.all().count()
+    max_number_of_players_in_group = group.number_of_players * group.members.all().count()
+    context = {"group": group, "picked_group_players": picked_group_players, "max_number_of_players_in_group": max_number_of_players_in_group}
     if request.user.is_authenticated:
         profile = request.user.profile
         context["profile"] = profile

@@ -61,6 +61,8 @@
                     {% endif %}
             {% if group.picking_person.get %}
             <p>Picking person: <a>{{ group.picking_person.get.name }}</a></p>
+                {% elif picked_group_players == max_number_of_players_in_group %}
+                <p> Teams are full</p>
             {% endif %}
                 {% if group.draft_order %}
 
@@ -162,7 +164,7 @@
 
     </div>
                 {% if group.group_players.count > 0 %}
-                    <table class="center-block" style="width: 100%; margin-left: 5px" id="myTable1">
+                    <table class="center-block" style="width: 100%; margin-left: 13%" id="myTable1">
             <tr style="font-size: 12px">
 
                         <th>Pick No.</th>
