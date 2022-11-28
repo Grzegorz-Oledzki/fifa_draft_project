@@ -1,8 +1,5 @@
 ![](static/images/full_site_logo.png)
 
-Currently, (September 2022) you can find and use my project on free Heroku server. It is slow server, but it works :D 
-
-https://fifa-draft.herokuapp.com/
 
 
 **TL;TR:**
