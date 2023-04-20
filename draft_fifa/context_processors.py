@@ -19,6 +19,8 @@ def pick_alert(request: WSGIRequest) -> Dict[str, Union[bool, List[uuid.UUID]]]:
                     context["pick_alert"] = True
                     context["group_ids"] = group_ids
                     return context
+                else:
+                    continue
         else:
             return context
     else:
