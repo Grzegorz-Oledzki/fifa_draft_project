@@ -20,7 +20,7 @@ def pick_alert(request: WSGIRequest) -> Dict[str, Union[bool, List[uuid.UUID]]]:
                     context["group_ids"] = group_ids
                     return context
                 else:
-                    continue
+                    return context
         else:
             return context
     else:
