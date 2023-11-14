@@ -101,6 +101,7 @@ DATABASES = {
         "HOST": "grzesdb1.c7ybgqdtq0mu.eu-central-1.rds.amazonaws.com",
         "PORT": "5432",
     }
+}
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
