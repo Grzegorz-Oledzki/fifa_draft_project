@@ -95,12 +95,12 @@ WSGI_APPLICATION = "draft_fifa.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "grzesdb",
-        "USER": "grzes",
+        "NAME": "grzesdb1",
+        "USER": "grzesdb1",
         "PASSWORD": config("PASSWORD"),
-        "HOST": "grzesdb.cm3vehgcrs7p.eu-central-1.rds.amazonaws.com",
+        "HOST": "grzesdb1.c7ybgqdtq0mu.eu-central-1.rds.amazonaws.com",
+        "PORT": "5432",
     }
-}
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
